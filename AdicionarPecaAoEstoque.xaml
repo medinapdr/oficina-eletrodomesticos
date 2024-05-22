@@ -1,0 +1,50 @@
+<Window x:Class="OficinaEletrodomesticos.AdicionarPecaAoEstoqueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Adicionar Peca ao Estoque" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid Margin="70,80,50,-30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Nome da Peca:" Grid.Row="0"/>
+        <TextBox x:Name="txtNomePeca" Grid.Row="0" Margin="100,1,100,1"/>
+
+        <Label Content="Preco:" Grid.Row="1"/>
+        <TextBox x:Name="txtPreco" Grid.Row="1" Margin="100,1,100,1"/>
+
+        <Label Content="Largura:" Grid.Row="2"/>
+        <TextBox x:Name="txtLargura" Grid.Row="2" Margin="100,1,100,1"/>
+
+        <Label Content="Altura:" Grid.Row="3"/>
+        <TextBox x:Name="txtAltura" Grid.Row="3" Margin="100,1,100,1"/>
+
+        <Label Content="Comprimento:" Grid.Row="4"/>
+        <TextBox x:Name="txtComprimento" Grid.Row="4" Margin="100,1,100,1"/>
+
+        <Label Content="Peso:" Grid.Row="5"/>
+        <TextBox x:Name="txtPeso" Grid.Row="5" Margin="100,1,100,1"/>
+
+        <Label Content="Fabricante:" Grid.Row="6"/>
+        <TextBox x:Name="txtFabricante" Grid.Row="6" Margin="100,1,100,1"/>
+
+        <Label Content="Quantidade:" Grid.Row="7"/>
+        <TextBox x:Name="txtQuantidade" Grid.Row="7" Margin="100,1,100,1"/>
+
+        <Button Content="Adicionar Peca" Click="AdicionarPeca_Click" Grid.Row="8" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+
+        <Button Content="Limpar Campos" Click="LimparCampos_Click" Grid.Row="9" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+    </Grid>
+</Window>

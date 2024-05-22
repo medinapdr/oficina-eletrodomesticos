@@ -1,0 +1,61 @@
+<Window x:Class="OficinaEletrodomesticos.CriarAcessoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Criar Acesso" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Criar Pessoa">
+                <Grid>
+                    <Label Content="Nome:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+                    <TextBox x:Name="txtNome" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,10,0,0"/>
+
+                    <Label Content="CPF:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0"/>
+                    <TextBox x:Name="txtCPF" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,40,0,0"/>
+
+                    <Label Content="Telefone:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0"/>
+                    <TextBox x:Name="txtTelefone" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,70,0,0"/>
+
+                    <Label Content="Endereço:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0"/>
+                    <TextBox x:Name="txtEndereco" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,100,0,0"/>
+
+                    <Label Content="Tipo de Pessoa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,130,0,0"/>
+                    <ComboBox x:Name="cmbTipoPessoa" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,130,0,0" SelectionChanged="cmbTipoPessoa_SelectionChanged">
+                        <ComboBoxItem>Cliente</ComboBoxItem>
+                        <ComboBoxItem>Funcionário</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label x:Name="lblCargo" Content="Cargo:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,160,0,0" Visibility="Collapsed"/>
+                    <ComboBox x:Name="cmbCargo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,160,0,0" Visibility="Collapsed" SelectionChanged="cmbCargo_SelectionChanged">
+                        <ComboBoxItem>Vendedor</ComboBoxItem>
+                        <ComboBoxItem>Técnico</ComboBoxItem>
+                        <ComboBoxItem>Gerente</ComboBoxItem>
+                        <ComboBoxItem>Administrador</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label x:Name="lblSalario" Content="Salário:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,190,0,0" Visibility="Collapsed"/>
+                    <TextBox x:Name="txtSalario" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,190,0,0" Visibility="Collapsed"/>
+
+                    <Label x:Name="lblDepartamento" Content="Departamento:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Visibility="Collapsed"/>
+                    <TextBox x:Name="txtDepartamento" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,220,0,0" IsEnabled="False" Visibility="Collapsed"/>
+
+                    <Button Content="Criar Pessoa" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,250,0,0" Click="CriarPessoa_Click"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Criar Usuário">
+                <Grid>
+                    <Label Content="Nome de Usuário:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+                    <TextBox x:Name="txtNomeUsuario" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,10,0,0"/>
+
+                    <Label Content="Senha:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0"/>
+                    <PasswordBox x:Name="txtSenha" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,40,0,0"/>
+
+                    <Label Content="ID da Pessoa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0"/>
+                    <TextBox x:Name="txtPessoaId" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="120,70,0,0"/>
+
+                    <Button Content="Criar Usuário" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Click="CriarUsuario_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
