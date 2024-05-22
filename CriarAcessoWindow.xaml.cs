@@ -78,9 +78,8 @@ namespace OficinaEletrodomesticos
                 case "Técnico":
                     return "Serviços";
                 case "Gerente":
-                    return "Gerência";
                 case "Administrador":
-                    return "Administração";
+                    return "Gerência";
                 default:
                     return "";
             }
