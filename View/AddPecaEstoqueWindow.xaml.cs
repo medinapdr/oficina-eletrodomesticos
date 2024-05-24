@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using OficinaEletrodomesticos.Models;
 
-namespace OficinaEletrodomesticos
+namespace OficinaEletrodomesticos.View
 {
     public partial class AddPecaEstoqueWindow : Window
     {

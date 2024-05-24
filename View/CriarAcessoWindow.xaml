@@ -1,4 +1,4 @@
-<Window x:Class="OficinaEletrodomesticos.CriarAcessoWindow"
+<Window x:Class="OficinaEletrodomesticos.View.CriarAcessoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Criar Acesso" Height="450" Width="600" WindowStartupLocation="CenterScreen">

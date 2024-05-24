@@ -1,4 +1,4 @@
-<Window x:Class="OficinaEletrodomesticos.EstoqueWindow"
+<Window x:Class="OficinaEletrodomesticos.View.EstoqueWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Estoque" Height="450" Width="800" WindowStartupLocation="CenterScreen">
@@ -27,7 +27,7 @@
         <!-- Botões de ação -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
             <Button Content="Remover" Click="Remover_Click" Margin="5" />
-            <Button Content="Inserir Peças" Click="InserirPeças_Click" Margin="5" />
+            <Button Content="Inserir Peças" Click="InserirPecas_Click" Margin="5" />
         </StackPanel>
     </Grid>
 </Window>

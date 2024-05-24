@@ -2,7 +2,7 @@ using OficinaEletrodomesticos.Data;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace OficinaEletrodomesticos
+namespace OficinaEletrodomesticos.View
 {
     public partial class CriarAcessoWindow : Window
     {

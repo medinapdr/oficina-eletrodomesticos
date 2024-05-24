@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using OficinaEletrodomesticos.Models;
 
-namespace OficinaEletrodomesticos
+namespace OficinaEletrodomesticos.View
 {
     public partial class EstoqueWindow : Window
     {
@@ -54,7 +54,7 @@ namespace OficinaEletrodomesticos
             }
         }
 
-        private void InserirPeças_Click(object sender, RoutedEventArgs e)
+        private void InserirPecas_Click(object sender, RoutedEventArgs e)
         {
             AddPecaEstoqueWindow adicionarPecaWindow = new();
             adicionarPecaWindow.ShowDialog();

@@ -1,6 +1,7 @@
 using System.Windows;
+using OficinaEletrodomesticos.Models;
 
-namespace OficinaEletrodomesticos
+namespace OficinaEletrodomesticos.View
 {
     public partial class MenuWindow : Window
     {
@@ -56,7 +57,8 @@ namespace OficinaEletrodomesticos
 
         private void btnPedidos_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Pedidos clicado");
+            PedidoWindow pedido = new PedidoWindow();
+            pedido.Show();
         }
 
         private void btnConsultas_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Reflection.PortableExecutable;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
@@ -35,7 +36,6 @@ namespace OficinaEletrodomesticos.Data
             }
             catch (Exception ex)
             {
-                // Lida com exceções
                 conexao.Close();
                 return false;
             }
@@ -61,8 +61,8 @@ namespace OficinaEletrodomesticos.Data
                     {
                         if (reader.Read())
                         {
-                            string storedHash = reader.GetString(7); // Senha
-                            string tipoPessoa = reader.GetString(6); // TipoPessoa
+                            string storedHash = reader.GetString(7);
+                            string tipoPessoa = reader.GetString(6);
 
                             if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                             {
@@ -70,16 +70,16 @@ namespace OficinaEletrodomesticos.Data
                                 {
                                     var pessoa = new Cliente
                                     {
-                                        Nome = reader.GetString(2), // Nome
-                                        CPF = reader.GetString(3), // CPF
-                                        Telefone = reader.IsDBNull(4) ? null : reader.GetString(4), // Telefone
-                                        Endereco = reader.IsDBNull(5) ? null : reader.GetString(5), // Endereco
+                                        Nome = reader.GetString(2),
+                                        CPF = reader.GetString(3),
+                                        Telefone = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                        Endereco = reader.IsDBNull(5) ? null : reader.GetString(5),
                                         TipoPessoa = tipoPessoa
                                     };
 
                                     var usuario = new Usuario
                                     {
-                                        NomeUsuario = reader.GetString(0), // NomeUsuario
+                                        NomeUsuario = reader.GetString(0),
                                         Senha = storedHash,
                                         PessoaAssociada = pessoa
                                     };
@@ -90,19 +90,19 @@ namespace OficinaEletrodomesticos.Data
                                 {
                                     var pessoa = new Funcionario
                                     {
-                                        Nome = reader.GetString(2), // Nome
-                                        CPF = reader.GetString(3), // CPF
-                                        Telefone = reader.IsDBNull(4) ? null : reader.GetString(4), // Telefone
-                                        Endereco = reader.IsDBNull(5) ? null : reader.GetString(5), // Endereco
+                                        Nome = reader.GetString(2),
+                                        CPF = reader.GetString(3),
+                                        Telefone = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                        Endereco = reader.IsDBNull(5) ? null : reader.GetString(5),
                                         TipoPessoa = tipoPessoa,
-                                        Cargo = (Cargo)Enum.Parse(typeof(Cargo), reader.GetString(8)), // Cargo
-                                        Salario = reader.GetDecimal(9), // Salario
-                                        Departamento = (Departamento)Enum.Parse(typeof(Departamento), reader.GetString(10)) // Departamento
+                                        Cargo = (Cargo)Enum.Parse(typeof(Cargo), reader.GetString(8)),
+                                        Salario = reader.GetDecimal(9),
+                                        Departamento = (Departamento)Enum.Parse(typeof(Departamento), reader.GetString(10))
                                     };
 
                                     var usuario = new Usuario
                                     {
-                                        NomeUsuario = reader.GetString(0), // NomeUsuario
+                                        NomeUsuario = reader.GetString(0),
                                         Senha = storedHash,
                                         PessoaAssociada = pessoa
                                     };
@@ -131,7 +131,6 @@ namespace OficinaEletrodomesticos.Data
 
                     SqlCommand cmd = new SqlCommand(query, conexao, transaction);
 
-                    // Adiciona parâmetros
                     cmd.Parameters.AddWithValue("@NomePeca", peca.Nome);
                     cmd.Parameters.AddWithValue("@Preco", peca.Preco);
                     cmd.Parameters.AddWithValue("@Largura", peca.Largura);
@@ -152,7 +151,6 @@ namespace OficinaEletrodomesticos.Data
                     }
                     catch (Exception ex)
                     {
-                        // Lida com exceções
                         transaction.Rollback();
                         return false;
                     }
@@ -169,7 +167,6 @@ namespace OficinaEletrodomesticos.Data
 
             SqlCommand cmd = new SqlCommand(query, conexao);
 
-            // Adiciona parâmetro
             cmd.Parameters.AddWithValue("@Id", peca.Id);
 
             try
@@ -180,7 +177,6 @@ namespace OficinaEletrodomesticos.Data
             }
             catch (Exception ex)
             {
-                // Lida com exceções
                 conexao.Close();
                 return false;
             }
@@ -229,14 +225,13 @@ namespace OficinaEletrodomesticos.Data
 
             SqlCommand cmdPessoa = new SqlCommand(queryPessoa, conexao);
 
-            // Adiciona parâmetros
             cmdPessoa.Parameters.AddWithValue("@Nome", nome);
             cmdPessoa.Parameters.AddWithValue("@CPF", cpf);
             cmdPessoa.Parameters.AddWithValue("@Telefone", string.IsNullOrEmpty(telefone) ? (object)DBNull.Value : telefone);
             cmdPessoa.Parameters.AddWithValue("@Endereco", string.IsNullOrEmpty(endereco) ? (object)DBNull.Value : endereco);
             cmdPessoa.Parameters.AddWithValue("@TipoPessoa", tipoPessoa);
 
-            int pessoaId = Convert.ToInt32(cmdPessoa.ExecuteScalar()); // Obtém o ID da pessoa inserida
+            int pessoaId = Convert.ToInt32(cmdPessoa.ExecuteScalar());
 
             if (pessoaId > 0)
             {
@@ -266,14 +261,12 @@ namespace OficinaEletrodomesticos.Data
                 }
                 catch (Exception ex)
                 {
-                    // Lida com exceções
                     conexao.Close();
                     return false;
                 }
             }
             else
             {
-                // Se não conseguiu obter o ID da pessoa inserida, algo deu errado
                 conexao.Close();
                 return false;
             }
@@ -291,7 +284,6 @@ namespace OficinaEletrodomesticos.Data
 
                 SqlCommand cmd = new SqlCommand(query, conexao);
 
-                // Adiciona parâmetros
                 cmd.Parameters.AddWithValue("@Id", peca.Id);
                 cmd.Parameters.AddWithValue("@Nome", peca.Nome);
                 cmd.Parameters.AddWithValue("@Preco", peca.Preco);
@@ -306,15 +298,160 @@ namespace OficinaEletrodomesticos.Data
                 {
                     int rowsAffected = cmd.ExecuteNonQuery();
                     conexao.Close();
-                    return rowsAffected > 0; // Retorna true se pelo menos uma linha foi afetada pela atualização
+                    return rowsAffected > 0;
                 }
                 catch (Exception ex)
                 {
-                    // Lida com exceções
                     conexao.Close();
                     return false;
                 }
             }
         }
+
+        public List<Pedido> ConsultarPedidos()
+        {
+            List<Pedido> pedidos = new List<Pedido>();
+
+            using (var conexao = ConectaBanco())
+            {
+                conexao.Open();
+                string query = @"SELECT Id, PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, DataRecebimento, ValorUnitario FROM Pedido";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                try
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Pedido pedido = new Pedido
+                        {
+                            Id = reader.GetInt32(0),
+                            Peca = new Peca { Id = reader.GetInt32(1), Nome = reader.GetString(2) },
+                            Quantidade = reader.GetInt32(3),
+                            ValorTotal = reader.GetDecimal(4),
+                            Fornecedor = reader.GetString(5),
+                            DataCriacao = reader.GetDateTime(6),
+                            DataRecebimento = reader.IsDBNull(7) ? (DateTime?)null : reader.GetDateTime(7),
+                            ValorUnitario = reader.GetDecimal(8)
+                        };
+                        pedidos.Add(pedido);
+                    }
+                    reader.Close();
+                    conexao.Close();
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                }
+            }
+            return pedidos;
+        }
+
+
+        public bool AdicionarPedido(Pedido pedido)
+        {
+            using (var conexao = ConectaBanco())
+            {
+                conexao.Open();
+                string query = @"INSERT INTO Pedido (PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, ValorUnitario) 
+                         VALUES (@PecaId, @NomePeca, @Quantidade, @ValorTotal, @Fornecedor, @DataCriacao, @ValorUnitario);
+                         SELECT SCOPE_IDENTITY();";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+                cmd.Parameters.AddWithValue("@PecaId", pedido.Peca.Id);
+                cmd.Parameters.AddWithValue("@NomePeca", pedido.Peca.Nome);
+                cmd.Parameters.AddWithValue("@Quantidade", pedido.Peca.Quantidade);
+                cmd.Parameters.AddWithValue("@ValorTotal", pedido.ValorTotal);
+                cmd.Parameters.AddWithValue("@Fornecedor", pedido.Fornecedor);
+                cmd.Parameters.AddWithValue("@DataCriacao", pedido.DataCriacao);
+                cmd.Parameters.AddWithValue("@ValorUnitario", pedido.ValorUnitario);
+
+                try
+                {
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        pedido.Id = Convert.ToInt32(result);
+                        return true;
+                    }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool ConfirmarRecebimentoPedido(int pedidoId, DateTime dataRecebimento)
+        {
+            using (var conexao = ConectaBanco())
+            {
+                conexao.Open();
+
+                string queryPedido = "SELECT PecaId, Quantidade FROM Pedido WHERE Id = @PedidoId";
+                SqlCommand cmdPedido = new SqlCommand(queryPedido, conexao);
+                cmdPedido.Parameters.AddWithValue("@PedidoId", pedidoId);
+
+                int pecaId;
+                int quantidade;
+
+                using (var reader = cmdPedido.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        pecaId = reader.GetInt32(0);
+                        quantidade = reader.GetInt32(1);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                // Atualizar a data de recebimento do pedido
+                string queryUpdatePedido = "UPDATE Pedido SET DataRecebimento = @DataRecebimento WHERE Id = @PedidoId";
+                SqlCommand cmdUpdatePedido = new SqlCommand(queryUpdatePedido, conexao);
+                cmdUpdatePedido.Parameters.AddWithValue("@PedidoId", pedidoId);
+                cmdUpdatePedido.Parameters.AddWithValue("@DataRecebimento", dataRecebimento);
+
+                // Incrementar a quantidade da peça no estoque
+                string queryUpdatePeca = "UPDATE Peca SET Quantidade = Quantidade + @Quantidade WHERE Id = @PecaId";
+                SqlCommand cmdUpdatePeca = new SqlCommand(queryUpdatePeca, conexao);
+                cmdUpdatePeca.Parameters.AddWithValue("@PecaId", pecaId);
+                cmdUpdatePeca.Parameters.AddWithValue("@Quantidade", quantidade);
+
+                using (var transaction = conexao.BeginTransaction())
+                {
+                    try
+                    {
+                        cmdUpdatePedido.Transaction = transaction;
+                        cmdUpdatePeca.Transaction = transaction;
+
+                        int rowsAffectedPedido = cmdUpdatePedido.ExecuteNonQuery();
+                        int rowsAffectedPeca = cmdUpdatePeca.ExecuteNonQuery();
+
+                        if (rowsAffectedPedido > 0 && rowsAffectedPeca > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+
     }
 }

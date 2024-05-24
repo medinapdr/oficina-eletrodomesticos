@@ -2,7 +2,7 @@ using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 using System.Windows;
 
-namespace OficinaEletrodomesticos
+namespace OficinaEletrodomesticos.View
 {
     public partial class LoginWindow : Window
     {

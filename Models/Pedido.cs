@@ -1,9 +1,17 @@
-﻿namespace OficinaEletrodomesticos.Models
+﻿using OficinaEletrodomesticos.Data;
+
+namespace OficinaEletrodomesticos.Models
 {
-    public class Pedido(List<Peca> pecas, decimal valorTotal, string fornecedor)
+    public class Pedido
     {
-        public List<Peca> Pecas { get; } = pecas;
-        public decimal ValorTotal { get; } = valorTotal;
-        public string Fornecedor { get; } = fornecedor;
+        public int Id { get; set; }
+        public Peca Peca { get; set; }
+        public decimal ValorUnitario { get; set; }
+        public decimal ValorTotal { get; set; }
+        public int Quantidade { get; set; }
+        public string Fornecedor { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public DateTime? DataRecebimento { get; set; }
+
     }
 }

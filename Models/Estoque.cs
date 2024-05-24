@@ -7,7 +7,7 @@ namespace OficinaEletrodomesticos.Models
     {
         private readonly ConexaoBanco? _ConexaoBanco = new();
         public List<Peca> Pecas { get; set; } = new List<Peca>();
-        public List<Pedido> PedidosPendentes { get; } = new List<Pedido>();
+        public List<Pedido> Pedidos { get; set;  } = new List<Pedido>();
 
         public void AdicionarPeca(Peca peca)
         {
@@ -31,20 +31,63 @@ namespace OficinaEletrodomesticos.Models
             var retorno = _ConexaoBanco.AtualizarPeca(peca);
             MessageBox.Show(retorno ? $"Peça {peca.Nome} atualizada no estoque." : $"Falha ao atualizar peça {peca.Nome}.");
         }
-
-        public void AdicionarPedido(List<Peca> pecas, string fornecedor)
+        public List<Pedido> ConsultarPedidos()
         {
-            decimal valorTotal = 0;
+            ConexaoBanco conexaoBanco = new ConexaoBanco();
+            return conexaoBanco.ConsultarPedidos();
+        }
 
-            foreach (var peca in pecas)
+        public bool AdicionarPedido(Pedido pedido)
+        {
+            var retorno = _ConexaoBanco.AdicionarPedido(pedido);
+            if (retorno)
             {
-                valorTotal += peca.Preco * peca.Quantidade;
+                Pedidos.Add(pedido);
+                MessageBox.Show("Pedido adicionado com sucesso.");
+                return true;
             }
+            else
+            {
+                MessageBox.Show("Falha ao adicionar pedido.");
+                return false;
+            }
+        }
 
-            var pedido = new Pedido(pecas, valorTotal, fornecedor);
-            PedidosPendentes.Add(pedido);
+        public bool ConfirmarRecebimentoPedido(Pedido pedido)
+        {
+            if (pedido.DataRecebimento == null)
+            {
+                var retorno = _ConexaoBanco.ConfirmarRecebimentoPedido(pedido.Id, DateTime.Now);
+                if (retorno)
+                {
+                    pedido.DataRecebimento = DateTime.Now;
+                    AdicionarPecaAoEstoque(pedido.Peca);
+                    MessageBox.Show($"Pedido recebido em {pedido.DataRecebimento} e peça adicionada ao estoque.");
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Falha ao confirmar o recebimento do pedido.");
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-            MessageBox.Show($"Pedido de valor total {valorTotal} feito ao fornecedor {fornecedor}.");
+        private void AdicionarPecaAoEstoque(Peca peca)
+        {
+            var pecaExistente = Pecas.FirstOrDefault(p => p.Nome == peca.Nome && p.Fabricante == peca.Fabricante);
+            if (pecaExistente != null)
+            {
+                pecaExistente.Quantidade += peca.Quantidade;
+            }
+            else
+            {
+                Pecas.Add(peca);
+            }
         }
     }
 }
