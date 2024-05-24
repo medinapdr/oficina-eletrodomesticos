@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {

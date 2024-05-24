@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos
 {
@@ -44,7 +45,6 @@ namespace OficinaEletrodomesticos
 
                 if (resultado == MessageBoxResult.Yes)
                 {
-                    // Remove the part from the inventory here
                     _estoque.RemoverPeca(_pecaSelecionada);
                     AtualizarListaEstoque();
                 }
@@ -57,7 +57,7 @@ namespace OficinaEletrodomesticos
 
         private void InserirPeças_Click(object sender, RoutedEventArgs e)
         {
-            AdicionarPecaAoEstoqueWindow adicionarPecaWindow = new AdicionarPecaAoEstoqueWindow();
+            AddPecaEstoqueWindow adicionarPecaWindow = new();
             adicionarPecaWindow.ShowDialog();
             AtualizarListaEstoque();
         }

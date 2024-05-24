@@ -3,9 +3,9 @@ using OficinaEletrodomesticos.Data;
 
 namespace OficinaEletrodomesticos
 {
-    public partial class MenuPrincipalWindow : Window
+    public partial class MenuWindow : Window
     {
-        public MenuPrincipalWindow(string tipoUsuario)
+        public MenuWindow(string tipoUsuario)
         {
             InitializeComponent();
             ConfigurarOpcoes(tipoUsuario);

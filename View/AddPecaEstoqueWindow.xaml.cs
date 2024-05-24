@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows;
+using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos
 {
-    public partial class AdicionarPecaAoEstoqueWindow : Window
+    public partial class AddPecaEstoqueWindow : Window
     {
         private Estoque _estoque;
 
-        public AdicionarPecaAoEstoqueWindow()
+        public AddPecaEstoqueWindow()
         {
             InitializeComponent();
             _estoque = new Estoque();
@@ -15,7 +16,6 @@ namespace OficinaEletrodomesticos
 
         private void AdicionarPeca_Click(object sender, RoutedEventArgs e)
         {
-            // Obter dados da interface
             string nomePeca = txtNomePeca.Text;
             string fabricante = txtFabricante.Text;
 
@@ -67,7 +67,6 @@ namespace OficinaEletrodomesticos
                 return;
             }
 
-            // Criar a peça
             Peca peca = new Peca(
                 nome: nomePeca,
                 largura: largura,
@@ -79,7 +78,6 @@ namespace OficinaEletrodomesticos
                 quantidade: quantidade
             ); ;
 
-            // Adicionar a peça ao estoque
             _estoque.AdicionarPeca(peca);
         }
 

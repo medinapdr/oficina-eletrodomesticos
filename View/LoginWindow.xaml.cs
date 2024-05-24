@@ -1,4 +1,5 @@
 using OficinaEletrodomesticos.Data;
+using OficinaEletrodomesticos.Models;
 using System.Windows;
 
 namespace OficinaEletrodomesticos
@@ -26,7 +27,7 @@ namespace OficinaEletrodomesticos
 
                 string cargo = tipoPessoa == "Funcionário" ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString() : tipoPessoa;
 
-                MenuPrincipalWindow menuPrincipal = new MenuPrincipalWindow(cargo);
+                MenuWindow menuPrincipal = new MenuWindow(cargo);
                 menuPrincipal.Show();
                 this.Close();
             }
