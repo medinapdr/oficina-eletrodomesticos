@@ -18,10 +18,8 @@
     public enum StatusServico
     {
         Parado = 0,
-        Iniciado = 1,
-        EmAndamento = 2,
-        EmTeste = 3,
-        Testado = 4,
-        Realizado = 5
+        EmAndamento = 1,
+        Testado = 2,
+        Realizado = 3
     }
 }

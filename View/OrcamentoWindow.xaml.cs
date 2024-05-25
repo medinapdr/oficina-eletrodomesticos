@@ -18,9 +18,9 @@ namespace OficinaEletrodomesticos.View
         {
             string tipoAparelho = txtAparelho.Text;
             string nomeCliente = txtCliente.Text;
-            string descricaoDefeito = txtDescricaoDefeito.Text;
+            string descricao = txtDescricao.Text;
 
-            if (string.IsNullOrWhiteSpace(tipoAparelho) || string.IsNullOrWhiteSpace(nomeCliente) || string.IsNullOrWhiteSpace(descricaoDefeito))
+            if (string.IsNullOrWhiteSpace(tipoAparelho) || string.IsNullOrWhiteSpace(nomeCliente) || string.IsNullOrWhiteSpace(descricao))
             {
                 MessageBox.Show("Por favor, preencha todos os campos.");
                 return;
@@ -28,11 +28,14 @@ namespace OficinaEletrodomesticos.View
 
             Cliente cliente = new Cliente { Nome = nomeCliente };
             Aparelho aparelho = new Aparelho { Tipo = tipoAparelho, ClienteAssociado = cliente };
-            SolicitacaoOrcamento solicitacao = new SolicitacaoOrcamento(aparelho, cliente, descricaoDefeito);
 
-            Orcamento orcamento = new Orcamento(solicitacao, descricaoDefeito);
-            orcamento.CalcularPrazoEntrega();
-            orcamento.CalcularValorTotal();
+            SolicitacaoOrcamento solicitacao = new SolicitacaoOrcamento {
+                Aparelho = aparelho,
+                Cliente = cliente,
+                Descricao = descricao 
+            };
+
+            Orcamento orcamento = new Orcamento { Solicitacao = solicitacao };
 
             if (decimal.TryParse(txtValorTotal.Text, out decimal valorTotal))
             {

@@ -75,7 +75,7 @@ namespace OficinaEletrodomesticos.View
                 fabricante: fabricante,
                 preco: preco,
                 quantidade: quantidade
-            ); ;
+            );
 
             _estoque.AdicionarPeca(peca);
         }
