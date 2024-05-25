@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace OficinaEletrodomesticos.Models
 {
@@ -31,6 +34,7 @@ namespace OficinaEletrodomesticos.Models
         {
             DataOrcamento = DateTime.Now;
             Descricao = "Orçamento padrão";
+            PecasNecessarias = new List<(Peca, int)>(); // Inicialização da lista
         }
 
         public Orcamento(SolicitacaoOrcamento solicitacaoOrcamento, string descricaoOrcamento)
@@ -39,6 +43,7 @@ namespace OficinaEletrodomesticos.Models
             Descricao = descricaoOrcamento;
             Solicitacao = solicitacaoOrcamento;
             AparelhoRelacionado = solicitacaoOrcamento.AparelhoAssociado;
+            PecasNecessarias = new List<(Peca, int)>(); // Inicialização da lista
         }
 
         public void AdicionarPeca((Peca, int) pecaQuantidade)

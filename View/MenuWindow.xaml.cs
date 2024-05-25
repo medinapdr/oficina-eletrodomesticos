@@ -73,7 +73,9 @@ namespace OficinaEletrodomesticos.View
 
         private void btnOrcamento_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Orçamento clicado");
+            OrcamentoWindow orcamentoWindow = new OrcamentoWindow();
+            orcamentoWindow.Show();
         }
+
     }
 }
