@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OficinaEletrodomesticos.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,44 +8,24 @@ namespace OficinaEletrodomesticos.Models
 {
     public class SolicitacaoOrcamento
     {
-        public Aparelho AparelhoAssociado { get; set; }
-        public Cliente ClienteAssociado { get; set; }
-        public string DescricaoDefeito { get; set; }
+        private readonly ConexaoBanco? _ConexaoBanco = new();
+        public string Id { get; set; }
+        public Aparelho Aparelho { get; set; }
+        public Cliente Cliente { get; set; }
+        public string Descricao { get; set; }
 
-        public SolicitacaoOrcamento(Aparelho aparelho, Cliente cliente, string defeito)
-        {
-            AparelhoAssociado = aparelho;
-            ClienteAssociado = cliente;
-            DescricaoDefeito = defeito;
-        }
     }
 
     public class Orcamento
     {
-        public DateTime DataOrcamento { get; set; }
-        public decimal ValorTotal { get; set; }
-        public bool Autorizado { get; set; }
-        public List<(Peca, int)> PecasNecessarias { get; set; }
-        public Aparelho AparelhoRelacionado { get; set; }
-        public string Descricao { get; set; }
-        public TimeSpan PrazoEntrega { get; set; }
+        private readonly ConexaoBanco? _ConexaoBanco = new();
+        public string Id { get; set; }
         public SolicitacaoOrcamento Solicitacao { get; set; }
-
-        public Orcamento()
-        {
-            DataOrcamento = DateTime.Now;
-            Descricao = "Orçamento padrão";
-            PecasNecessarias = new List<(Peca, int)>(); // Inicialização da lista
-        }
-
-        public Orcamento(SolicitacaoOrcamento solicitacaoOrcamento, string descricaoOrcamento)
-        {
-            DataOrcamento = DateTime.Now;
-            Descricao = descricaoOrcamento;
-            Solicitacao = solicitacaoOrcamento;
-            AparelhoRelacionado = solicitacaoOrcamento.AparelhoAssociado;
-            PecasNecessarias = new List<(Peca, int)>(); // Inicialização da lista
-        }
+        public DateTime DataOrcamento { get; set; }
+        public List<(Peca, int)> PecasNecessarias { get; set; }
+        public decimal ValorTotal { get; set; }
+        public TimeSpan PrazoEntrega { get; set; }
+        public bool Autorizado { get; set; }
 
         public void AdicionarPeca((Peca, int) pecaQuantidade)
         {

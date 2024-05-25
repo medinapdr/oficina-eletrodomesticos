@@ -13,9 +13,9 @@ namespace OficinaEletrodomesticos.Models
 
     public class Cliente : Pessoa
     {
-        public SolicitacaoOrcamento solicitarOrcamento(Aparelho aparelho, string defeito)
+        public void solicitarOrcamento(Aparelho aparelho, string defeito)
         {
-            return new SolicitacaoOrcamento(aparelho, this, defeito);
+            
         }
     }
 

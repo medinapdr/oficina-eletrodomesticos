@@ -11,7 +11,7 @@
             <TextBox Name="txtCliente" Margin="10"/>
 
             <TextBlock Text="Descrição do Defeito" Margin="10"/>
-            <TextBox Name="txtDescricaoDefeito" Margin="10"/>
+            <TextBox Name="txtDescricao" Margin="10"/>
 
             <TextBlock Text="Valor Total" Margin="10"/>
             <TextBox Name="txtValorTotal" Margin="10"/>
