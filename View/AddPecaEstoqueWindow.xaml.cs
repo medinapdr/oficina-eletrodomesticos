@@ -6,7 +6,7 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class AddPecaEstoqueWindow : Window
     {
-        private Estoque _estoque;
+        private readonly Estoque _estoque;
 
         public AddPecaEstoqueWindow(ConexaoBanco conexaoBanco)
         {
@@ -38,25 +38,25 @@ namespace OficinaEletrodomesticos.View
                 return false;
             }
 
-            if (!decimal.TryParse(txtLargura.Text, out decimal largura) || largura <= 0)
+            if (!string.IsNullOrWhiteSpace(txtLargura.Text) && (!decimal.TryParse(txtLargura.Text, out decimal largura) || largura <= 0))
             {
                 ShowErrorMessage("Por favor, insira uma largura válida.");
                 return false;
             }
 
-            if (!decimal.TryParse(txtAltura.Text, out decimal altura) || altura <= 0)
+            if (!string.IsNullOrWhiteSpace(txtAltura.Text) && (!decimal.TryParse(txtAltura.Text, out decimal altura) || altura <= 0))
             {
                 ShowErrorMessage("Por favor, insira uma altura válida.");
                 return false;
             }
 
-            if (!decimal.TryParse(txtComprimento.Text, out decimal comprimento) || comprimento <= 0)
+            if (!string.IsNullOrWhiteSpace(txtComprimento.Text) && (!decimal.TryParse(txtComprimento.Text, out decimal comprimento) || comprimento <= 0))
             {
                 ShowErrorMessage("Por favor, insira um comprimento válido.");
                 return false;
             }
 
-            if (!decimal.TryParse(txtPeso.Text, out decimal peso) || peso <= 0)
+            if (!string.IsNullOrWhiteSpace(txtPeso.Text) && (!decimal.TryParse(txtPeso.Text, out decimal peso) || peso <= 0))
             {
                 ShowErrorMessage("Por favor, insira um peso válido.");
                 return false;
@@ -84,12 +84,17 @@ namespace OficinaEletrodomesticos.View
 
         private Peca CriarPeca()
         {
+            decimal? largura = string.IsNullOrWhiteSpace(txtLargura.Text) ? (decimal?)null : decimal.Parse(txtLargura.Text);
+            decimal? altura = string.IsNullOrWhiteSpace(txtAltura.Text) ? (decimal?)null : decimal.Parse(txtAltura.Text);
+            decimal? comprimento = string.IsNullOrWhiteSpace(txtComprimento.Text) ? (decimal?)null : decimal.Parse(txtComprimento.Text);
+            decimal? peso = string.IsNullOrWhiteSpace(txtPeso.Text) ? (decimal?)null : decimal.Parse(txtPeso.Text);
+
             return new Peca(
                 nome: txtNomePeca.Text,
-                largura: decimal.Parse(txtLargura.Text),
-                altura: decimal.Parse(txtAltura.Text),
-                comprimento: decimal.Parse(txtComprimento.Text),
-                peso: decimal.Parse(txtPeso.Text),
+                largura: largura,
+                altura: altura,
+                comprimento: comprimento,
+                peso: peso,
                 fabricante: txtFabricante.Text,
                 preco: decimal.Parse(txtPreco.Text),
                 quantidade: int.Parse(txtQuantidade.Text)
