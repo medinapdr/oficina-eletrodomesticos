@@ -91,6 +91,8 @@ namespace OficinaEletrodomesticos.Data
                     int pecaId = reader.GetInt32(0);
                     int quantidade = reader.GetInt32(1);
 
+                    reader.Close();
+
                     using (var transaction = conexao.BeginTransaction())
                     using (var cmdUpdatePedido = new SqlCommand(queryUpdatePedido, conexao, transaction))
                     using (var cmdUpdatePeca = new SqlCommand(queryUpdatePeca, conexao, transaction))
