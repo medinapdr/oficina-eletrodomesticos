@@ -10,7 +10,7 @@ namespace OficinaEletrodomesticos.Data
             const string query = @"SELECT Id, PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, DataRecebimento, ValorUnitario FROM Pedido";
             var pedidos = new List<Pedido>();
 
-            using var conexao = ConexaoBanco.ConectaBanco();
+            using var conexao = conexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
             conexao.Open();
             using var reader = cmd.ExecuteReader();
@@ -38,7 +38,7 @@ namespace OficinaEletrodomesticos.Data
                                    VALUES (@PecaId, @NomePeca, @Quantidade, @ValorTotal, @Fornecedor, @DataCriacao, @ValorUnitario);
                                    SELECT SCOPE_IDENTITY();";
 
-            using var conexao = ConexaoBanco.ConectaBanco();
+            using var conexao = conexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
 
             cmd.Parameters.AddWithValue("@PecaId", pedido.Peca.Id);
@@ -72,7 +72,7 @@ namespace OficinaEletrodomesticos.Data
             const string queryUpdatePedido = "UPDATE Pedido SET DataRecebimento = @DataRecebimento WHERE Id = @PedidoId";
             const string queryUpdatePeca = "UPDATE Peca SET Quantidade = Quantidade + @Quantidade WHERE Id = @PecaId";
 
-            using var conexao = ConexaoBanco.ConectaBanco();
+            using var conexao = conexaoBanco.ConectaBanco();
             using var cmdPedido = new SqlCommand(queryPedido, conexao);
             conexao.Open();
 

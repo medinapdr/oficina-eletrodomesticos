@@ -30,7 +30,7 @@ namespace OficinaEletrodomesticos.View
                     ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString()
                     : tipoPessoa;
 
-                new MenuWindow(_conexaoBanco, cargo).Show(); // Use _conexaoBanco aqui
+                new MenuWindow(_conexaoBanco, cargo).Show();
                 Close();
             }
             else
