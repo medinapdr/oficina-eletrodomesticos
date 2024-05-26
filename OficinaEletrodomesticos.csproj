@@ -26,6 +26,9 @@
     <Page Update="View\OrcamentoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="View\PedidoWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

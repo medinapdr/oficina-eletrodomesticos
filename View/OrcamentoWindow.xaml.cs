@@ -1,17 +1,20 @@
 using System;
 using System.Windows;
+using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
     public partial class OrcamentoWindow : Window
     {
+        private readonly ConexaoBanco _conexaoBanco;
         private Historico _historico;
 
-        public OrcamentoWindow()
+        public OrcamentoWindow(ConexaoBanco conexaoBanco)
         {
             InitializeComponent();
-            _historico = new Historico();
+            _conexaoBanco = conexaoBanco;
+            _historico = new Historico(conexaoBanco);
         }
 
         private void CriarOrcamento_Click(object sender, RoutedEventArgs e)

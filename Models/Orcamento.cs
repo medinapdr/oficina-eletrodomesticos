@@ -1,14 +1,9 @@
-﻿using OficinaEletrodomesticos.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 namespace OficinaEletrodomesticos.Models
 {
     public class SolicitacaoOrcamento
     {
-        private readonly ConexaoBanco? _ConexaoBanco = new();
         public string Id { get; set; }
         public Aparelho Aparelho { get; set; }
         public Cliente Cliente { get; set; }
@@ -18,7 +13,6 @@ namespace OficinaEletrodomesticos.Models
 
     public class Orcamento
     {
-        private readonly ConexaoBanco? _ConexaoBanco = new();
         public string Id { get; set; }
         public SolicitacaoOrcamento Solicitacao { get; set; }
         public DateTime DataOrcamento { get; set; }

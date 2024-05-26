@@ -1,19 +1,22 @@
 using System.Windows;
 using System.Windows.Controls;
+using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
     public partial class EstoqueWindow : Window
     {
+        private readonly ConexaoBanco _conexaoBanco;
         private readonly Estoque _estoque;
         private List<Peca> _pecasEstoque;
         private Peca _pecaSelecionada;
 
-        public EstoqueWindow()
+        public EstoqueWindow(ConexaoBanco conexaoBanco)
         {
             InitializeComponent();
-            _estoque = new Estoque();
+            _conexaoBanco = conexaoBanco;
+            _estoque = new Estoque(conexaoBanco);
             AtualizarListaEstoque();
         }
 
@@ -58,7 +61,7 @@ namespace OficinaEletrodomesticos.View
 
         private void InserirPecas_Click(object sender, RoutedEventArgs e)
         {
-            new AddPecaEstoqueWindow().ShowDialog();
+            new AddPecaEstoqueWindow(_conexaoBanco).ShowDialog();
             AtualizarListaEstoque();
         }
 

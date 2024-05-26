@@ -3,43 +3,43 @@ using System.Windows;
 
 namespace OficinaEletrodomesticos.Models
 {
-    public class Estoque
+    public class Estoque(ConexaoBanco conexaoBanco)
     {
-        private readonly ConexaoBanco? _ConexaoBanco = new();
+        private readonly PecaRepository _pecaRepository = new PecaRepository(conexaoBanco);
+        private readonly PedidoRepository _pedidoRepository = new PedidoRepository(conexaoBanco);
         public List<Peca> Pecas { get; set; } = new List<Peca>();
-        public List<Pedido> Pedidos { get; set;  } = new List<Pedido>();
+        public List<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
         public void AdicionarPeca(Peca peca)
         {
-            var retorno = _ConexaoBanco.AdicionarPeca(peca);
+            var retorno = _pecaRepository.AdicionarPeca(peca);
             MessageBox.Show(retorno ? $"Peça {peca.Nome} adicionada ao estoque." : "Falha ao adicionar peça ao estoque.");
         }
 
         public void RemoverPeca(Peca peca)
         {
-            var retorno = _ConexaoBanco.RemoverPeca(peca);
+            var retorno = _pecaRepository.RemoverPeca(peca);
             MessageBox.Show(retorno ? $"Peça {peca.Nome} removida do estoque." : $"Falha ao remover peça {peca.Nome} do estoque.");
         }
 
         public List<Peca> ConsultarEstoque()
         {
-            return _ConexaoBanco.ConsultarEstoque();
+            return _pecaRepository.ConsultarEstoque();
         }
 
         public void AtualizarPeca(Peca peca)
         {
-            var retorno = _ConexaoBanco.AtualizarPeca(peca);
+            var retorno = _pecaRepository.AtualizarPeca(peca);
             MessageBox.Show(retorno ? $"Peça {peca.Nome} atualizada no estoque." : $"Falha ao atualizar peça {peca.Nome}.");
         }
         public List<Pedido> ConsultarPedidos()
         {
-            ConexaoBanco conexaoBanco = new ConexaoBanco();
-            return conexaoBanco.ConsultarPedidos();
+            return _pedidoRepository.ConsultarPedidos();
         }
 
         public bool AdicionarPedido(Pedido pedido)
         {
-            var retorno = _ConexaoBanco.AdicionarPedido(pedido);
+            var retorno = _pedidoRepository.AdicionarPedido(pedido);
             if (retorno)
             {
                 Pedidos.Add(pedido);
@@ -57,7 +57,7 @@ namespace OficinaEletrodomesticos.Models
         {
             if (pedido.DataRecebimento == null)
             {
-                var retorno = _ConexaoBanco.ConfirmarRecebimentoPedido(pedido.Id, DateTime.Now);
+                var retorno = _pedidoRepository.ConfirmarRecebimentoPedido(pedido.Id, DateTime.Now);
                 if (retorno)
                 {
                     pedido.DataRecebimento = DateTime.Now;

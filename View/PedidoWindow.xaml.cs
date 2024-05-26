@@ -1,4 +1,5 @@
-﻿using OficinaEletrodomesticos.Models;
+﻿using OficinaEletrodomesticos.Data;
+using OficinaEletrodomesticos.Models;
 using System;
 using System.Windows;
 
@@ -8,10 +9,10 @@ namespace OficinaEletrodomesticos.View
     {
         private readonly Estoque _estoque;
 
-        public PedidoWindow()
+        public PedidoWindow(ConexaoBanco conexaoBanco)
         {
             InitializeComponent();
-            _estoque = new Estoque();
+            _estoque = new Estoque(conexaoBanco);
             DataContext = this;
 
             dgPedidos.ItemsSource = _estoque.ConsultarPedidos();
@@ -64,15 +65,7 @@ namespace OficinaEletrodomesticos.View
                 DataCriacao = dataCriacao
             };
 
-            if (_estoque.AdicionarPedido(novoPedido))
-            {
-                AtualizarDataGridPedidos();
-                MessageBox.Show("Pedido adicionado com sucesso!");
-            }
-            else
-            {
-                MessageBox.Show("Falha ao adicionar o pedido.");
-            }
+            _estoque.AdicionarPedido(novoPedido);
         }
 
         private bool ValidarCampos()

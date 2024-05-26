@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
@@ -8,10 +9,10 @@ namespace OficinaEletrodomesticos.View
     {
         private Estoque _estoque;
 
-        public AddPecaEstoqueWindow()
+        public AddPecaEstoqueWindow(ConexaoBanco conexaoBanco)
         {
             InitializeComponent();
-            _estoque = new Estoque();
+            _estoque = new Estoque(conexaoBanco);
         }
 
         private void AdicionarPeca_Click(object sender, RoutedEventArgs e)
