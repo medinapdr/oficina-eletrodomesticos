@@ -1,6 +1,4 @@
-﻿using OficinaEletrodomesticos.Data;
-
-namespace OficinaEletrodomesticos.Models
+﻿namespace OficinaEletrodomesticos.Models
 {
     public class Pedido
     {

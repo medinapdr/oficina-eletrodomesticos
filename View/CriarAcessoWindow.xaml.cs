@@ -1,6 +1,6 @@
-using OficinaEletrodomesticos.Data;
 using System.Windows;
 using System.Windows.Controls;
+using OficinaEletrodomesticos.Data;
 
 namespace OficinaEletrodomesticos.View
 {

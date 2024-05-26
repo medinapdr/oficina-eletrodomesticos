@@ -1,5 +1,5 @@
-﻿using OficinaEletrodomesticos.Data;
-using System.Windows;
+﻿using System.Windows;
+using OficinaEletrodomesticos.Data;
 
 namespace OficinaEletrodomesticos.Models
 {
