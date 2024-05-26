@@ -6,14 +6,14 @@ namespace OficinaEletrodomesticos.Models
     {
         public string Nome { get; set; }
         public string CPF { get; set; }
-        public string Telefone { get; set; }
-        public string Endereco { get; set; }
+        public string? Telefone { get; set; }
+        public string? Endereco { get; set; }
         public string TipoPessoa { get; set; }
     }
 
     public class Cliente : Pessoa
     {
-        public void solicitarOrcamento(Aparelho aparelho, string defeito)
+        public void SolicitarOrcamento(Aparelho aparelho, string defeito)
         {
             
         }

@@ -7,7 +7,7 @@
         public string Descricao { get; set; }
         public double? ValorPagamento { get; set; }
         public DateTime? DataPagamento { get; set; }
-        public StatusServico Status { get; set; }
+        public StatusServico Status { get; set; } = StatusServico.Parado;
 
     }
 }

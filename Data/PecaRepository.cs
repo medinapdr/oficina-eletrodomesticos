@@ -12,7 +12,7 @@ namespace OficinaEletrodomesticos.Data
                                    OUTPUT INSERTED.Id
                                    VALUES (@NomePeca, @Preco, @Largura, @Altura, @Comprimento, @Peso, @Fabricante, @Quantidade)";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
@@ -58,7 +58,7 @@ namespace OficinaEletrodomesticos.Data
         {
             const string query = @"DELETE FROM Oficina.dbo.Peca WHERE Id = @Id";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
@@ -83,7 +83,7 @@ namespace OficinaEletrodomesticos.Data
             const string query = @"SELECT Id, Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade FROM Oficina.dbo.Peca";
             var estoque = new List<Peca>();
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var cmd = new SqlCommand(query, conexao);
             using var reader = cmd.ExecuteReader();
@@ -114,7 +114,7 @@ namespace OficinaEletrodomesticos.Data
                                        Quantidade = @Quantidade
                                    WHERE Id = @Id";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);

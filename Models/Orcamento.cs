@@ -1,22 +1,24 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace OficinaEletrodomesticos.Models
 {
     public class SolicitacaoOrcamento
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public Aparelho Aparelho { get; set; }
         public Cliente Cliente { get; set; }
-        public string Descricao { get; set; }
-
+        public string? Descricao { get; set; }
     }
 
     public class Orcamento
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public SolicitacaoOrcamento Solicitacao { get; set; }
         public DateTime DataOrcamento { get; set; }
-        public List<(Peca, int)> PecasNecessarias { get; set; }
+        public List<(Peca, int)>? PecasNecessarias { get; set; } = new List<(Peca, int)>();
         public decimal ValorTotal { get; set; }
         public TimeSpan PrazoEntrega { get; set; }
         public bool Autorizado { get; set; }
@@ -67,16 +69,50 @@ namespace OficinaEletrodomesticos.Models
 
         public void CalcularValorTotal()
         {
-            decimal ValorPecas = PecasNecessarias.Sum(pecaQuantidade => pecaQuantidade.Item1.Preco * pecaQuantidade.Item2);
-            double PrazoEntregaDias = PrazoEntrega.TotalDays;
-            decimal ValorLogaritmico = (decimal)Math.Log(PrazoEntregaDias + 1);
-            ValorTotal = ValorPecas * 1.5m + ValorLogaritmico;
+            if (PecasNecessarias == null || PecasNecessarias.Count == 0)
+            {
+                ValorTotal = 0;
+                return;
+            }
+
+            decimal valorPecas = PecasNecessarias.Sum(pecaQuantidade => pecaQuantidade.Item1.Preco * pecaQuantidade.Item2);
+            double prazoEntregaDias = PrazoEntrega.TotalDays;
+            decimal valorLogaritmico = (decimal)Math.Log(prazoEntregaDias + 1);
+            ValorTotal = valorPecas * 1.5m + valorLogaritmico;
+        }
+
+        public void CalcularValorTotal(decimal valorPadrao) 
+        {
+            if (PecasNecessarias == null || PecasNecessarias.Count == 0)
+            {
+                ValorTotal = valorPadrao;
+                return;
+            }
+
+            ValorTotal = valorPadrao;
         }
 
         public void CalcularPrazoEntrega()
         {
+            if (PecasNecessarias == null || PecasNecessarias.Count == 0)
+            {
+                PrazoEntrega = TimeSpan.Zero;
+                return;
+            }
+
             double diasNecessarios = Math.Sqrt(PecasNecessarias.Sum(p => p.Item2) * 2);
             PrazoEntrega = TimeSpan.FromDays(diasNecessarios);
+        }
+
+        public void CalcularPrazoEntrega(TimeSpan prazoPadrao)
+        {
+            if (PecasNecessarias == null || PecasNecessarias.Count == 0)
+            {
+                PrazoEntrega = prazoPadrao;
+                return;
+            }
+
+            PrazoEntrega = prazoPadrao;
         }
     }
 }
