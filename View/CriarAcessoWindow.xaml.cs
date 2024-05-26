@@ -21,14 +21,7 @@ namespace OficinaEletrodomesticos.View
             int pessoaId = int.Parse(txtPessoaId.Text);
 
             bool sucesso = conexaoBanco.CriarUsuario(nomeUsuario, senha, pessoaId);
-            if (sucesso)
-            {
-                MessageBox.Show("Usuário criado com sucesso!");
-            }
-            else
-            {
-                MessageBox.Show("Erro ao criar usuário. Por favor, tente novamente.");
-            }
+            MessageBox.Show(sucesso ? "Usuário criado com sucesso!" : "Erro ao criar usuário. Por favor, tente novamente.");
         }
 
         private void CriarPessoa_Click(object sender, RoutedEventArgs e)
@@ -39,50 +32,32 @@ namespace OficinaEletrodomesticos.View
             string endereco = txtEndereco.Text;
             string tipoPessoa = ((ComboBoxItem)cmbTipoPessoa.SelectedItem).Content.ToString();
 
+            bool sucesso;
             if (tipoPessoa == "Funcionário")
             {
                 string cargo = ((ComboBoxItem)cmbCargo.SelectedItem).Content.ToString();
                 decimal salario = decimal.Parse(txtSalario.Text);
                 string departamento = GetDepartamentoFromCargo(cargo);
 
-                bool sucesso = conexaoBanco.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa, cargo, salario, departamento);
-                if (sucesso)
-                {
-                    MessageBox.Show("Funcionário criado com sucesso!");
-                }
-                else
-                {
-                    MessageBox.Show("Erro ao criar funcionário. Por favor, tente novamente.");
-                }
+                sucesso = conexaoBanco.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa, cargo, salario, departamento);
             }
             else
             {
-                bool sucesso = conexaoBanco.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa);
-                if (sucesso)
-                {
-                    MessageBox.Show("Pessoa criada com sucesso!");
-                }
-                else
-                {
-                    MessageBox.Show("Erro ao criar pessoa. Por favor, tente novamente.");
-                }
+                sucesso = conexaoBanco.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa);
             }
+
+            MessageBox.Show(sucesso ? $"Pessoa {tipoPessoa.ToLower()} criada com sucesso!" : $"Erro ao criar {tipoPessoa.ToLower()}. Por favor, tente novamente.");
         }
 
         private string GetDepartamentoFromCargo(string cargo)
         {
-            switch (cargo)
+            return cargo switch
             {
-                case "Vendedor":
-                    return "Vendas";
-                case "Técnico":
-                    return "Serviços";
-                case "Gerente":
-                case "Administrador":
-                    return "Gerência";
-                default:
-                    return "";
-            }
+                "Vendedor" => "Vendas",
+                "Técnico" => "Serviços",
+                "Gerente" or "Administrador" => "Gerência",
+                _ => ""
+            };
         }
 
         private void cmbTipoPessoa_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,28 +66,16 @@ namespace OficinaEletrodomesticos.View
             if (selectedItem != null)
             {
                 string tipoPessoa = selectedItem.Content.ToString();
-                if (tipoPessoa == "Funcionário")
-                {
-                    cmbCargo.Visibility = Visibility.Visible;
-                    txtSalario.Visibility = Visibility.Visible;
+                bool isFuncionario = tipoPessoa == "Funcionário";
 
-                    lblCargo.Visibility = Visibility.Visible;
-                    lblSalario.Visibility = Visibility.Visible;
+                cmbCargo.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
+                txtSalario.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
 
-                    txtDepartamento.Visibility = Visibility.Visible;
-                    lblDepartamento.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    cmbCargo.Visibility = Visibility.Collapsed;
-                    txtSalario.Visibility = Visibility.Collapsed;
+                lblCargo.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
+                lblSalario.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
 
-                    lblCargo.Visibility = Visibility.Collapsed;
-                    lblSalario.Visibility = Visibility.Collapsed;
-
-                    txtDepartamento.Visibility = Visibility.Collapsed;
-                    lblDepartamento.Visibility = Visibility.Collapsed;
-                }
+                txtDepartamento.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
+                lblDepartamento.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
@@ -13,52 +14,42 @@ namespace OficinaEletrodomesticos.View
 
         private void ConfigurarOpcoes(string tipoUsuario)
         {
-            btnEstoque.IsEnabled = false;
-            btnPedidos.IsEnabled = false;
-            btnConsultas.IsEnabled = false;
-            btnServicos.IsEnabled = false;
-            btnOrcamento.IsEnabled = false;
+            ModifyButtons(false, btnEstoque, btnPedidos, btnConsultas, btnServicos, btnOrcamento);
 
             switch (tipoUsuario)
             {
                 case "Cliente":
-                    btnConsultas.IsEnabled = true;
-                    btnOrcamento.IsEnabled = true;
-                    break;
                 case "Vendedor":
-                    btnConsultas.IsEnabled = true;
-                    btnOrcamento.IsEnabled = true;
+                    ModifyButtons(true, btnConsultas, btnOrcamento);
                     break;
                 case "Técnico":
-                    btnEstoque.IsEnabled = true;
-                    btnServicos.IsEnabled = true;
+                    ModifyButtons(true, btnEstoque, btnServicos);
                     break;
                 case "Gerente":
-                    btnEstoque.IsEnabled = true;
-                    btnPedidos.IsEnabled = true;
-                    btnConsultas.IsEnabled = true;
-                    btnOrcamento.IsEnabled = true;
+                    ModifyButtons(true, btnEstoque, btnPedidos, btnConsultas, btnOrcamento);
                     break;
                 case "Administrador":
-                    btnEstoque.IsEnabled = true;
-                    btnPedidos.IsEnabled = true;
-                    btnConsultas.IsEnabled = true;
-                    btnServicos.IsEnabled = true;
-                    btnOrcamento.IsEnabled = true;
+                    ModifyButtons(true, btnEstoque, btnPedidos, btnConsultas, btnServicos, btnOrcamento);
                     break;
+            }
+        }
+
+        private void ModifyButtons(bool enable, params Button[] buttons)
+        {
+            foreach (var button in buttons)
+            {
+                button.IsEnabled = enable;
             }
         }
 
         private void btnEstoque_Click(object sender, RoutedEventArgs e)
         {
-            EstoqueWindow estoque = new EstoqueWindow();
-            estoque.Show();
+            new EstoqueWindow().Show();
         }
 
         private void btnPedidos_Click(object sender, RoutedEventArgs e)
         {
-            PedidoWindow pedido = new PedidoWindow();
-            pedido.Show();
+            new PedidoWindow().Show();
         }
 
         private void btnConsultas_Click(object sender, RoutedEventArgs e)
@@ -73,9 +64,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnOrcamento_Click(object sender, RoutedEventArgs e)
         {
-            OrcamentoWindow orcamentoWindow = new OrcamentoWindow();
-            orcamentoWindow.Show();
+            new OrcamentoWindow().Show();
         }
-
     }
 }

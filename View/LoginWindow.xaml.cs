@@ -24,12 +24,12 @@ namespace OficinaEletrodomesticos.View
             if (usuario != null)
             {
                 string tipoPessoa = usuario.PessoaAssociada.TipoPessoa;
+                string cargo = tipoPessoa == "Funcionário"
+                    ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString()
+                    : tipoPessoa;
 
-                string cargo = tipoPessoa == "Funcionário" ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString() : tipoPessoa;
-
-                MenuWindow menuPrincipal = new MenuWindow(cargo);
-                menuPrincipal.Show();
-                this.Close();
+                new MenuWindow(cargo).Show();
+                Close();
             }
             else
             {
@@ -39,8 +39,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnCriar_Click(object sender, RoutedEventArgs e)
         {
-            CriarAcessoWindow criarAcessoWindow = new CriarAcessoWindow();
-            criarAcessoWindow.ShowDialog();
+            new CriarAcessoWindow().ShowDialog();
         }
     }
 }

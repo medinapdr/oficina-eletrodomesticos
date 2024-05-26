@@ -26,47 +26,45 @@ namespace OficinaEletrodomesticos.View
 
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
-            if (_pecaSelecionada != null)
-            {
-                MessageBox.Show($"Editar peça: {_pecaSelecionada.Nome}");
-            }
-            else
+            if (_pecaSelecionada == null)
             {
                 MessageBox.Show("Selecione uma peça para editar.");
+                return;
             }
+            MessageBox.Show($"Editar peça: {_pecaSelecionada.Nome}");
         }
 
         private void Remover_Click(object sender, RoutedEventArgs e)
         {
-            if (_pecaSelecionada != null)
-            {
-                MessageBoxResult resultado = MessageBox.Show($"Tem certeza que deseja remover a peça '{_pecaSelecionada.Nome}'?", "Remover Peça", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (resultado == MessageBoxResult.Yes)
-                {
-                    _estoque.RemoverPeca(_pecaSelecionada);
-                    AtualizarListaEstoque();
-                }
-            }
-            else
+            if (_pecaSelecionada == null)
             {
                 MessageBox.Show("Selecione uma peça para remover.");
+                return;
+            }
+
+            MessageBoxResult resultado = MessageBox.Show(
+                $"Tem certeza que deseja remover a peça '{_pecaSelecionada.Nome}'?", 
+                "Remover Peça", 
+                MessageBoxButton.YesNo, 
+                MessageBoxImage.Question
+            );
+
+            if (resultado == MessageBoxResult.Yes)
+            {
+                _estoque.RemoverPeca(_pecaSelecionada);
+                AtualizarListaEstoque();
             }
         }
 
         private void InserirPecas_Click(object sender, RoutedEventArgs e)
         {
-            AddPecaEstoqueWindow adicionarPecaWindow = new();
-            adicionarPecaWindow.ShowDialog();
+            new AddPecaEstoqueWindow().ShowDialog();
             AtualizarListaEstoque();
         }
 
         private void DataGridEstoque_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGridEstoque.SelectedItem != null)
-            {
-                _pecaSelecionada = (Peca)dataGridEstoque.SelectedItem;
-            }
+            _pecaSelecionada = dataGridEstoque.SelectedItem as Peca;
         }
     }
 }
