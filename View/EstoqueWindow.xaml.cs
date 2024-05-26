@@ -7,16 +7,14 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class EstoqueWindow : Window
     {
-        private readonly ConexaoBanco _conexaoBanco;
         private readonly Estoque _estoque;
         private List<Peca> _pecasEstoque;
         private Peca _pecaSelecionada;
 
-        public EstoqueWindow(ConexaoBanco conexaoBanco)
+        public EstoqueWindow()
         {
             InitializeComponent();
-            _conexaoBanco = conexaoBanco;
-            _estoque = new Estoque(conexaoBanco);
+            _estoque = new Estoque();
             AtualizarListaEstoque();
         }
 
@@ -61,7 +59,7 @@ namespace OficinaEletrodomesticos.View
 
         private void InserirPecas_Click(object sender, RoutedEventArgs e)
         {
-            new AddPecaEstoqueWindow(_conexaoBanco).ShowDialog();
+            new AddPecaEstoqueWindow().ShowDialog();
             AtualizarListaEstoque();
         }
 

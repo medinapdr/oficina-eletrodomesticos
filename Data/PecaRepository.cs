@@ -4,15 +4,15 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class PecaRepository(ConexaoBanco conexaoBanco)
+    public class PecaRepository()
     {
-        public bool AdicionarPeca(Peca peca)
+        public static bool AdicionarPeca(Peca peca)
         {
             const string query = @"INSERT INTO Oficina.dbo.Peca (Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade)
                                    OUTPUT INSERTED.Id
                                    VALUES (@NomePeca, @Preco, @Largura, @Altura, @Comprimento, @Peso, @Fabricante, @Quantidade)";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
@@ -54,11 +54,11 @@ namespace OficinaEletrodomesticos.Data
             }
         }
 
-        public bool RemoverPeca(Peca peca)
+        public static bool RemoverPeca(Peca peca)
         {
             const string query = @"DELETE FROM Oficina.dbo.Peca WHERE Id = @Id";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
@@ -78,12 +78,12 @@ namespace OficinaEletrodomesticos.Data
             }
         }
 
-        public List<Peca> ConsultarEstoque()
+        public static List<Peca> ConsultarEstoque()
         {
             const string query = @"SELECT Id, Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade FROM Oficina.dbo.Peca";
             var estoque = new List<Peca>();
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var cmd = new SqlCommand(query, conexao);
             using var reader = cmd.ExecuteReader();
@@ -106,7 +106,7 @@ namespace OficinaEletrodomesticos.Data
             return estoque;
         }
 
-        public bool AtualizarPeca(Peca peca)
+        public static bool AtualizarPeca(Peca peca)
         {
             const string query = @"UPDATE Oficina.dbo.Peca 
                                    SET Nome = @Nome, Preco = @Preco, Largura = @Largura, Altura = @Altura, 
@@ -114,7 +114,7 @@ namespace OficinaEletrodomesticos.Data
                                        Quantidade = @Quantidade
                                    WHERE Id = @Id";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);

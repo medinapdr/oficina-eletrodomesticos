@@ -6,11 +6,9 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class MenuWindow : Window
     {
-        private readonly ConexaoBanco _conexaoBanco;
-        public MenuWindow(ConexaoBanco conexaoBanco, string tipoUsuario)
+        public MenuWindow(string tipoUsuario)
         {
             InitializeComponent();
-            _conexaoBanco = conexaoBanco;
             ConfigurarOpcoes(tipoUsuario);
         }
 
@@ -46,12 +44,12 @@ namespace OficinaEletrodomesticos.View
 
         private void btnEstoque_Click(object sender, RoutedEventArgs e)
         {
-            new EstoqueWindow(_conexaoBanco).Show();
+            new EstoqueWindow().Show();
         }
 
         private void btnPedidos_Click(object sender, RoutedEventArgs e)
         {
-            new PedidoWindow(_conexaoBanco).Show();
+            new PedidoWindow().Show();
         }
 
         private void btnConsultas_Click(object sender, RoutedEventArgs e)
@@ -66,7 +64,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnOrcamento_Click(object sender, RoutedEventArgs e)
         {
-            new OrcamentoWindow(_conexaoBanco).Show();
+            new OrcamentoWindow().Show();
         }
     }
 }

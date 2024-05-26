@@ -6,12 +6,9 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class CriarAcessoWindow : Window
     {
-        private readonly UsuarioRepository _usuarioRepository;
-
-        public CriarAcessoWindow(ConexaoBanco conexaoBanco)
+        public CriarAcessoWindow()
         {
             InitializeComponent();
-            _usuarioRepository = new UsuarioRepository(conexaoBanco);
         }
 
         private void CriarUsuario_Click(object sender, RoutedEventArgs e)
@@ -20,7 +17,7 @@ namespace OficinaEletrodomesticos.View
             string senha = txtSenha.Password;
             int pessoaId = int.Parse(txtPessoaId.Text);
 
-            bool sucesso = _usuarioRepository.CriarUsuario(nomeUsuario, senha, pessoaId);
+            bool sucesso = UsuarioRepository.CriarUsuario(nomeUsuario, senha, pessoaId);
             MessageBox.Show(sucesso ? "Usuário criado com sucesso!" : "Erro ao criar usuário. Por favor, tente novamente.");
         }
 
@@ -39,11 +36,11 @@ namespace OficinaEletrodomesticos.View
                 decimal salario = decimal.Parse(txtSalario.Text);
                 string departamento = GetDepartamentoFromCargo(cargo);
 
-                sucesso = _usuarioRepository.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa, cargo, salario, departamento);
+                sucesso = UsuarioRepository.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa, cargo, salario, departamento);
             }
             else
             {
-                sucesso = _usuarioRepository.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa);
+                sucesso = UsuarioRepository.CriarPessoa(nome, cpf, telefone, endereco, tipoPessoa);
             }
 
             MessageBox.Show(sucesso ? $"Pessoa {tipoPessoa.ToLower()} criada com sucesso!" : $"Erro ao criar {tipoPessoa.ToLower()}. Por favor, tente novamente.");

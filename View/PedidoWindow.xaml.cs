@@ -8,10 +8,10 @@ namespace OficinaEletrodomesticos.View
     {
         private readonly Estoque _estoque;
 
-        public PedidoWindow(ConexaoBanco conexaoBanco)
+        public PedidoWindow()
         {
             InitializeComponent();
-            _estoque = new Estoque(conexaoBanco);
+            _estoque = new Estoque();
             DataContext = this;
 
             dgPedidos.ItemsSource = _estoque.ConsultarPedidos();

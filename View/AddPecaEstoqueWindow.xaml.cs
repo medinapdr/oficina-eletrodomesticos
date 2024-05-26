@@ -8,10 +8,10 @@ namespace OficinaEletrodomesticos.View
     {
         private readonly Estoque _estoque;
 
-        public AddPecaEstoqueWindow(ConexaoBanco conexaoBanco)
+        public AddPecaEstoqueWindow()
         {
             InitializeComponent();
-            _estoque = new Estoque(conexaoBanco);
+            _estoque = new Estoque();
         }
 
         private void AdicionarPeca_Click(object sender, RoutedEventArgs e)

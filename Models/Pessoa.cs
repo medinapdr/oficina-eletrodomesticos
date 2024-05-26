@@ -28,7 +28,7 @@ namespace OficinaEletrodomesticos.Models
 
     public class Tecnico : Funcionario
     {
-        public List<Servico> servicosAtribuidos { get; } = new List<Servico>();
+        public List<Servico> ServicosAtribuidos { get; } = [];
 
         public void RealizarServico(Servico servico, StatusServico status)
         {

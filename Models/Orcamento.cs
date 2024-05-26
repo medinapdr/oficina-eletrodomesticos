@@ -18,7 +18,7 @@ namespace OficinaEletrodomesticos.Models
         public string? Id { get; set; }
         public SolicitacaoOrcamento Solicitacao { get; set; }
         public DateTime DataOrcamento { get; set; }
-        public List<(Peca, int)>? PecasNecessarias { get; set; } = new List<(Peca, int)>();
+        public List<(Peca, int)>? PecasNecessarias { get; set; } = [];
         public decimal ValorTotal { get; set; }
         public TimeSpan PrazoEntrega { get; set; }
         public bool Autorizado { get; set; }

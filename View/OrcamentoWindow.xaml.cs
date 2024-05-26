@@ -6,14 +6,12 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class OrcamentoWindow : Window
     {
-        private readonly ConexaoBanco _conexaoBanco;
         private Historico _historico;
 
-        public OrcamentoWindow(ConexaoBanco conexaoBanco)
+        public OrcamentoWindow()
         {
             InitializeComponent();
-            _conexaoBanco = conexaoBanco;
-            _historico = new Historico(conexaoBanco);
+            _historico = new Historico();
         }
 
         private void CriarOrcamento_Click(object sender, RoutedEventArgs e)

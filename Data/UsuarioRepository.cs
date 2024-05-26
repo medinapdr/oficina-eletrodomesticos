@@ -3,15 +3,15 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class UsuarioRepository(ConexaoBanco conexaoBanco)
+    public class UsuarioRepository()
     {
-        public bool CriarPessoa(string nome, string cpf, string telefone, string endereco, string tipoPessoa, string? cargo = null, decimal salario = 0, string departamento = null)
+        public static bool CriarPessoa(string nome, string cpf, string telefone, string endereco, string tipoPessoa, string? cargo = null, decimal salario = 0, string? departamento = null)
         {
             const string queryPessoa = @"INSERT INTO Oficina.dbo.Pessoa (Nome, CPF, Telefone, Endereco, TipoPessoa) 
                                          VALUES (@Nome, @CPF, @Telefone, @Endereco, @TipoPessoa);
                                          SELECT SCOPE_IDENTITY();";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
             using var transaction = conexao.BeginTransaction();
             using var cmdPessoa = new SqlCommand(queryPessoa, conexao, transaction);
@@ -59,13 +59,13 @@ namespace OficinaEletrodomesticos.Data
             }
         }
 
-        public bool CriarUsuario(string nomeUsuario, string senha, int pessoaId)
+        public static bool CriarUsuario(string nomeUsuario, string senha, int pessoaId)
         {
             const string query = @"INSERT INTO Oficina.dbo.Usuario (NomeUsuario, Senha, PessoaId) 
                                    VALUES (@NomeUsuario, @Senha, @PessoaId)";
             string hashedSenha = BCrypt.Net.BCrypt.HashPassword(senha);
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
 
             cmd.Parameters.AddWithValue("@NomeUsuario", nomeUsuario);
@@ -84,7 +84,7 @@ namespace OficinaEletrodomesticos.Data
             }
         }
 
-        public Usuario? AutenticarUsuario(string username, string password)
+        public static Usuario? AutenticarUsuario(string username, string password)
         {
             const string query = @"SELECT u.NomeUsuario, p.Id, p.Nome, p.CPF, p.Telefone, p.Endereco, p.TipoPessoa, u.Senha,
                                         f.Cargo, f.Salario, f.Departamento
@@ -93,7 +93,7 @@ namespace OficinaEletrodomesticos.Data
                                   LEFT JOIN OFICINA.dbo.Funcionario f ON p.Id = f.PessoaId
                                   WHERE u.NomeUsuario = @Username";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@Username", username);
             conexao.Open();

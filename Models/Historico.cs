@@ -2,7 +2,7 @@
 
 namespace OficinaEletrodomesticos.Models
 {
-    public class Historico(ConexaoBanco conexaoBanco)
+    public class Historico()
     {
         public List<SolicitacaoOrcamento> Solicitacoes { get; } = [];
         public List<Orcamento> Orcamentos { get; } = [];

@@ -3,14 +3,14 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class PedidoRepository(ConexaoBanco conexaoBanco)
+    public class PedidoRepository()
     {
-        public List<Pedido> ConsultarPedidos()
+        public static List<Pedido> ConsultarPedidos()
         {
             const string query = @"SELECT Id, PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, DataRecebimento, ValorUnitario FROM Pedido";
             var pedidos = new List<Pedido>();
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
             conexao.Open();
             using var reader = cmd.ExecuteReader();
@@ -32,13 +32,13 @@ namespace OficinaEletrodomesticos.Data
             return pedidos;
         }
 
-        public bool AdicionarPedido(Pedido pedido)
+        public static bool AdicionarPedido(Pedido pedido)
         {
             const string query = @"INSERT INTO Pedido (PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, ValorUnitario) 
                                    VALUES (@PecaId, @NomePeca, @Quantidade, @ValorTotal, @Fornecedor, @DataCriacao, @ValorUnitario);
                                    SELECT SCOPE_IDENTITY();";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             using var cmd = new SqlCommand(query, conexao);
 
             cmd.Parameters.AddWithValue("@PecaId", pedido.Peca.Id);
@@ -66,13 +66,13 @@ namespace OficinaEletrodomesticos.Data
             }
         }
 
-        public bool ConfirmarRecebimentoPedido(int pedidoId, DateTime dataRecebimento)
+        public static bool ConfirmarRecebimentoPedido(int pedidoId, DateTime dataRecebimento)
         {
             const string queryPedido = "SELECT PecaId, Quantidade FROM Pedido WHERE Id = @PedidoId";
             const string queryUpdatePedido = "UPDATE Pedido SET DataRecebimento = @DataRecebimento WHERE Id = @PedidoId";
             const string queryUpdatePeca = "UPDATE Peca SET Quantidade = Quantidade + @Quantidade WHERE Id = @PecaId";
 
-            using var conexao = conexaoBanco.ConectaBanco();
+            using var conexao = ConexaoBanco.ConectaBanco();
             using var cmdPedido = new SqlCommand(queryPedido, conexao);
             conexao.Open();
 

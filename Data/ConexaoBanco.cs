@@ -5,7 +5,7 @@ namespace OficinaEletrodomesticos.Data
 {
     public class ConexaoBanco
     {
-        public SqlConnection ConectaBanco()
+        public static SqlConnection ConectaBanco()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
 
