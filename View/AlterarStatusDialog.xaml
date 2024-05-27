@@ -1,0 +1,16 @@
+<Window x:Class="OficinaEletrodomesticos.View.AlterarStatusDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Alterar Status" Height="200" Width="400">
+    <Grid>
+        <Label Content="Novo Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+        <ComboBox x:Name="cbStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="360">
+            <ComboBoxItem Content="Parado" Tag="0"/>
+            <ComboBoxItem Content="Em Andamento" Tag="1"/>
+            <ComboBoxItem Content="Testado" Tag="2"/>
+            <ComboBoxItem Content="Realizado" Tag="3"/>
+        </ComboBox>
+        <Button Content="Confirmar" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="80" Click="Confirmar_Click"/>
+        <Button Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="80" Click="Cancelar_Click"/>
+    </Grid>
+</Window>

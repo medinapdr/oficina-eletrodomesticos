@@ -1,15 +1,20 @@
 using System.Windows;
 using System.Windows.Controls;
 using OficinaEletrodomesticos.Data;
+using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
     public partial class MenuWindow : Window
     {
-        public MenuWindow(string tipoUsuario)
+        private Pessoa _pessoa;
+        private string _cargo;
+        public MenuWindow(Pessoa pessoa, string cargo)
         {
             InitializeComponent();
-            ConfigurarOpcoes(tipoUsuario);
+            _pessoa = pessoa;
+            _cargo = cargo;
+            ConfigurarOpcoes(cargo);
         }
 
         private void ConfigurarOpcoes(string tipoUsuario)
@@ -20,13 +25,13 @@ namespace OficinaEletrodomesticos.View
             {
                 case "Cliente":
                 case "Vendedor":
-                    ModifyButtons(true, btnConsultas, btnOrcamento);
+                    ModifyButtons(true, btnConsultas, btnServicos, btnOrcamento);
                     break;
                 case "Técnico":
                     ModifyButtons(true, btnEstoque, btnServicos);
                     break;
                 case "Gerente":
-                    ModifyButtons(true, btnEstoque, btnPedidos, btnConsultas, btnOrcamento);
+                    ModifyButtons(true, btnEstoque, btnServicos, btnPedidos, btnConsultas, btnOrcamento);
                     break;
                 case "Administrador":
                     ModifyButtons(true, btnEstoque, btnPedidos, btnConsultas, btnServicos, btnOrcamento);
@@ -59,7 +64,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnServicos_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Serviços clicado");
+            new ServicoWindow((Funcionario)_pessoa).Show();
         }
 
         private void btnOrcamento_Click(object sender, RoutedEventArgs e)

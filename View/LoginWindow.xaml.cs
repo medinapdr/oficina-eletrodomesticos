@@ -25,7 +25,7 @@ namespace OficinaEletrodomesticos.View
                     ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString()
                     : tipoPessoa;
 
-                new MenuWindow(cargo).Show();
+                new MenuWindow(usuario.PessoaAssociada, cargo).Show();
                 Close();
             }
             else

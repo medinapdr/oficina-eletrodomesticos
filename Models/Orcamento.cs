@@ -15,7 +15,7 @@ namespace OficinaEletrodomesticos.Models
 
     public class Orcamento
     {
-        public string? Id { get; set; }
+        public int? Id { get; set; }
         public SolicitacaoOrcamento Solicitacao { get; set; }
         public DateTime DataOrcamento { get; set; }
         public List<(Peca, int)>? PecasNecessarias { get; set; } = [];

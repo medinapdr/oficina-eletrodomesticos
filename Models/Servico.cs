@@ -2,7 +2,9 @@
 {
     public class Servico
     {
-        public Tecnico TecnicoResponsavel { get; set; }
+        public int Id { get; set; }
+        public Funcionario TecnicoResponsavel { get; set; }
+        public string NomeTecnico { get; set; }
         public Orcamento Orcamento { get; set; }
         public string Descricao { get; set; }
         public double? ValorPagamento { get; set; }
@@ -11,3 +13,4 @@
 
     }
 }
+    

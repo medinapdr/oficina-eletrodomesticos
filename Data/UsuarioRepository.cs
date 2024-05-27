@@ -109,6 +109,7 @@ namespace OficinaEletrodomesticos.Data
                     Pessoa pessoa = tipoPessoa == "Cliente"
                         ? new Cliente
                         {
+                            Id = reader.GetInt32(1),
                             Nome = reader.GetString(2),
                             CPF = reader.GetString(3),
                             Telefone = reader.IsDBNull(4) ? null : reader.GetString(4),
@@ -117,6 +118,7 @@ namespace OficinaEletrodomesticos.Data
                         }
                         : (Pessoa)new Funcionario
                         {
+                            Id = reader.GetInt32(1),
                             Nome = reader.GetString(2),
                             CPF = reader.GetString(3),
                             Telefone = reader.IsDBNull(4) ? null : reader.GetString(4),

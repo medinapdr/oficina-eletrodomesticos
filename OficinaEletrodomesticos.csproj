@@ -20,6 +20,9 @@
     <Page Update="View\AddPecaEstoqueWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="View\AdicionarServicoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
