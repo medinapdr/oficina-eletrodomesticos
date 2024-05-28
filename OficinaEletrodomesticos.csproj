@@ -14,30 +14,56 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="MenuPrincipalWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\AddPecaEstoqueWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\AdicionarServicoDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\LoginWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\OrcamentoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\PedidoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <Page Update="View\MenuWindow.xaml">
+          <Generator>MSBuild:Compile</Generator>
+      </Page>
+	  <Page Update="View\AddPecaEstoqueWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\AdicionarServicoDialog.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\LoginWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\OrcamentoWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\PedidoWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\AdicionarServicoDialog.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\AlterarStatusDialog.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\ServicoWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\ConfirmarPagamentoDialog.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\CriarAcessoWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="View\LoginWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Assets\" />
   </ItemGroup>
-
+	
+  <ItemGroup>
+	<Folder Include="Data\" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	<Folder Include="Models\" />
+  </ItemGroup>
+	
   <ItemGroup>
     <Page Include="App.xaml" />
   </ItemGroup>

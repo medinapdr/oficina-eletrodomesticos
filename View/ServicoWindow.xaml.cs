@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
@@ -16,9 +17,10 @@ namespace OficinaEletrodomesticos.View
             CarregarServicos();
             CarregarMeusServicos();
 
+            tabControlServicos.SelectionChanged += TabControlServicos_SelectionChanged;
+
             if (_funcionario.Cargo != Cargo.Técnico)
             {
-                // Desabilite a tab "Meus Serviços" para funcionários que não são técnicos
                 var tabItemMeusServicos = tabControlServicos.Items.Cast<TabItem>().FirstOrDefault(item => item.Header.ToString() == "Meus Servicos");
                 if (tabItemMeusServicos != null)
                 {
@@ -26,12 +28,12 @@ namespace OficinaEletrodomesticos.View
                 }
             }
 
-
-            // Desabilite o botão "Alterar Status" para vendedores
             if (_funcionario.Cargo == Cargo.Vendedor)
             {
                 btnAlterarStatus.IsEnabled = false;
             }
+
+            ConfigureButtons();
         }
 
         private void CarregarServicos()
@@ -48,7 +50,8 @@ namespace OficinaEletrodomesticos.View
 
         private void btnAlterarStatus_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridMeusServicos.SelectedItem is Servico servico)
+            DataGrid grid = tabControlServicos.SelectedIndex == 1 ? dataGridMeusServicos : dataGridServicos;
+            if (grid.SelectedItem is Servico servico)
             {
                 var statusDialog = new AlterarStatusDialog(servico.Status);
                 if (statusDialog.ShowDialog() == true)
@@ -59,13 +62,22 @@ namespace OficinaEletrodomesticos.View
                     CarregarServicos();
                 }
             }
-
         }
 
         private void btnConfirmarPagamento_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridMeusServicos.SelectedItem is Servico servico)
+            DataGrid grid = tabControlServicos.SelectedIndex == 1 ? dataGridMeusServicos : dataGridServicos;
+            if (grid.SelectedItem is Servico servico)
             {
+                if (servico.ValorPagamento != null)
+                {
+                    MessageBoxResult result = MessageBox.Show("Este serviço já foi pago. Tem certeza que deseja alterar o pagamento?", "Confirmar Alteração de Pagamento", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (result != MessageBoxResult.Yes)
+                    {
+                        return; 
+                    }
+                }
+
                 var pagamentoDialog = new ConfirmarPagamentoDialog(servico.ValorPagamento);
                 if (pagamentoDialog.ShowDialog() == true)
                 {
@@ -79,19 +91,39 @@ namespace OficinaEletrodomesticos.View
 
         private void btnAdicionarServico_Click(object sender, RoutedEventArgs e)
         {
-            // Permita o botão "Adicionar Serviço" apenas na tela "Meus Serviços" se o funcionário for um técnico
-            if (_funcionario.Cargo == Cargo.Técnico && tabControlServicos.SelectedIndex == 1)
+            if ((_funcionario.Cargo == Cargo.Técnico && tabControlServicos.SelectedIndex == 1) ||
+                (_funcionario.Cargo != Cargo.Técnico && tabControlServicos.SelectedIndex == 0))
             {
-                var adicionarServicoDialog = new AdicionarServicoDialog();
+                var adicionarServicoDialog = new AdicionarServicoDialog(_funcionario);
                 if (adicionarServicoDialog.ShowDialog() == true)
                 {
                     var novoServico = adicionarServicoDialog.NovoServico;
-                    novoServico.TecnicoResponsavel = _funcionario;
+                    if (_funcionario.Cargo == Cargo.Técnico)
+                    {
+                        novoServico.TecnicoResponsavel = _funcionario;
+                    }
                     ServicoRepository.AdicionarServico(novoServico);
                     CarregarServicos();
                     CarregarMeusServicos();
                 }
             }
+        }
+
+        private void TabControlServicos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ConfigureButtons();
+        }
+
+        private void ConfigureButtons()
+        {
+            bool isMeusServicosTabSelected = tabControlServicos.SelectedIndex == 1;
+            btnAdicionarServico.IsEnabled = (_funcionario.Cargo == Cargo.Técnico && isMeusServicosTabSelected) ||
+                                            (_funcionario.Cargo != Cargo.Técnico && !isMeusServicosTabSelected);
+            btnAlterarStatus.IsEnabled = isMeusServicosTabSelected && _funcionario.Cargo != Cargo.Vendedor;
+            btnConfirmarPagamento.IsEnabled = _funcionario.Cargo != Cargo.Técnico;
+            btnAlterarStatus.IsEnabled = (_funcionario.Cargo == Cargo.Administrador) ||
+                                         (_funcionario.Cargo == Cargo.Gerente);
+
         }
     }
 }

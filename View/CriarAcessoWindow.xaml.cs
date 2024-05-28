@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using OficinaEletrodomesticos.Data;
+using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
@@ -9,15 +11,23 @@ namespace OficinaEletrodomesticos.View
         public CriarAcessoWindow()
         {
             InitializeComponent();
+            CarregarPessoas();
+        }
+
+        private void CarregarPessoas()
+        {
+            List<Pessoa> pessoas = UsuarioRepository.ObterPessoas();
+            cmbPessoa.ItemsSource = pessoas;
         }
 
         private void CriarUsuario_Click(object sender, RoutedEventArgs e)
         {
             string nomeUsuario = txtNomeUsuario.Text;
             string senha = txtSenha.Password;
-            int pessoaId = int.Parse(txtPessoaId.Text);
+            int pessoaId = (int)cmbPessoa.SelectedValue;
 
             bool sucesso = UsuarioRepository.CriarUsuario(nomeUsuario, senha, pessoaId);
+            CarregarPessoas();
             MessageBox.Show(sucesso ? "Usuário criado com sucesso!" : "Erro ao criar usuário. Por favor, tente novamente.");
         }
 

@@ -36,6 +36,29 @@ namespace OficinaEletrodomesticos.Data
             return servicos;
         }
 
+        public static List<Funcionario> ObterTecnicos()
+        {
+            const string query = @"SELECT p.Id, p.Nome 
+                           FROM Funcionario f
+                           JOIN Pessoa p ON f.PessoaId = p.Id
+                           WHERE f.Cargo = @CargoTecnico";
+            var tecnicos = new List<Funcionario>();
+
+            using var conexao = ConexaoBanco.ConectaBanco();
+            conexao.Open();
+            using var cmd = new SqlCommand(query, conexao);
+            cmd.Parameters.AddWithValue("@CargoTecnico", Cargo.Técnico.ToString());
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                tecnicos.Add(new Funcionario
+                {
+                    Id = reader.GetInt32(0),
+                    Nome = reader.GetString(1)
+                });
+            }
+            return tecnicos;
+        }
 
         public static List<Servico> ObterServicosPorTecnico(int tecnicoId)
         {

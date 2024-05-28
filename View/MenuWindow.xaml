@@ -1,18 +1,18 @@
 <Window x:Class="OficinaEletrodomesticos.View.MenuWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Menu" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+        Title="Menu" Height="360" Width="360" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="71*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="2">
-            <Button x:Name="btnEstoque" Content="Estoque" Margin="10" Click="btnEstoque_Click"/>
-            <Button x:Name="btnPedidos" Content="Pedidos" Margin="10" Click="btnPedidos_Click"/>
-            <Button x:Name="btnConsultas" Content="Consultas" Margin="10" Click="btnConsultas_Click"/>
-            <Button x:Name="btnServicos" Content="Servicos" Margin="10" Click="btnServicos_Click"/>
-            <Button x:Name="btnOrcamento" Content="Orcamento" Margin="10" Click="btnOrcamento_Click"/>
+            <Button x:Name="btnEstoque" Content="Estoque" Margin="12" Click="btnEstoque_Click" Height="40"/>
+            <Button x:Name="btnPedidos" Content="Pedidos" Margin="12" Click="btnPedidos_Click" Height="40"/>
+            <Button x:Name="btnConsultas" Content="Consultas" Margin="12" Click="btnConsultas_Click" Height="40"/>
+            <Button x:Name="btnServicos" Content="Servicos" Margin="12" Click="btnServicos_Click" Height="40"/>
+            <Button x:Name="btnOrcamento" Content="Orcamento" Margin="12" Click="btnOrcamento_Click" Height="40"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -8,13 +8,21 @@ namespace OficinaEletrodomesticos.View
     public partial class EstoqueWindow : Window
     {
         private readonly Estoque _estoque;
+        private string _cargo;
         private List<Peca> _pecasEstoque;
         private Peca _pecaSelecionada;
 
-        public EstoqueWindow()
+        public EstoqueWindow(string cargo)
         {
             InitializeComponent();
             _estoque = new Estoque();
+            _cargo = cargo;
+
+            if (cargo != "Gerente" && cargo != "Administrador")
+            {
+                btnInserir.IsEnabled = false;
+                btnRemover.IsEnabled = false;
+            }
             AtualizarListaEstoque();
         }
 

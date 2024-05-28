@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
@@ -7,20 +9,42 @@ namespace OficinaEletrodomesticos.View
     {
         public Servico NovoServico { get; private set; }
 
-        public AdicionarServicoDialog()
+        public AdicionarServicoDialog(Funcionario funcionario)
         {
             InitializeComponent();
+            CarregarTecnicos(funcionario);
+        }
+
+        private void CarregarTecnicos(Funcionario funcionario)
+        {
+            if (funcionario.Cargo == Cargo.Técnico)
+            {
+                cmbTecnico.Items.Add(funcionario.Nome);
+                cmbTecnico.SelectedIndex = 0;
+                cmbTecnico.IsEnabled = false;
+            }
+            else
+            {
+                var tecnicos = ServicoRepository.ObterTecnicos();
+                cmbTecnico.ItemsSource = tecnicos;
+                cmbTecnico.DisplayMemberPath = "Nome";
+                cmbTecnico.SelectedValuePath = "Id";
+            }
         }
 
         private void Adicionar_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(txtOrcamentoId.Text, out int orcamentoId) && !string.IsNullOrWhiteSpace(txtDescricao.Text))
+            if (int.TryParse(txtOrcamentoId.Text, out int orcamentoId) &&
+                !string.IsNullOrWhiteSpace(txtDescricao.Text) &&
+                cmbTecnico.SelectedItem != null)
             {
+                var tecnicoId = (cmbTecnico.SelectedItem as Funcionario)?.Id ?? 0;
                 NovoServico = new Servico
                 {
                     Orcamento = new Orcamento { Id = orcamentoId },
                     Descricao = txtDescricao.Text,
-                    Status = StatusServico.Parado
+                    Status = StatusServico.Parado,
+                    TecnicoResponsavel = new Funcionario { Id = tecnicoId }
                 };
                 DialogResult = true;
             }

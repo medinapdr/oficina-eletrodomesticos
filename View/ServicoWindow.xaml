@@ -1,36 +1,36 @@
 <Window x:Class="OficinaEletrodomesticos.View.ServicoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Servico" Height="450" Width="800">
-	<Grid>
-		<TabControl x:Name="tabControlServicos" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-			<TabItem Header="Servicos">
-				<DataGrid x:Name="dataGridServicos" AutoGenerateColumns="False" SelectionMode="Single">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-						<DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
-						<DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
-						<DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</TabItem>
-			<TabItem Header="Meus Servicos">
-				<DataGrid x:Name="dataGridMeusServicos" AutoGenerateColumns="False" SelectionMode="Single">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-						<DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
-						<DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
-						<DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</TabItem>
-		</TabControl>
-		<Button x:Name="btnAlterarStatus" Content="Alterar Status" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="120" Click="btnAlterarStatus_Click"/>
-		<Button x:Name="btnConfirmarPagamento" Content="Confirmar Pagamento" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="140" Click="btnConfirmarPagamento_Click"/>
-		<Button x:Name="btnAdicionarServico" Content="Adicionar Servico" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="120" Click="btnAdicionarServico_Click"/>
-	</Grid>
+        Title="Servico" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl x:Name="tabControlServicos" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControlServicos_SelectionChanged">
+            <TabItem Header="Servicos">
+                <DataGrid x:Name="dataGridServicos" AutoGenerateColumns="False" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                        <DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
+                        <DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
+                        <DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
+                        <DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Meus Servicos">
+                <DataGrid x:Name="dataGridMeusServicos" AutoGenerateColumns="False" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                        <DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
+                        <DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
+                        <DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
+                        <DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="btnAlterarStatus" Content="Alterar Status" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="120" Click="btnAlterarStatus_Click"/>
+        <Button x:Name="btnConfirmarPagamento" Content="Confirmar Pagamento" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="140" Click="btnConfirmarPagamento_Click"/>
+        <Button x:Name="btnAdicionarServico" Content="Adicionar Servico" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="120" Click="btnAdicionarServico_Click"/>
+    </Grid>
 </Window>

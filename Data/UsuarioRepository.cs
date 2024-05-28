@@ -58,6 +58,27 @@ namespace OficinaEletrodomesticos.Data
                 return false;
             }
         }
+        public static List<Pessoa> ObterPessoas()
+        {
+            const string query = @"SELECT Id, CPF, Nome FROM Oficina.dbo.Pessoa";
+            var pessoas = new List<Pessoa>();
+
+            using var conexao = ConexaoBanco.ConectaBanco();
+            using var cmd = new SqlCommand(query, conexao);
+            conexao.Open();
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var pessoa = new Pessoa
+                {
+                    Id = reader.GetInt32(0),
+                    CPF = reader.GetString(1),
+                    Nome = reader.GetString(2)
+                };
+                pessoas.Add(pessoa);
+            }
+            return pessoas;
+        }
 
         public static bool CriarUsuario(string nomeUsuario, string senha, int pessoaId)
         {

@@ -24,6 +24,8 @@ namespace OficinaEletrodomesticos.View
             switch (tipoUsuario)
             {
                 case "Cliente":
+                    ModifyButtons(true, btnConsultas, btnOrcamento);
+                    break;
                 case "Vendedor":
                     ModifyButtons(true, btnConsultas, btnServicos, btnOrcamento);
                     break;
@@ -49,7 +51,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnEstoque_Click(object sender, RoutedEventArgs e)
         {
-            new EstoqueWindow().Show();
+            new EstoqueWindow(_cargo).Show();
         }
 
         private void btnPedidos_Click(object sender, RoutedEventArgs e)
