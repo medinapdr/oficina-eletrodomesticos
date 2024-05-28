@@ -20,9 +20,6 @@
 	  <Page Update="View\AddPecaEstoqueWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
-	  <Page Update="View\AdicionarServicoDialog.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	  <Page Update="View\LoginWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
@@ -47,9 +44,6 @@
 	  <Page Update="View\CriarAcessoWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
-	  <Page Update="View\LoginWindow.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	  <Page Update="View\EstoqueWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
@@ -57,10 +51,6 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
-  </ItemGroup>
-	
-  <ItemGroup>
-	<Folder Include="Data\" />
   </ItemGroup>
 	
   <ItemGroup>

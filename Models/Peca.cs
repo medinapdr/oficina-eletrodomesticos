@@ -2,7 +2,7 @@
 {
     public class Peca
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public decimal? Altura { get; set; }
         public decimal? Largura { get; set; }
