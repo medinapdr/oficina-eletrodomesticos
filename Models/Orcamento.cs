@@ -24,6 +24,7 @@ namespace OficinaEletrodomesticos.Models
         public decimal ValorTotal { get; set; }
         public DateTime PrazoEntrega { get; set; }
         public bool Autorizado { get; set; }
+        public string TipoAparelho { get; set; }
 
         public void AdicionarPeca((Peca, int) pecaQuantidade)
         {

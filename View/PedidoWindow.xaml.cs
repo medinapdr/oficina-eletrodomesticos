@@ -65,6 +65,7 @@ namespace OficinaEletrodomesticos.View
             };
 
             _estoque.AdicionarPedido(novoPedido);
+            AtualizarDataGridPedidos();
         }
 
         private bool ValidarCampos()

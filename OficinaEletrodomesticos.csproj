@@ -47,6 +47,9 @@
 	  <Page Update="View\EstoqueWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
+	  <Page Update="View\ConsultaWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </Page>
   </ItemGroup>
 
   <ItemGroup>

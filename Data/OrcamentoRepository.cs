@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
@@ -30,38 +28,51 @@ namespace OficinaEletrodomesticos.Data
             return clientes;
         }
 
-        public static List<SolicitacaoOrcamento> ObterSolicitacoes()
+        public static List<SolicitacaoOrcamento> ObterSolicitacoes(int? clienteId = null)
         {
             var solicitacoes = new List<SolicitacaoOrcamento>();
-            const string query = @"SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, so.DataSolicitacao
-                                    FROM SolicitacaoOrcamento so
-                                    INNER JOIN Aparelho a ON so.AparelhoId = a.Id
-                                    INNER JOIN Cliente c ON so.ClienteId = c.PessoaId
-                                    INNER JOIN Pessoa p ON c.PessoaId = p.Id;";
+            string query = @"SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, so.DataSolicitacao
+                     FROM SolicitacaoOrcamento so
+                     INNER JOIN Aparelho a ON so.AparelhoId = a.Id
+                     INNER JOIN Cliente c ON so.ClienteId = c.PessoaId
+                     INNER JOIN Pessoa p ON c.PessoaId = p.Id";
+
+            if (clienteId.HasValue)
+            {
+                query += " WHERE c.PessoaId = @ClienteId";
+            }
 
             using (var conexao = ConexaoBanco.ConectaBanco())
             {
                 conexao.Open();
-                SqlCommand sqlCommand = new SqlCommand(query, conexao);
-                using var cmd = sqlCommand;
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var cmd = new SqlCommand(query, conexao))
                 {
-                    solicitacoes.Add(new SolicitacaoOrcamento
+                    if (clienteId.HasValue)
                     {
-                        Id = reader.GetInt32(0),
-                        Descricao = reader.GetString(1),
-                        Aparelho = new Aparelho
+                        cmd.Parameters.AddWithValue("@ClienteId", clienteId.Value);
+                    }
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            Tipo = reader.GetString(2),
-                            Marca = reader.GetString(3)
-                        },
-                        Cliente = new Cliente
-                        {
-                            Nome = reader.GetString(4)
-                        },
-                        DataSolicitacao = reader.GetDateTime(5)
-                    });
+                            solicitacoes.Add(new SolicitacaoOrcamento
+                            {
+                                Id = reader.GetInt32(0),
+                                Descricao = reader.GetString(1),
+                                Aparelho = new Aparelho
+                                {
+                                    Tipo = reader.GetString(2),
+                                    Marca = reader.GetString(3)
+                                },
+                                Cliente = new Cliente
+                                {
+                                    Nome = reader.GetString(4)
+                                },
+                                DataSolicitacao = reader.GetDateTime(5)
+                            });
+                        }
+                    }
                 }
             }
             return solicitacoes;
@@ -101,9 +112,10 @@ namespace OficinaEletrodomesticos.Data
         {
             var orcamentos = new List<Orcamento>();
             const string query = @"SELECT o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
-                                   s.Descricao AS SolicitacaoDescricao 
-                                   FROM Orcamento o
-                                   JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id";
+                           a.Tipo AS TipoAparelho
+                           FROM Orcamento o
+                           JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
+                           JOIN Aparelho a ON s.AparelhoId = a.Id";
 
             using (var conexao = ConexaoBanco.ConectaBanco())
             {
@@ -119,12 +131,13 @@ namespace OficinaEletrodomesticos.Data
                         ValorTotal = reader.GetDecimal(2),
                         PrazoEntrega = reader.GetDateTime(3),
                         Autorizado = reader.GetBoolean(4),
-                        SolicitacaoDescricao = reader.GetString(5)
+                        TipoAparelho = reader.GetString(5)
                     });
                 }
             }
             return orcamentos;
         }
+
 
         public static bool CriarSolicitacao(string tipo, string marca, string descricao, int clienteId)
         {
@@ -236,13 +249,13 @@ namespace OficinaEletrodomesticos.Data
                             }
                         }
 
-                        transaction.Commit(); // Confirma a transação
-                        return true; // Retorna true se a transação for bem-sucedida
+                        transaction.Commit();
+                        return true;
                     }
                     catch (SqlException)
                     {
-                        transaction.Rollback(); // Reverte a transação em caso de erro
-                        return false; // Retorna false se houver algum erro na transação
+                        transaction.Rollback();
+                        return false;
                     }
                 }
             }

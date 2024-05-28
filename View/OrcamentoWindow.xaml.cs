@@ -1,25 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using OficinaEletrodomesticos.Models;
+using OficinaEletrodomesticos.Data;
 using System.Windows;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
-using OficinaEletrodomesticos.Data;
-using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
     public partial class OrcamentoWindow : Window
     {
+        private Pessoa _pessoa;
         private Orcamento orcamentoAtual;
         private Dictionary<int, (Peca, int)> pecasSelecionadas;
 
-        public OrcamentoWindow()
+        public OrcamentoWindow(Pessoa pessoa)
         {
             InitializeComponent();
-            CarregarDadosIniciais();
+            _pessoa = pessoa;
             pecasSelecionadas = new Dictionary<int, (Peca, int)>();
+            CarregarDadosIniciais();
+
+            if (_pessoa is Cliente cliente)
+            {
+                ClienteComboBox.ItemsSource = new List<Cliente> { cliente };
+                ClienteComboBox.SelectedItem = cliente;
+                ClienteComboBox.IsEnabled = false;
+                OrcamentosTabItem.IsEnabled = false;
+                AtualizarListaSolicitacoes();
+            }
         }
+
 
         private void CarregarDadosIniciais()
         {
@@ -33,8 +44,16 @@ namespace OficinaEletrodomesticos.View
 
         private void AtualizarListaSolicitacoes()
         {
-            SolicitacoesListView.ItemsSource = OrcamentoRepository.ObterSolicitacoes();
+            if (_pessoa is Cliente cliente)
+            {
+                SolicitacoesListView.ItemsSource = OrcamentoRepository.ObterSolicitacoes(cliente.Id);
+            }
+            else
+            {
+                SolicitacoesListView.ItemsSource = OrcamentoRepository.ObterSolicitacoes();
+            }
         }
+
 
         private void AtualizarListaOrcamentos()
         {
@@ -123,8 +142,6 @@ namespace OficinaEletrodomesticos.View
             return null;
         }
 
-
-
         private void QuantidadeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -163,8 +180,6 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
-
-
         private void AtualizarValorPecas()
         {
             try
@@ -182,7 +197,6 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
-
         private void CriarOrcamentoButton_Click(object sender, RoutedEventArgs e)
         {
             if (SolicitacaoComboBox.SelectedItem != null && !string.IsNullOrWhiteSpace(ValorTotalTextBox.Text) && !string.IsNullOrWhiteSpace(PrazoTextBox.Text))
@@ -190,7 +204,6 @@ namespace OficinaEletrodomesticos.View
                 int solicitacaoId = (SolicitacaoComboBox.SelectedItem as SolicitacaoOrcamento).Id;
                 decimal valorTotal = decimal.Parse(ValorTotalTextBox.Text);
 
-                // Convert days input to a DateTime representing the deadline
                 if (int.TryParse(PrazoTextBox.Text, out int prazoDias))
                 {
                     DateTime prazoEntrega = DateTime.Now.AddDays(prazoDias);
@@ -217,7 +230,38 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
+        private void CriarSolicitacaoButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string tipo = TipoTextBox.Text;
+                string marca = MarcaTextBox.Text;
+                string descricao = DescricaoTextBox.Text;
 
+                if (ClienteComboBox.SelectedItem != null && !string.IsNullOrWhiteSpace(tipo) && !string.IsNullOrWhiteSpace(marca) && !string.IsNullOrWhiteSpace(descricao))
+                {
+                    int clienteId = (ClienteComboBox.SelectedItem as Cliente).Id;
+                    bool criacaoSucesso = OrcamentoRepository.CriarSolicitacao(tipo, marca, descricao, clienteId);
 
+                    if (criacaoSucesso)
+                    {
+                        MessageBox.Show("Solicitação criada com sucesso!");
+                        AtualizarListaSolicitacoes();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao criar a solicitação. Por favor, tente novamente.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, preencha todos os campos para criar a solicitação.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocorreu um erro ao criar a solicitação: {ex.Message}");
+            }
+        }
     }
 }

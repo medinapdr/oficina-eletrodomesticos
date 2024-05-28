@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Adicionar Servico" Height="350" Width="400" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="Orcamento ID:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
-        <TextBox x:Name="txtOrcamentoId" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="360"/>
+        <Label Content="Orcamento:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+        <ComboBox x:Name="cmbOrcamento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="360"/>
         <Label Content="Descricao:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,80,0,0"/>
         <TextBox x:Name="txtDescricao" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,120,0,0" Width="360"/>
         <Label Content="Tecnico:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,160,0,0"/>

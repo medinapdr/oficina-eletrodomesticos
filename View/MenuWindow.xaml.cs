@@ -61,7 +61,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnConsultas_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Consultas clicado");
+            new ConsultaWindow(_pessoa).Show();
         }
 
         private void btnServicos_Click(object sender, RoutedEventArgs e)
@@ -71,7 +71,7 @@ namespace OficinaEletrodomesticos.View
 
         private void btnOrcamento_Click(object sender, RoutedEventArgs e)
         {
-            new OrcamentoWindow().Show();
+            new OrcamentoWindow(_pessoa).Show();
         }
     }
 }

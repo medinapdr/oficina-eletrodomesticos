@@ -13,7 +13,9 @@ namespace OficinaEletrodomesticos.View
         {
             InitializeComponent();
             CarregarTecnicos(funcionario);
+            CarregarOrcamentos();
         }
+
 
         private void CarregarTecnicos(Funcionario funcionario)
         {
@@ -32,12 +34,25 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
+        private void CarregarOrcamentos()
+        {
+            var orcamentos = OrcamentoRepository.ObterOrcamentos();
+            foreach (var orcamento in orcamentos)
+            {
+                string orcamentoFormatado = $"{orcamento.Id} - {orcamento.TipoAparelho} - {orcamento.DataOrcamento.ToShortDateString()}";
+                cmbOrcamento.Items.Add(orcamentoFormatado);
+            }
+        }
+
+
+
         private void Adicionar_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(txtOrcamentoId.Text, out int orcamentoId) &&
+            if (cmbOrcamento.SelectedItem != null &&
                 !string.IsNullOrWhiteSpace(txtDescricao.Text) &&
                 cmbTecnico.SelectedItem != null)
             {
+                var orcamentoId = (cmbOrcamento.SelectedItem as Orcamento)?.Id ?? 0;
                 var tecnicoId = (cmbTecnico.SelectedItem as Funcionario)?.Id ?? 0;
                 NovoServico = new Servico
                 {
