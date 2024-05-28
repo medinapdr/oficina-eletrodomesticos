@@ -12,7 +12,7 @@
             <ColumnDefinition Width="42*" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dgPedidos" Grid.Row="0" Grid.Column="0" Margin="41,10,1,10" AutoGenerateColumns="False" ItemsSource="{Binding Pedidos}" SelectedItem="{Binding PedidoSelecionado}">
+        <DataGrid x:Name="dgPedidos" Grid.Row="0" Grid.Column="0" Margin="47,10,1,10" AutoGenerateColumns="False" ItemsSource="{Binding Pedidos}" SelectedItem="{Binding PedidoSelecionado}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Peca" Binding="{Binding Peca.Nome}" />
                 <DataGridTextColumn Header="Quantidade" Binding="{Binding Quantidade}" />
@@ -24,21 +24,44 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
-            <TextBlock Text="Incluir Novo Pedido" FontWeight="Bold" Margin="0,10,0,10"/>
-            <TextBlock Text="Peca:"/>
-            <ComboBox x:Name="cmbPeca" DisplayMemberPath="Nome" SelectedValuePath="Id" Width="200" Margin="0,0,0,10"/>
-            <TextBlock Text="Valor Unitario:"/>
-            <TextBox x:Name="txtValorUnitario" Width="200" Margin="0,0,0,10"/>
-            <TextBlock Text="Quantidade:"/>
-            <TextBox x:Name="txtQuantidade" Width="200" Margin="0,0,0,10"/>
-            <TextBlock Text="Valor Total:"/>
-            <TextBox x:Name="txtValorTotal" Width="200" Margin="0,0,0,10" IsReadOnly="True"/>
-            <TextBlock Text="Fornecedor:"/>
-            <TextBox x:Name="txtFornecedor" Width="200" Margin="0,0,0,10"/>
-            <Button Content="Adicionar Pedido" Click="AdicionarPedido_Click" Width="200" Margin="0,10,0,10"/>
-        </StackPanel>
+<StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
+    <TextBlock Text="Incluir Novo Pedido" FontWeight="Bold" Margin="0,10,0,20" Width="112"/>
+
+    <Grid Margin="0,0,0,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Peca:" Grid.Row="0" Grid.Column="0" Margin="1,9,9,7"/>
+                <ComboBox x:Name="cmbPeca" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Nome" SelectedValuePath="Id" Width="200" Height="23.4" Margin="36,7,37,3"/>
+
+        <TextBlock Text="Valor Unitario:" Grid.Row="1" Grid.Column="0" Margin="0,5,10,0"/>
+        <TextBox x:Name="txtValorUnitario" Grid.Row="1" Grid.Column="1" Width="200" Margin="36,4,37,1" Height="23.4"/>
+
+        <TextBlock Text="Quantidade:" Grid.Row="2" Grid.Column="0" Margin="0,4,10,1"/>
+        <TextBox x:Name="txtQuantidade" Grid.Row="2" Grid.Column="1" Width="200" Margin="36,4,37,1" Height="23.4"/>
+
+        <TextBlock Text="Valor Total:" Grid.Row="3" Grid.Column="0" Margin="0,4,10,1"/>
+        <TextBox x:Name="txtValorTotal" Grid.Row="3" Grid.Column="1" Width="200" Margin="36,4,37,1" IsReadOnly="True" Height="23.4"/>
+
+        <TextBlock Text="Fornecedor:" Grid.Row="4" Grid.Column="0" Margin="0,4,10,1"/>
+        <TextBox x:Name="txtFornecedor" Grid.Row="4" Grid.Column="1" Width="200" Margin="36,5,37,0" Height="23.4"/>
+
+        <Button Content="Adicionar Pedido" Click="AdicionarPedido_Click" Grid.Row="5" Grid.Column="1" Width="200" Margin="36,10,37,10"/>
+    </Grid>
+</StackPanel>
+
 
         <Button Content="Confirmar Recebimento" Click="ConfirmarRecebimento_Click" Grid.Row="1" Grid.Column="0" Margin="0,0,244,15" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+
     </Grid>
 </Window>
