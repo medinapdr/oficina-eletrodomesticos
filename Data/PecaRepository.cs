@@ -14,14 +14,13 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
-
             cmd.Parameters.AddWithValue("@NomePeca", peca.Nome);
             cmd.Parameters.AddWithValue("@Preco", peca.Preco);
             cmd.Parameters.AddWithValue("@Fabricante", peca.Fabricante);
             cmd.Parameters.AddWithValue("@Quantidade", peca.Quantidade);
-
 
             // Tratamento de nulidade dos campos opcionais
             cmd.Parameters.Add(new SqlParameter("@Largura", SqlDbType.Decimal)
@@ -60,9 +59,9 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
-
             cmd.Parameters.AddWithValue("@Id", peca.Id);
 
             try
@@ -85,7 +84,9 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -116,9 +117,9 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var transaction = conexao.BeginTransaction();
             using var cmd = new SqlCommand(query, conexao, transaction);
-
             cmd.Parameters.AddWithValue("@Id", peca.Id);
             cmd.Parameters.AddWithValue("@Nome", peca.Nome);
             cmd.Parameters.AddWithValue("@Preco", peca.Preco);

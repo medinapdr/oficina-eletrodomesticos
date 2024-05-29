@@ -13,9 +13,9 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var transaction = conexao.BeginTransaction();
             using var cmdPessoa = new SqlCommand(queryPessoa, conexao, transaction);
-
             cmdPessoa.Parameters.AddWithValue("@Nome", nome);
             cmdPessoa.Parameters.AddWithValue("@CPF", cpf);
             cmdPessoa.Parameters.AddWithValue("@Telefone", string.IsNullOrEmpty(telefone) ? (object)DBNull.Value : telefone);
@@ -64,8 +64,10 @@ namespace OficinaEletrodomesticos.Data
             var pessoas = new List<Pessoa>();
 
             using var conexao = ConexaoBanco.ConectaBanco();
-            using var cmd = new SqlCommand(query, conexao);
             conexao.Open();
+
+            using var cmd = new SqlCommand(query, conexao);
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -87,8 +89,8 @@ namespace OficinaEletrodomesticos.Data
             string hashedSenha = BCrypt.Net.BCrypt.HashPassword(senha);
 
             using var conexao = ConexaoBanco.ConectaBanco();
-            using var cmd = new SqlCommand(query, conexao);
 
+            using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@NomeUsuario", nomeUsuario);
             cmd.Parameters.AddWithValue("@Senha", hashedSenha);
             cmd.Parameters.AddWithValue("@PessoaId", pessoaId);
@@ -115,9 +117,10 @@ namespace OficinaEletrodomesticos.Data
                                   WHERE u.NomeUsuario = @Username";
 
             using var conexao = ConexaoBanco.ConectaBanco();
+            conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@Username", username);
-            conexao.Open();
 
             using var reader = cmd.ExecuteReader();
             if (reader.Read())

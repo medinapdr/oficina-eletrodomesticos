@@ -19,7 +19,9 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -46,8 +48,10 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@CargoTecnico", Cargo.Técnico.ToString());
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -72,8 +76,10 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@TecnicoId", tecnicoId);
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -96,6 +102,7 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@Id", servicoId);
             cmd.Parameters.AddWithValue("@Status", (int)status);
@@ -117,6 +124,7 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@Id", servicoId);
             cmd.Parameters.AddWithValue("@ValorPagamento", valorPagamento ?? (object)DBNull.Value);
@@ -140,6 +148,7 @@ namespace OficinaEletrodomesticos.Data
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
+
             using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@TecnicoResponsavelId", servico.TecnicoResponsavel.Id);
             cmd.Parameters.AddWithValue("@OrcamentoId", servico.Orcamento.Id);

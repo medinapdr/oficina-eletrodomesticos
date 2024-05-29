@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
@@ -52,8 +51,14 @@ namespace OficinaEletrodomesticos.View
                 !string.IsNullOrWhiteSpace(txtDescricao.Text) &&
                 cmbTecnico.SelectedItem != null)
             {
-                var orcamentoId = (cmbOrcamento.SelectedItem as Orcamento)?.Id ?? 0;
+                // Extrair o ID do orçamento da string selecionada na combobox
+                string orcamentoSelecionado = cmbOrcamento.SelectedItem.ToString();
+                int orcamentoId = int.Parse(orcamentoSelecionado.Split('-')[0].Trim());
+
+                // Obter os IDs do técnico e do orçamento selecionados
                 var tecnicoId = (cmbTecnico.SelectedItem as Funcionario)?.Id ?? 0;
+
+                // Criar o novo serviço com os IDs obtidos
                 NovoServico = new Servico
                 {
                     Orcamento = new Orcamento { Id = orcamentoId },

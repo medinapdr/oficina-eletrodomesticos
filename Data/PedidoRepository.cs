@@ -11,10 +11,11 @@ namespace OficinaEletrodomesticos.Data
             var pedidos = new List<Pedido>();
 
             using var conexao = ConexaoBanco.ConectaBanco();
-            using var cmd = new SqlCommand(query, conexao);
             conexao.Open();
-            using var reader = cmd.ExecuteReader();
 
+            using var cmd = new SqlCommand(query, conexao);
+
+            using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 pedidos.Add(new Pedido
@@ -39,8 +40,8 @@ namespace OficinaEletrodomesticos.Data
                                    SELECT SCOPE_IDENTITY();";
 
             using var conexao = ConexaoBanco.ConectaBanco();
-            using var cmd = new SqlCommand(query, conexao);
 
+            using var cmd = new SqlCommand(query, conexao);
             cmd.Parameters.AddWithValue("@PecaId", pedido.Peca.Id);
             cmd.Parameters.AddWithValue("@NomePeca", pedido.Peca.Nome);
             cmd.Parameters.AddWithValue("@Quantidade", pedido.Quantidade);
@@ -73,13 +74,13 @@ namespace OficinaEletrodomesticos.Data
             const string queryUpdatePeca = "UPDATE Peca SET Quantidade = Quantidade + @Quantidade WHERE Id = @PecaId";
 
             using var conexao = ConexaoBanco.ConectaBanco();
-            using var cmdPedido = new SqlCommand(queryPedido, conexao);
             conexao.Open();
 
+            using var cmdPedido = new SqlCommand(queryPedido, conexao);
             cmdPedido.Parameters.AddWithValue("@PedidoId", pedidoId);
+
             using var reader = cmdPedido.ExecuteReader();
             if (!reader.Read()) return false;
-
             int pecaId = reader.GetInt32(0);
             int quantidade = reader.GetInt32(1);
             reader.Close();
@@ -87,7 +88,6 @@ namespace OficinaEletrodomesticos.Data
             using var transaction = conexao.BeginTransaction();
             using var cmdUpdatePedido = new SqlCommand(queryUpdatePedido, conexao, transaction);
             using var cmdUpdatePeca = new SqlCommand(queryUpdatePeca, conexao, transaction);
-
             cmdUpdatePedido.Parameters.AddWithValue("@PedidoId", pedidoId);
             cmdUpdatePedido.Parameters.AddWithValue("@DataRecebimento", dataRecebimento);
             cmdUpdatePeca.Parameters.AddWithValue("@PecaId", pecaId);
