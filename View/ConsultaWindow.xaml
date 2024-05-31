@@ -2,64 +2,70 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Consulta" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-		<StackPanel Orientation="Horizontal" Margin="10">
-			<Label Content="Cliente:"/>
-			<Label x:Name="NomeClienteLabel" Content=""/>
-		</StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Label Content="Cliente:"/>
+            <Label x:Name="NomeClienteLabel" Content=""/>
+        </StackPanel>
 
-		<StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-			<Label Content="Cliente:"/>
-			<ComboBox x:Name="ClientesComboBox" Width="200" DisplayMemberPath="Nome" SelectedValuePath="Id" SelectionChanged="ClientesComboBox_SelectionChanged"/>
-		</StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            <Label Content="Cliente:"/>
+            <ComboBox x:Name="ClientesComboBox" Width="200" DisplayMemberPath="Nome" SelectedValuePath="Id" SelectionChanged="ClientesComboBox_SelectionChanged"/>
+        </StackPanel>
 
-		<TabControl Grid.Row="1" Margin="10">
-			<TabItem Header="Solicitações">
-				<DataGrid x:Name="SolicitacoesDataGrid" AutoGenerateColumns="False">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-						<DataGridTextColumn Header="Descrição" Binding="{Binding Descricao}" Width="*"/>
-						<DataGridTextColumn Header="Tipo Aparelho" Binding="{Binding Aparelho.Tipo}" Width="Auto"/>
-						<DataGridTextColumn Header="Marca Aparelho" Binding="{Binding Aparelho.Marca}" Width="Auto"/>
-						<DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nome}" Width="Auto"/>
-						<DataGridTextColumn Header="Data Solicitação" Binding="{Binding DataSolicitacao}" Width="Auto"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</TabItem>
-			<TabItem Header="Orçamentos">
-				<DockPanel LastChildFill="True">
-					<StackPanel x:Name="OrcamentosButtonPanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10" Width="194">
-						<Button Content="Autorizar Orçamento" Click="AutorizarOrcamentoButton_Click" Width="194"/>
-					</StackPanel>
-					<DataGrid x:Name="OrcamentosDataGrid" AutoGenerateColumns="False">
-						<DataGrid.Columns>
-							<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-							<DataGridTextColumn Header="Data Orçamento" Binding="{Binding DataOrcamento}" Width="Auto"/>
-							<DataGridTextColumn Header="Valor Total" Binding="{Binding ValorTotal}" Width="Auto"/>
-							<DataGridTextColumn Header="Prazo Entrega" Binding="{Binding PrazoEntrega}" Width="Auto"/>
-							<DataGridTextColumn Header="Autorizado" Binding="{Binding Autorizado}" Width="Auto"/>
-						</DataGrid.Columns>
-					</DataGrid>
-				</DockPanel>
-			</TabItem>
+        <TabControl Grid.Row="1" Margin="10">
+            <TabItem Header="Solicitações">
+                <ListView x:Name="SolicitacoesListView">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Descrição" DisplayMemberBinding="{Binding Descricao}" Width="Auto"/>
+                            <GridViewColumn Header="Tipo Aparelho" DisplayMemberBinding="{Binding Aparelho.Tipo}" Width="Auto"/>
+                            <GridViewColumn Header="Marca Aparelho" DisplayMemberBinding="{Binding Aparelho.Marca}" Width="Auto"/>
+                            <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nome}" Width="Auto"/>
+                            <GridViewColumn Header="Data Solicitação" DisplayMemberBinding="{Binding DataSolicitacao}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Orçamentos">
+                <DockPanel LastChildFill="True">
+                    <StackPanel x:Name="OrcamentosButtonPanel" DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10" Width="194">
+                        <Button Content="Autorizar Orçamento" Click="AutorizarOrcamentoButton_Click" Width="194"/>
+                    </StackPanel>
+                    <ListView x:Name="OrcamentosListView">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                                <GridViewColumn Header="Data Orçamento" DisplayMemberBinding="{Binding DataOrcamento}" Width="Auto"/>
+                                <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding ValorTotal}" Width="Auto"/>
+                                <GridViewColumn Header="Prazo Entrega" DisplayMemberBinding="{Binding PrazoEntrega}" Width="Auto"/>
+                                <GridViewColumn Header="Autorizado" DisplayMemberBinding="{Binding Autorizado}" Width="Auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
 
-			<TabItem Header="Serviços">
-				<DataGrid x:Name="ServicosDataGrid" AutoGenerateColumns="False">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-						<DataGridTextColumn Header="Descrição" Binding="{Binding Descricao}" Width="*"/>
-						<DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
-						<DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
-						<DataGridTextColumn Header="Nome Técnico" Binding="{Binding NomeTecnico}" Width="Auto"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</TabItem>
-		</TabControl>
-	</Grid>
+            <TabItem Header="Serviços">
+                <ListView x:Name="ServicosListView">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Descrição" DisplayMemberBinding="{Binding Descricao}" Width="Auto"/>
+                            <GridViewColumn Header="Valor Pagamento" DisplayMemberBinding="{Binding ValorPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Data Pagamento" DisplayMemberBinding="{Binding DataPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="Auto"/>
+                            <GridViewColumn Header="Nome Técnico" DisplayMemberBinding="{Binding NomeTecnico}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

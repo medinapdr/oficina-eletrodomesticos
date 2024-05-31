@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
@@ -31,7 +32,7 @@ namespace OficinaEletrodomesticos.Data
         public static List<SolicitacaoOrcamento> ObterSolicitacoes(int? clienteId = null)
         {
             var solicitacoes = new List<SolicitacaoOrcamento>();
-            string query = @"SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, so.DataSolicitacao
+            string query = @"SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, p.CPF, so.DataSolicitacao
                      FROM SolicitacaoOrcamento so
                      INNER JOIN Aparelho a ON so.AparelhoId = a.Id
                      INNER JOIN Cliente c ON so.ClienteId = c.PessoaId
@@ -65,9 +66,10 @@ namespace OficinaEletrodomesticos.Data
                 },
                 Cliente = new Cliente
                 {
-                    Nome = reader.GetString(4)
+                    Nome = reader.GetString(4),
+                    CPF = reader.GetString(5)
                 },
-                    DataSolicitacao = reader.GetDateTime(5)
+                    DataSolicitacao = reader.GetDateTime(6)
                 });
             }
             return solicitacoes;
@@ -102,15 +104,17 @@ namespace OficinaEletrodomesticos.Data
             return pecas;
         }
 
-
         public static List<Orcamento> ObterOrcamentos()
         {
             var orcamentos = new List<Orcamento>();
             const string query = @"SELECT o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
-                           a.Tipo AS TipoAparelho
-                           FROM Orcamento o
-                           JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
-                           JOIN Aparelho a ON s.AparelhoId = a.Id";
+                   a.Tipo AS TipoAparelho, a.Marca AS MarcaAparelho,
+                   s.Descricao AS DescricaoSolicitacao, p.Nome AS NomeCliente, p.CPF AS CPFCliente
+                   FROM Orcamento o
+                   JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
+                   JOIN Aparelho a ON s.AparelhoId = a.Id
+                   JOIN Cliente c ON a.ClienteId = c.PessoaId
+                   JOIN Pessoa p ON c.PessoaId = p.Id";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -120,19 +124,39 @@ namespace OficinaEletrodomesticos.Data
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                // Crie os objetos de Cliente, Aparelho e SolicitacaoOrcamento
+                Cliente cliente = new Cliente
+                {
+                    Nome = reader.GetString("NomeCliente"),
+                };
+
+                Aparelho aparelho = new Aparelho
+                {
+                    Tipo = reader.GetString("TipoAparelho"),
+                    Marca = reader.GetString("MarcaAparelho"),
+                    ClienteAssociado = cliente
+                };
+
+                SolicitacaoOrcamento solicitacao = new SolicitacaoOrcamento
+                {
+                    Descricao = reader.GetString("DescricaoSolicitacao"),
+                    Cliente = cliente,
+                    Aparelho = aparelho
+                };
+
                 orcamentos.Add(new Orcamento
                 {
-                    Id = reader.GetInt32(0),
-                    DataOrcamento = reader.GetDateTime(1),
-                    ValorTotal = reader.GetDecimal(2),
-                    PrazoEntrega = reader.GetDateTime(3),
-                    Autorizado = reader.GetBoolean(4),
-                    TipoAparelho = reader.GetString(5)
+                    Id = reader.GetInt32("Id"),
+                    DataOrcamento = reader.GetDateTime("DataOrcamento"),
+                    ValorTotal = reader.GetDecimal("ValorTotal"),
+                    PrazoEntrega = reader.GetDateTime("PrazoEntrega"),
+                    Autorizado = reader.GetBoolean("Autorizado"),
+                    Solicitacao = solicitacao,
+                    SolicitacaoDescricao = solicitacao.Descricao
                 });
             }
             return orcamentos;
         }
-
 
         public static bool CriarSolicitacao(string tipo, string marca, string descricao, int clienteId)
         {

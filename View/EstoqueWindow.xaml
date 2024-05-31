@@ -8,23 +8,25 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="dataGridEstoque" Grid.Row="0" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="DataGridEstoque_SelectionChanged" CanUserAddRows="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" />
-                <DataGridTextColumn Header="Preço" Binding="{Binding Preco}" />
-                <DataGridTextColumn Header="Largura" Binding="{Binding Largura}" />
-                <DataGridTextColumn Header="Altura" Binding="{Binding Altura}" />
-                <DataGridTextColumn Header="Comprimento" Binding="{Binding Comprimento}" />
-                <DataGridTextColumn Header="Peso" Binding="{Binding Peso}" />
-                <DataGridTextColumn Header="Fabricante" Binding="{Binding Fabricante}" />
-                <DataGridTextColumn Header="Quantidade" Binding="{Binding Quantidade}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListView x:Name="listViewEstoque" Grid.Row="0" SelectionMode="Single" SelectionChanged="ListViewEstoque_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Nome}" />
+                    <GridViewColumn Header="Preço" DisplayMemberBinding="{Binding Preco}" />
+                    <GridViewColumn Header="Largura" DisplayMemberBinding="{Binding Largura}" />
+                    <GridViewColumn Header="Altura" DisplayMemberBinding="{Binding Altura}" />
+                    <GridViewColumn Header="Comprimento" DisplayMemberBinding="{Binding Comprimento}" />
+                    <GridViewColumn Header="Peso" DisplayMemberBinding="{Binding Peso}" />
+                    <GridViewColumn Header="Fabricante" DisplayMemberBinding="{Binding Fabricante}" />
+                    <GridViewColumn Header="Quantidade" DisplayMemberBinding="{Binding Quantidade}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
-            <Button x:Name="btnRemover" Content="Remover" Click="Remover_Click" Margin="5" />
-            <Button x:Name="btnInserir" Content="Inserir" Click="InserirPecas_Click" Margin="5" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="590,10,0,10">
+            <Button x:Name="btnRemover" Content="Remover" Click="Remover_Click" Margin="5" Width="76" />
+            <Button x:Name="btnInserir" Content="Inserir" Click="InserirPecas_Click" Margin="5" Width="76" />
         </StackPanel>
     </Grid>
 </Window>

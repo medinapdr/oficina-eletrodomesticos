@@ -39,19 +39,19 @@ namespace OficinaEletrodomesticos.View
         private void CarregarServicos()
         {
             List<Servico> servicos = ServicoRepository.ObterTodosServicos();
-            dataGridServicos.ItemsSource = servicos;
+            listViewServicos.ItemsSource = servicos;
         }
 
         private void CarregarMeusServicos()
         {
             List<Servico> meusServicos = ServicoRepository.ObterServicosPorTecnico(_funcionario.Id);
-            dataGridMeusServicos.ItemsSource = meusServicos;
+            listViewMeusServicos.ItemsSource = meusServicos;
         }
 
         private void btnAlterarStatus_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid grid = tabControlServicos.SelectedIndex == 1 ? dataGridMeusServicos : dataGridServicos;
-            if (grid.SelectedItem is Servico servico)
+            ListView listView = tabControlServicos.SelectedIndex == 1 ? listViewMeusServicos : listViewServicos;
+            if (listView.SelectedItem is Servico servico)
             {
                 var statusDialog = new AlterarStatusDialog(servico.Status);
                 if (statusDialog.ShowDialog() == true)
@@ -66,15 +66,15 @@ namespace OficinaEletrodomesticos.View
 
         private void btnConfirmarPagamento_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid grid = tabControlServicos.SelectedIndex == 1 ? dataGridMeusServicos : dataGridServicos;
-            if (grid.SelectedItem is Servico servico)
+            ListView listView = tabControlServicos.SelectedIndex == 1 ? listViewMeusServicos : listViewServicos;
+            if (listView.SelectedItem is Servico servico)
             {
                 if (servico.ValorPagamento != null)
                 {
                     MessageBoxResult result = MessageBox.Show("Este serviço já foi pago. Tem certeza que deseja alterar o pagamento?", "Confirmar Alteração de Pagamento", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result != MessageBoxResult.Yes)
                     {
-                        return; 
+                        return;
                     }
                 }
 
@@ -119,11 +119,9 @@ namespace OficinaEletrodomesticos.View
             bool isMeusServicosTabSelected = tabControlServicos.SelectedIndex == 1;
             btnAdicionarServico.IsEnabled = (_funcionario.Cargo == Cargo.Técnico && isMeusServicosTabSelected) ||
                                             (_funcionario.Cargo != Cargo.Técnico && !isMeusServicosTabSelected);
-            btnAlterarStatus.IsEnabled = isMeusServicosTabSelected && _funcionario.Cargo != Cargo.Vendedor;
+            btnAlterarStatus.IsEnabled = isMeusServicosTabSelected && (_funcionario.Cargo == Cargo.Técnico ||
+                                            _funcionario.Cargo == Cargo.Administrador || _funcionario.Cargo == Cargo.Gerente);
             btnConfirmarPagamento.IsEnabled = _funcionario.Cargo != Cargo.Técnico;
-            btnAlterarStatus.IsEnabled = (_funcionario.Cargo == Cargo.Administrador) ||
-                                         (_funcionario.Cargo == Cargo.Gerente);
-
         }
     }
 }

@@ -12,17 +12,19 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dgPedidos" Grid.Row="0" Grid.Column="0" Margin="47,10,1,10" AutoGenerateColumns="False" ItemsSource="{Binding Pedidos}" SelectedItem="{Binding PedidoSelecionado}" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Peca" Binding="{Binding Peca.Nome}" />
-                <DataGridTextColumn Header="Quantidade" Binding="{Binding Quantidade}" />
-                <DataGridTextColumn Header="Valor Unitario" Binding="{Binding ValorUnitario, StringFormat={}{0:C}}" />
-                <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorTotal, StringFormat={}{0:C}}" />
-                <DataGridTextColumn Header="Fornecedor" Binding="{Binding Fornecedor}" />
-                <DataGridTextColumn Header="DataCriacao" Binding="{Binding DataCriacao, StringFormat=\{0:dd/MM/yyyy\}}" />
-                <DataGridTextColumn Header="DataRecebimento" Binding="{Binding DataRecebimento, StringFormat=\{0:dd/MM/yyyy\}}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListView x:Name="lvPedidos" Grid.Row="0" Grid.Column="0" Margin="47,10,1,10" ItemsSource="{Binding Pedidos}" SelectedItem="{Binding PedidoSelecionado}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Peca" DisplayMemberBinding="{Binding Peca.Nome}" />
+                    <GridViewColumn Header="Quantidade" DisplayMemberBinding="{Binding Quantidade}" />
+                    <GridViewColumn Header="Valor Unitario" DisplayMemberBinding="{Binding ValorUnitario, StringFormat={}{0:C}}" />
+                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding ValorTotal, StringFormat={}{0:C}}" />
+                    <GridViewColumn Header="Fornecedor" DisplayMemberBinding="{Binding Fornecedor}" />
+                    <GridViewColumn Header="DataCriacao" DisplayMemberBinding="{Binding DataCriacao, StringFormat=\{0:dd/MM/yyyy\}}" />
+                    <GridViewColumn Header="DataRecebimento" DisplayMemberBinding="{Binding DataRecebimento, StringFormat=\{0:dd/MM/yyyy\}}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
             <TextBlock Text="Incluir Novo Pedido" FontWeight="Bold" Margin="0,10,0,20" Width="112"/>
@@ -42,7 +44,20 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Peca:" Grid.Row="0" Grid.Column="0" Margin="49,10,19,6"/>
-                <ComboBox x:Name="cmbPeca" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Nome" SelectedValuePath="Id" Margin="62,7,63,3"/>
+                <ComboBox Name="cmbPeca" HorizontalAlignment="Center" Width="138" Grid.Column="1" Height="22" VerticalAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} ({1})">
+                                        <Binding Path="Nome"/>
+                                        <Binding Path="Fabricante"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <TextBlock Text="Valor Unitario:" Grid.Row="1" Grid.Column="0" Margin="48,5,231,3" Grid.ColumnSpan="2"/>
                 <TextBox x:Name="txtValorUnitario" Grid.Row="1" Grid.Column="1" Margin="62,4,63,1"/>
@@ -51,7 +66,7 @@
                 <TextBox x:Name="txtQuantidade" Grid.Row="2" Grid.Column="1" Margin="62,4,63,1"/>
 
                 <TextBlock Text="Valor Total:" Grid.Row="3" Grid.Column="0" Margin="48,4,240,1" Grid.ColumnSpan="2"/>
-                <TextBox x:Name="txtValorTotal" Grid.Row="3" Grid.Column="1" Margin="62,4,63,1" IsReadOnly="True"/>
+                <TextBox x:Name="txtValorTotal" Grid.Row="3" Grid.Column="1" Margin="62,4,63,1" IsEnabled="False" IsReadOnly="True"/>
 
                 <TextBlock Text="Fornecedor:" Grid.Row="4" Grid.Column="0" Margin="48,4,240,1" Grid.ColumnSpan="2"/>
                 <TextBox x:Name="txtFornecedor" Grid.Row="4" Grid.Column="1" Margin="62,5,63,40" Grid.RowSpan="2"/>
@@ -60,8 +75,6 @@
             </Grid>
         </StackPanel>
 
-
         <Button Content="Confirmar Recebimento" Click="ConfirmarRecebimento_Click" Grid.Row="1" Grid.Column="0" Margin="0,0,244,15" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
-
     </Grid>
 </Window>

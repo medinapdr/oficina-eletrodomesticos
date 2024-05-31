@@ -5,28 +5,32 @@
     <Grid>
         <TabControl x:Name="tabControlServicos" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControlServicos_SelectionChanged">
             <TabItem Header="Servicos">
-                <DataGrid x:Name="dataGridServicos" AutoGenerateColumns="False" SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                        <DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
-                        <DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
-                        <DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
-                        <DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <ListView x:Name="listViewServicos">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Técnico Responsável" DisplayMemberBinding="{Binding NomeTecnico}" Width="Auto"/>
+                            <GridViewColumn Header="Descricao" DisplayMemberBinding="{Binding Descricao}" Width="Auto"/>
+                            <GridViewColumn Header="Valor Pagamento" DisplayMemberBinding="{Binding ValorPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Data Pagamento" DisplayMemberBinding="{Binding DataPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
             <TabItem Header="Meus Servicos">
-                <DataGrid x:Name="dataGridMeusServicos" AutoGenerateColumns="False" SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                        <DataGridTextColumn Header="Técnico Responsável" Binding="{Binding NomeTecnico}" Width="Auto"/>
-                        <DataGridTextColumn Header="Descricao" Binding="{Binding Descricao}" Width="*"/>
-                        <DataGridTextColumn Header="Valor Pagamento" Binding="{Binding ValorPagamento}" Width="Auto"/>
-                        <DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento}" Width="Auto"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <ListView x:Name="listViewMeusServicos">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Técnico Responsável" DisplayMemberBinding="{Binding NomeTecnico}" Width="Auto"/>
+                            <GridViewColumn Header="Descricao" DisplayMemberBinding="{Binding Descricao}" Width="Auto"/>
+                            <GridViewColumn Header="Valor Pagamento" DisplayMemberBinding="{Binding ValorPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Data Pagamento" DisplayMemberBinding="{Binding DataPagamento}" Width="Auto"/>
+                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
         </TabControl>
         <Button x:Name="btnAlterarStatus" Content="Alterar Status" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="120" Click="btnAlterarStatus_Click"/>

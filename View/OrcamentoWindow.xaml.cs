@@ -31,7 +31,6 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
-
         private void CarregarDadosIniciais()
         {
             ClienteComboBox.ItemsSource = OrcamentoRepository.ObterClientes();
@@ -53,7 +52,6 @@ namespace OficinaEletrodomesticos.View
                 SolicitacoesListView.ItemsSource = OrcamentoRepository.ObterSolicitacoes();
             }
         }
-
 
         private void AtualizarListaOrcamentos()
         {

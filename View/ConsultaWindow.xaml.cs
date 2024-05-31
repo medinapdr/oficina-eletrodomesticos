@@ -29,9 +29,9 @@ namespace OficinaEletrodomesticos.View
 
         private void LoadClienteData(Cliente cliente)
         {
-            SolicitacoesDataGrid.ItemsSource = ConsultaRepository.ObterSolicitacoes(cliente.Id);
-            OrcamentosDataGrid.ItemsSource = ConsultaRepository.ObterOrcamentos(cliente.Id);
-            ServicosDataGrid.ItemsSource = ConsultaRepository.ObterServicos(cliente.Id);
+            SolicitacoesListView.ItemsSource = ConsultaRepository.ObterSolicitacoes(cliente.Id);
+            OrcamentosListView.ItemsSource = ConsultaRepository.ObterOrcamentos(cliente.Id);
+            ServicosListView.ItemsSource = ConsultaRepository.ObterServicos(cliente.Id);
         }
 
         private void LoadFuncionariosClientes()
@@ -49,7 +49,7 @@ namespace OficinaEletrodomesticos.View
 
         private void AutorizarOrcamentoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (OrcamentosDataGrid.SelectedItem is Orcamento selectedOrcamento)
+            if (OrcamentosListView.SelectedItem is Orcamento selectedOrcamento)
             {
                 if(selectedOrcamento.Autorizado != false)
                 {

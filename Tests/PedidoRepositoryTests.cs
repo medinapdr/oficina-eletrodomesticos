@@ -1,8 +1,6 @@
 ﻿using Xunit;
 using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
-using System;
-using System.Collections.Generic;
 
 namespace Testes.Repository
 {

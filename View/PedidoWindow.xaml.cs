@@ -14,7 +14,7 @@ namespace OficinaEletrodomesticos.View
             _estoque = new Estoque();
             DataContext = this;
 
-            dgPedidos.ItemsSource = _estoque.ConsultarPedidos();
+            lvPedidos.ItemsSource = _estoque.ConsultarPedidos();
             cmbPeca.ItemsSource = _estoque.ConsultarEstoque();
 
             txtQuantidade.TextChanged += (s, e) => AtualizarValorTotal();
@@ -82,12 +82,12 @@ namespace OficinaEletrodomesticos.View
 
         private void AtualizarDataGridPedidos()
         {
-            dgPedidos.ItemsSource = _estoque.ConsultarPedidos();
+            lvPedidos.ItemsSource = _estoque.ConsultarPedidos();
         }
 
         private void ConfirmarRecebimento_Click(object sender, RoutedEventArgs e)
         {
-            if (dgPedidos.SelectedItem is Pedido pedido)
+            if (lvPedidos.SelectedItem is Pedido pedido)
             {
                 if (_estoque.ConfirmarRecebimentoPedido(pedido))
                 {

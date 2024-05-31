@@ -29,8 +29,8 @@ namespace OficinaEletrodomesticos.View
         private void AtualizarListaEstoque()
         {
             _pecasEstoque = _estoque.ConsultarEstoque();
-            dataGridEstoque.ItemsSource = _pecasEstoque;
-            dataGridEstoque.Items.Refresh();
+            listViewEstoque.ItemsSource = _pecasEstoque;
+            listViewEstoque.Items.Refresh();
         }
 
         private void Editar_Click(object sender, RoutedEventArgs e)
@@ -71,9 +71,9 @@ namespace OficinaEletrodomesticos.View
             AtualizarListaEstoque();
         }
 
-        private void DataGridEstoque_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewEstoque_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _pecaSelecionada = dataGridEstoque.SelectedItem as Peca;
+            _pecaSelecionada = listViewEstoque.SelectedItem as Peca;
         }
     }
 }

@@ -57,12 +57,20 @@
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
   </ItemGroup>
-
+	
+  <ItemGroup>
+	<Folder Include="View\" />
+  </ItemGroup>
+	
   <ItemGroup>
 	<Folder Include="Models\" />
   </ItemGroup>
 	
-	<ItemGroup>
+  <ItemGroup>
+	<Folder Include="Tests\" />
+  </ItemGroup>	
+	  
+  <ItemGroup>
     <Page Include="App.xaml" />
   </ItemGroup>
 

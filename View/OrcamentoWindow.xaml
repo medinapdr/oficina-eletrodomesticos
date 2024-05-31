@@ -18,10 +18,23 @@
                             <TextBox Name="TipoTextBox"/>
                             <Label Content="Marca:"/>
                             <TextBox Name="MarcaTextBox"/>
-                            <Label Content="Descrição:"/>
+                            <Label Content="Defeito:"/>
                             <TextBox Name="DescricaoTextBox"/>
                             <Label Content="Cliente:"/>
-                            <ComboBox Name="ClienteComboBox" DisplayMemberPath="Nome"/>
+                            <ComboBox Name="ClienteComboBox">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} ({1})">
+                                                    <Binding Path="Nome"/>
+                                                    <Binding Path="CPF"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button Name="CriarSolicitacaoButton" Content="Criar Solicitação" Width="150" Margin="0,15" Click="CriarSolicitacaoButton_Click"/>
                         </StackPanel>
                     </GroupBox>
@@ -29,10 +42,11 @@
                     <ListView Name="SolicitacoesListView" Margin="10,10,10,10" Grid.Row="2">
                         <ListView.View>
                             <GridView>
+                                <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nome}"/>
+                                <GridViewColumn Header="CPF" DisplayMemberBinding="{Binding Cliente.CPF}"/>
                                 <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding Aparelho.Tipo}"/>
                                 <GridViewColumn Header="Marca" DisplayMemberBinding="{Binding Aparelho.Marca}"/>
-                                <GridViewColumn Header="Descrição" DisplayMemberBinding="{Binding Descricao}"/>
-                                <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nome}"/>
+                                <GridViewColumn Header="Defeito" DisplayMemberBinding="{Binding Descricao}"/>
                                 <GridViewColumn Header="Data de Solicitação" DisplayMemberBinding="{Binding DataSolicitacao, StringFormat=\{0:dd/MM/yyyy\}}"/>
                             </GridView>
                         </ListView.View>
@@ -51,8 +65,22 @@
                     <GroupBox Header="Orçamento" Margin="10,10,10,0" VerticalAlignment="Top">
                         <StackPanel Margin="5">
                             <Label Content="Solicitação:"/>
-                            <ComboBox Name="SolicitacaoComboBox" DisplayMemberPath="Descricao"/>
-
+                            <ComboBox Name="SolicitacaoComboBox">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}[{0:dd/MM/yyyy}] - {1} ({2}): {3}">
+                                                    <Binding Path="DataSolicitacao"/>
+                                                    <Binding Path="Aparelho.Tipo"/>
+                                                    <Binding Path="Aparelho.Marca"/>
+                                                    <Binding Path="Descricao"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Label Content="Peças:"/>
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
                                 <ListBox Name="PecasListBox" SelectionMode="Multiple" SelectionChanged="PecasListBox_SelectionChanged">
@@ -84,10 +112,13 @@
                     <ListView Name="OrcamentosListView" Margin="10,10,10,10" Grid.Row="2">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Autorizado" DisplayMemberBinding="{Binding Autorizado}"/>
-                                <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding ValorTotal}"/>
-                                <GridViewColumn Header="Data do Orçamento" DisplayMemberBinding="{Binding DataOrcamento, StringFormat=\{0:dd/MM/yyyy\}}"/>
-                                <GridViewColumn Header="Prazo" DisplayMemberBinding="{Binding PrazoEntrega, StringFormat=\{0:dd/MM/yyyy\}}"/>
+                                <GridViewColumn Header="Data do Orçamento" DisplayMemberBinding="{Binding DataOrcamento, StringFormat=\{0:dd/MM/yyyy\}}" />
+                                <GridViewColumn Header="Prazo de Entrega" DisplayMemberBinding="{Binding PrazoEntrega, StringFormat=\{0:dd/MM/yyyy\}}" />
+                                <GridViewColumn Header="Autorizado" DisplayMemberBinding="{Binding Autorizado}" />
+                                <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Solicitacao.Cliente.Nome}" />
+                                <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding Solicitacao.Aparelho.Tipo}" />
+                                <GridViewColumn Header="Marca" DisplayMemberBinding="{Binding Solicitacao.Aparelho.Marca}" />
+                                <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding ValorTotal}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
