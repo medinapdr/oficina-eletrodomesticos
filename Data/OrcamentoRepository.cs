@@ -151,12 +151,68 @@ namespace OficinaEletrodomesticos.Data
                     ValorTotal = reader.GetDecimal("ValorTotal"),
                     PrazoEntrega = reader.GetDateTime("PrazoEntrega"),
                     Autorizado = reader.GetBoolean("Autorizado"),
-                    Solicitacao = solicitacao,
-                    SolicitacaoDescricao = solicitacao.Descricao
+                    Solicitacao = solicitacao
                 });
             }
             return orcamentos;
         }
+
+        public static Orcamento ObterUltimoOrcamento()
+        {
+            const string query = @"SELECT TOP 1 o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
+                           s.Id AS SolicitacaoId, s.Descricao AS DescricaoSolicitacao,
+                           a.Tipo AS TipoAparelho, a.Marca AS MarcaAparelho,
+                           p.Nome AS NomeCliente, p.CPF AS CPFCliente
+                           FROM Orcamento o
+                           JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
+                           JOIN Aparelho a ON s.AparelhoId = a.Id
+                           JOIN Cliente c ON a.ClienteId = c.PessoaId
+                           JOIN Pessoa p ON c.PessoaId = p.Id
+                           ORDER BY o.Id DESC";
+
+            using var conexao = ConexaoBanco.ConectaBanco();
+            conexao.Open();
+
+            using var cmd = new SqlCommand(query, conexao);
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                Cliente cliente = new Cliente
+                {
+                    Nome = reader.GetString("NomeCliente"),
+                    CPF = reader.GetString("CPFCliente")
+                };
+
+                Aparelho aparelho = new Aparelho
+                {
+                    Tipo = reader.GetString("TipoAparelho"),
+                    Marca = reader.GetString("MarcaAparelho"),
+                    ClienteAssociado = cliente
+                };
+
+                SolicitacaoOrcamento solicitacao = new SolicitacaoOrcamento
+                {
+                    Id = reader.GetInt32("SolicitacaoId"),
+                    Descricao = reader.GetString("DescricaoSolicitacao"),
+                    Cliente = cliente,
+                    Aparelho = aparelho
+                };
+
+                return new Orcamento
+                {
+                    Id = reader.GetInt32("Id"),
+                    DataOrcamento = reader.GetDateTime("DataOrcamento"),
+                    ValorTotal = reader.GetDecimal("ValorTotal"),
+                    PrazoEntrega = reader.GetDateTime("PrazoEntrega"),
+                    Autorizado = reader.GetBoolean("Autorizado"),
+                    Solicitacao = solicitacao
+                };
+            }
+
+            return null;
+        }
+
 
         public static bool CriarSolicitacao(string tipo, string marca, string descricao, int clienteId)
         {

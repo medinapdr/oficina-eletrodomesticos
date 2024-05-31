@@ -89,16 +89,17 @@ namespace OficinaEletrodomesticos.View
             decimal? comprimento = string.IsNullOrWhiteSpace(txtComprimento.Text) ? (decimal?)null : decimal.Parse(txtComprimento.Text);
             decimal? peso = string.IsNullOrWhiteSpace(txtPeso.Text) ? (decimal?)null : decimal.Parse(txtPeso.Text);
 
-            return new Peca(
-                nome: txtNomePeca.Text,
-                largura: largura,
-                altura: altura,
-                comprimento: comprimento,
-                peso: peso,
-                fabricante: txtFabricante.Text,
-                preco: decimal.Parse(txtPreco.Text),
-                quantidade: int.Parse(txtQuantidade.Text)
-            );
+            return new Peca
+            {
+                Nome = txtNomePeca.Text,
+                Largura = largura,
+                Altura = altura,
+                Comprimento = comprimento,
+                Peso = peso,
+                Fabricante = txtFabricante.Text,
+                Preco = decimal.Parse(txtPreco.Text),
+                Quantidade = int.Parse(txtQuantidade.Text)
+            };
         }
 
         private void LimparCampos()

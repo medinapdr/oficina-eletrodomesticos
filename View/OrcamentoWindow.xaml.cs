@@ -215,6 +215,20 @@ namespace OficinaEletrodomesticos.View
                     {
                         MessageBox.Show("Orçamento criado com sucesso!");
                         AtualizarListaOrcamentos();
+
+                        // Nova funcionalidade: Perguntar se deseja direcionar para um técnico
+                        var result = MessageBox.Show("Deseja direcionar este orçamento para um técnico?", "Direcionar para técnico", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            var orcamento = OrcamentoRepository.ObterUltimoOrcamento();
+                            AdicionarServicoDialog adicionarServicoDialog = new AdicionarServicoDialog(_pessoa as Funcionario, orcamento);
+                            if(adicionarServicoDialog.ShowDialog() == true)
+                            {
+                                var novoServico = adicionarServicoDialog.NovoServico;
+                                ServicoRepository.AdicionarServico(novoServico);
+                                MessageBox.Show($"Serviço direcionado para o técnico {novoServico.NomeTecnico}");
+                            }
+                        }
                     }
                     else
                     {

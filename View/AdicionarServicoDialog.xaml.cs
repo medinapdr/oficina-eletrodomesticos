@@ -8,13 +8,12 @@ namespace OficinaEletrodomesticos.View
     {
         public Servico NovoServico { get; private set; }
 
-        public AdicionarServicoDialog(Funcionario funcionario)
+        public AdicionarServicoDialog(Funcionario funcionario, Orcamento orcamento = null)
         {
             InitializeComponent();
             CarregarTecnicos(funcionario);
-            CarregarOrcamentos();
+            CarregarOrcamentos(orcamento);
         }
-
 
         private void CarregarTecnicos(Funcionario funcionario)
         {
@@ -33,16 +32,21 @@ namespace OficinaEletrodomesticos.View
             }
         }
 
-        private void CarregarOrcamentos()
+        private void CarregarOrcamentos(Orcamento orcamento)
         {
             var orcamentos = OrcamentoRepository.ObterOrcamentos();
-            foreach (var orcamento in orcamentos)
+            foreach (var orc in orcamentos)
             {
-                string orcamentoFormatado = $"{orcamento.Id} - {orcamento.TipoAparelho} - {orcamento.DataOrcamento.ToShortDateString()}";
+                string orcamentoFormatado = $"{orc.Id} - {orc.DataOrcamento.ToShortDateString()} - {orc.Solicitacao.Cliente.Nome}: {orc.Solicitacao.Aparelho.Tipo} ({orc.Solicitacao.Aparelho.Marca})";
                 cmbOrcamento.Items.Add(orcamentoFormatado);
+
+                if (orcamento != null && orc.Id == orcamento.Id)
+                {
+                    cmbOrcamento.SelectedItem = orcamentoFormatado;
+                    cmbOrcamento.IsEnabled = false;
+                }
             }
         }
-
 
 
         private void Adicionar_Click(object sender, RoutedEventArgs e)
@@ -58,7 +62,6 @@ namespace OficinaEletrodomesticos.View
                 // Obter os IDs do técnico e do orçamento selecionados
                 var tecnicoId = (cmbTecnico.SelectedItem as Funcionario)?.Id ?? 0;
 
-                // Criar o novo serviço com os IDs obtidos
                 NovoServico = new Servico
                 {
                     Orcamento = new Orcamento { Id = orcamentoId },

@@ -69,7 +69,10 @@ namespace OficinaEletrodomesticos.Data
                     ValorTotal = reader.GetDecimal(2),
                     PrazoEntrega = reader.GetDateTime(3),
                     Autorizado = reader.GetBoolean(4),
-                    SolicitacaoDescricao = reader.GetString(5)
+                    Solicitacao = new SolicitacaoOrcamento()
+                    {
+                        Descricao = reader.GetString(5)
+                    }
                 });
             }
             return orcamentos;

@@ -12,17 +12,5 @@
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
 
-        public Peca() { }
-        public Peca(string nome, decimal preco, decimal? altura, decimal? largura, decimal? comprimento, decimal? peso, string fabricante, int quantidade)
-        {
-            Nome = nome;
-            Preco = preco;
-            Altura = altura;
-            Largura = largura;
-            Comprimento = comprimento;
-            Peso = peso;
-            Fabricante = fabricante;
-            Quantidade = quantidade;
-        }
     }
 }

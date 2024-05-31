@@ -47,7 +47,7 @@ namespace Testes.Repository
             // Assert
             Assert.NotNull(orcamentos);
             Assert.NotEmpty(orcamentos);
-            Assert.All(orcamentos, o => Assert.True(o.SolicitacaoDescricao != null || o.SolicitacaoDescricao != ""));
+            Assert.All(orcamentos, o => Assert.True(o.Solicitacao.Descricao != null || o.Solicitacao.Descricao!= ""));
         }
 
         [Fact]
