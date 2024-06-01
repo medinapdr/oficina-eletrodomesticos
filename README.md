@@ -65,12 +65,12 @@ Os padrões de nomeação de métodos, variáveis e classes seguem as convençõ
 
 ### Via .exe (Self-contained):
 
-1. Faça o download do executável na seção de [Releases]([link_para_releases](https://github.com/medinapdr/oficina-eletrodomesticos/releases/download/beta/oficina-eletrodomesticos-x64.exe)) do GitHub.
+1. Faça o download do executável na seção de [Releases](https://github.com/medinapdr/oficina-eletrodomesticos/releases/) do GitHub.
 2. Execute o arquivo .exe.
 
 ### Via .exe (Dependente do .NET 8):
 
-1. Faça o download do executável na seção de [Releases]([link_para_releases](https://github.com/medinapdr/oficina-eletrodomesticos/releases/download/beta/oficina-eletrodomesticos-x64-.net8.exe)) do GitHub.
+1. Faça o download do executável na seção de [Releases](https://github.com/medinapdr/oficina-eletrodomesticos/releases/) do GitHub.
 2. Certifique-se de ter o .NET 8 instalado na máquina.
 3. Execute o arquivo .exe.
 
