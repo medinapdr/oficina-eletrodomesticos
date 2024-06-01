@@ -10,12 +10,13 @@ namespace OficinaEletrodomesticos.Data
     {
         public static List<Servico> ObterTodosServicos()
         {
+
+            var servicos = new List<Servico>();
             const string query = @"SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
                             FROM Servico s
                             LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
                             JOIN StatusServico sts ON s.StatusId = sts.Id
                             JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id";
-            var servicos = new List<Servico>();
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -40,11 +41,11 @@ namespace OficinaEletrodomesticos.Data
 
         public static List<Funcionario> ObterTecnicos()
         {
+            var tecnicos = new List<Funcionario>();
             const string query = @"SELECT p.Id, p.Nome 
                            FROM Funcionario f
                            JOIN Pessoa p ON f.PessoaId = p.Id
                            WHERE f.Cargo = @CargoTecnico";
-            var tecnicos = new List<Funcionario>();
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -66,13 +67,13 @@ namespace OficinaEletrodomesticos.Data
 
         public static List<Servico> ObterServicosPorTecnico(int tecnicoId)
         {
+            var servicos = new List<Servico>();
             const string query = @"SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
                                     FROM Servico s
                                     LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
                                     JOIN StatusServico sts ON s.StatusId = sts.Id
                                     JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id
                                     WHERE TecnicoResponsavelId = @TecnicoId";
-            var servicos = new List<Servico>();
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();

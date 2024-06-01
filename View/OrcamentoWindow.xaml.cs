@@ -275,5 +275,30 @@ namespace OficinaEletrodomesticos.View
                 MessageBox.Show($"Ocorreu um erro ao criar a solicitação: {ex.Message}");
             }
         }
+
+        private void AutorizarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrcamentosListView.SelectedItem != null)
+            {
+                var orcamentoSelecionado = (Orcamento)OrcamentosListView.SelectedItem;
+
+                bool autorizado = OrcamentoRepository.AutorizarOrcamento(orcamentoSelecionado.Id);
+
+                if (autorizado)
+                {
+                    orcamentoSelecionado.Autorizado = true;
+                    OrcamentosListView.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possível autorizar o orçamento.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecione um orçamento para autorizar.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
     }
 }

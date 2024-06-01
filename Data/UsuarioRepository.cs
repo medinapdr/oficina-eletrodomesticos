@@ -60,8 +60,8 @@ namespace OficinaEletrodomesticos.Data
         }
         public static List<Pessoa> ObterPessoas()
         {
-            const string query = @"SELECT Id, CPF, Nome FROM Oficina.dbo.Pessoa";
             var pessoas = new List<Pessoa>();
+            const string query = @"SELECT Id, CPF, Nome FROM Oficina.dbo.Pessoa";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();

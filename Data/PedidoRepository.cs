@@ -8,6 +8,7 @@ namespace OficinaEletrodomesticos.Data
         public static List<Pedido> ConsultarPedidos()
         {
             const string query = @"SELECT Id, PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, DataRecebimento, ValorUnitario FROM Pedido";
+
             var pedidos = new List<Pedido>();
 
             using var conexao = ConexaoBanco.ConectaBanco();

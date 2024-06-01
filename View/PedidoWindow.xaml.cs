@@ -6,16 +6,13 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class PedidoWindow : Window
     {
-        private readonly Estoque _estoque;
-
         public PedidoWindow()
         {
             InitializeComponent();
-            _estoque = new Estoque();
             DataContext = this;
 
-            lvPedidos.ItemsSource = _estoque.ConsultarPedidos();
-            cmbPeca.ItemsSource = _estoque.ConsultarEstoque();
+            lvPedidos.ItemsSource = PedidoRepository.ConsultarPedidos();
+            cmbPeca.ItemsSource = EstoqueRepository.ConsultarEstoque();
 
             txtQuantidade.TextChanged += (s, e) => AtualizarValorTotal();
             txtValorUnitario.TextChanged += (s, e) => AtualizarValorTotal();
@@ -64,7 +61,7 @@ namespace OficinaEletrodomesticos.View
                 DataCriacao = dataCriacao
             };
 
-            _estoque.AdicionarPedido(novoPedido);
+            PedidoRepository.AdicionarPedido(novoPedido);
             AtualizarDataGridPedidos();
         }
 
@@ -82,14 +79,14 @@ namespace OficinaEletrodomesticos.View
 
         private void AtualizarDataGridPedidos()
         {
-            lvPedidos.ItemsSource = _estoque.ConsultarPedidos();
+            lvPedidos.ItemsSource = PedidoRepository.ConsultarPedidos();
         }
 
         private void ConfirmarRecebimento_Click(object sender, RoutedEventArgs e)
         {
             if (lvPedidos.SelectedItem is Pedido pedido)
             {
-                if (_estoque.ConfirmarRecebimentoPedido(pedido))
+                if (PedidoRepository.ConfirmarRecebimentoPedido(pedido.Id, DateTime.Now))
                 {
                     AtualizarDataGridPedidos();
                 }

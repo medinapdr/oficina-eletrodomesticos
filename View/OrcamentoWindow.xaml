@@ -2,6 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Orçamento" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    
     <Grid>
         <TabControl>
             <TabItem x:Name="SolicitacoesTabItem" Header="Solicitações">
@@ -60,6 +64,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <GroupBox Header="Orçamento" Margin="10,10,10,0" VerticalAlignment="Top">
@@ -114,7 +119,24 @@
                             <GridView>
                                 <GridViewColumn Header="Data do Orçamento" DisplayMemberBinding="{Binding DataOrcamento, StringFormat=\{0:dd/MM/yyyy\}}" />
                                 <GridViewColumn Header="Prazo de Entrega" DisplayMemberBinding="{Binding PrazoEntrega, StringFormat=\{0:dd/MM/yyyy\}}" />
-                                <GridViewColumn Header="Autorizado" DisplayMemberBinding="{Binding Autorizado}" />
+                                <GridViewColumn Header="Autorizado">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="✔"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Autorizado}" Value="False">
+                                                                <Setter Property="Text" Value=""/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Solicitacao.Cliente.Nome}" />
                                 <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding Solicitacao.Aparelho.Tipo}" />
                                 <GridViewColumn Header="Marca" DisplayMemberBinding="{Binding Solicitacao.Aparelho.Marca}" />
@@ -122,6 +144,9 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    
+                    <Button Name="AutorizarButton" Content="Autorizar" Width="100" Margin="10" Grid.Row="3" Click="AutorizarButton_Click"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

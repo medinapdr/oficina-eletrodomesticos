@@ -4,14 +4,11 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
 {
-    public partial class AddPecaEstoqueWindow : Window
+    public partial class AdicionarPecaDialog : Window
     {
-        private readonly Estoque _estoque;
-
-        public AddPecaEstoqueWindow()
+        public AdicionarPecaDialog()
         {
             InitializeComponent();
-            _estoque = new Estoque();
         }
 
         private void AdicionarPeca_Click(object sender, RoutedEventArgs e)
@@ -19,7 +16,8 @@ namespace OficinaEletrodomesticos.View
             if (ValidateFields())
             {
                 Peca peca = CriarPeca();
-                _estoque.AdicionarPeca(peca);
+                EstoqueRepository.AdicionarPeca(peca);
+                MessageBox.Show($"{peca.Quantidade} {peca.Nome} adicionada(s) ao estoque.");
                 LimparCampos();
             }
         }

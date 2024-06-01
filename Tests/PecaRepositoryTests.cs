@@ -4,7 +4,7 @@ using OficinaEletrodomesticos.Models;
 
 namespace Testes.Repository
 {
-    public class PecaRepositoryTests
+    public class EstoqueRepositoryTests
     {
         [Fact]
         public void AdicionarPeca_DeveRetornarTrueQuandoAdicionadoComSucesso()
@@ -23,7 +23,7 @@ namespace Testes.Repository
             };
 
             // Act
-            bool resultado = PecaRepository.AdicionarPeca(peca);
+            bool resultado = EstoqueRepository.AdicionarPeca(peca);
 
             // Assert
             Assert.True(resultado);
@@ -37,7 +37,7 @@ namespace Testes.Repository
             var peca = new Peca { Id = 12 }; // Exemplo de um ID que exisa no banco
 
             // Act
-            bool resultado = PecaRepository.RemoverPeca(peca);
+            bool resultado = EstoqueRepository.RemoverPeca(peca);
 
             // Assert
             Assert.True(resultado);
@@ -47,7 +47,7 @@ namespace Testes.Repository
         public void ConsultarEstoque_DeveRetornarListaDePecas()
         {
             // Act
-            List<Peca> estoque = PecaRepository.ConsultarEstoque();
+            List<Peca> estoque = EstoqueRepository.ConsultarEstoque();
 
             // Assert
             Assert.NotNull(estoque);
@@ -80,7 +80,7 @@ namespace Testes.Repository
             };
 
             // Act
-            bool resultado = PecaRepository.AtualizarPeca(peca);
+            bool resultado = EstoqueRepository.AtualizarPeca(peca);
 
             // Assert
             Assert.True(resultado);

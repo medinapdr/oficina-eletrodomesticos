@@ -7,15 +7,12 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class EstoqueWindow : Window
     {
-        private readonly Estoque _estoque;
         private string _cargo;
-        private List<Peca> _pecasEstoque;
         private Peca _pecaSelecionada;
 
         public EstoqueWindow(string cargo)
         {
             InitializeComponent();
-            _estoque = new Estoque();
             _cargo = cargo;
 
             if (cargo != "Gerente" && cargo != "Administrador")
@@ -28,8 +25,7 @@ namespace OficinaEletrodomesticos.View
 
         private void AtualizarListaEstoque()
         {
-            _pecasEstoque = _estoque.ConsultarEstoque();
-            listViewEstoque.ItemsSource = _pecasEstoque;
+            listViewEstoque.ItemsSource = EstoqueRepository.ConsultarEstoque();
             listViewEstoque.Items.Refresh();
         }
 
@@ -60,14 +56,15 @@ namespace OficinaEletrodomesticos.View
 
             if (resultado == MessageBoxResult.Yes)
             {
-                _estoque.RemoverPeca(_pecaSelecionada);
+                EstoqueRepository.RemoverPeca(_pecaSelecionada);
+                MessageBox.Show($"Peça {_pecaSelecionada.Nome} removida do estoque.");
                 AtualizarListaEstoque();
             }
         }
 
         private void InserirPecas_Click(object sender, RoutedEventArgs e)
         {
-            new AddPecaEstoqueWindow().ShowDialog();
+            new AdicionarPecaDialog().ShowDialog();
             AtualizarListaEstoque();
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Xunit;
+﻿using Xunit;
 using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
@@ -21,7 +19,6 @@ namespace Testes.Repository
             {
                 Assert.True(servico.Id > 0);
                 Assert.False(string.IsNullOrEmpty(servico.Descricao));
-                Assert.NotNull(servico.Status);
             }
         }
 

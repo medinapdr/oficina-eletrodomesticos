@@ -14,10 +14,6 @@ namespace OficinaEletrodomesticos.Models
 
     public class Cliente : Pessoa
     {
-        public void SolicitarOrcamento(Aparelho aparelho, string defeito)
-        {
-            
-        }
     }
 
     public class Funcionario : Pessoa
@@ -29,27 +25,10 @@ namespace OficinaEletrodomesticos.Models
 
     public class Tecnico : Funcionario
     {
-        public List<Servico> ServicosAtribuidos { get; } = [];
-
-        public void RealizarServico(Servico servico, StatusServico status)
-        {
-            if (servico.TecnicoResponsavel != this)
-            {
-                throw new InvalidOperationException("Você não é o técnico responsável por este serviço.");
-            }
-
-            MessageBox.Show($"Realizando serviço com status {status}");
-            servico.Status = status;
-        }
     }
 
     public class Vendedor : Funcionario
     {
-        public Orcamento CriarOrcamento(SolicitacaoOrcamento solicitacao)
-        {
-            var orcamento = new Orcamento();
-            return orcamento;
-        }
     }
 
     public class Gerente : Funcionario

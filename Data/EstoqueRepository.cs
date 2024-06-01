@@ -4,7 +4,7 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class PecaRepository()
+    public class EstoqueRepository()
     {
         public static bool AdicionarPeca(Peca peca)
         {
@@ -79,8 +79,8 @@ namespace OficinaEletrodomesticos.Data
 
         public static List<Peca> ConsultarEstoque()
         {
-            const string query = @"SELECT Id, Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade FROM Oficina.dbo.Peca";
             var estoque = new List<Peca>();
+            const string query = @"SELECT Id, Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade FROM Oficina.dbo.Peca";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
