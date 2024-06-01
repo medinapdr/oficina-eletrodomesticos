@@ -90,7 +90,12 @@ namespace OficinaEletrodomesticos.Data
                     ValorPagamento = reader.IsDBNull(2) ? null : (double?)reader.GetDouble(2),
                     DataPagamento = reader.IsDBNull(3) ? null : (DateTime?)reader.GetDateTime(3),
                     Status = (StatusServico)Enum.Parse(typeof(StatusServico), reader.GetString(4)),
-                    NomeTecnico = reader.IsDBNull(5) ? "" : reader.GetString(5)
+                    NomeTecnico = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                    TecnicoResponsavel = new Tecnico
+                    {
+                        Id = tecnicoId,
+                        Nome = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                    }
                 });
             }
             return servicos;

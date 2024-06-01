@@ -10,7 +10,7 @@ namespace Testes.Repository
         public void ObterSolicitacoes_DeveRetornarListaDeSolicitacoesQuandoClienteExiste()
         {
             // Arrange
-            int clienteIdExistente = 1;
+            int clienteIdExistente = 3;
 
             // Act
             List<SolicitacaoOrcamento> solicitacoes = ConsultaRepository.ObterSolicitacoes(clienteIdExistente);
@@ -39,7 +39,7 @@ namespace Testes.Repository
         public void ObterOrcamentos_DeveRetornarListaDeOrcamentosQuandoClienteExiste()
         {
             // Arrange
-            int clienteIdExistente = 1;
+            int clienteIdExistente = 3;
 
             // Act
             List<Orcamento> orcamentos = ConsultaRepository.ObterOrcamentos(clienteIdExistente);
@@ -68,7 +68,7 @@ namespace Testes.Repository
         public void ObterServicos_DeveRetornarListaDeServicosQuandoClienteExiste()
         {
             // Arrange
-            int clienteIdExistente = 1;
+            int clienteIdExistente = 3;
 
             // Act
             List<Servico> servicos = ConsultaRepository.ObterServicos(clienteIdExistente);
