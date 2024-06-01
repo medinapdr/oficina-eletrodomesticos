@@ -30,7 +30,7 @@ namespace Testes.Repository
             string tipo = "Geladeira";
             string marca = "Electrolux";
             string descricao = "Não está refrigerando adequadamente.";
-            int clienteId = 10; // ID de cliente válido e existente no banco
+            int clienteId = 10;
 
             // Act
             bool resultado = OrcamentoRepository.CriarSolicitacao(tipo, marca, descricao, clienteId);
@@ -43,7 +43,7 @@ namespace Testes.Repository
         public void AutorizarOrcamento_DeveRetornarTrueQuandoAutorizadoComSucesso()
         {
             // Arrange
-            int orcamentoId = 2; // ID de orçamento válida e existente no banco
+            int orcamentoId = 2;
 
             // Act
             bool resultado = OrcamentoRepository.AutorizarOrcamento(orcamentoId);
@@ -56,7 +56,7 @@ namespace Testes.Repository
         public void CriarOrcamento_DeveRetornarTrueQuandoCriadoComSucesso()
         {
             // Arrange
-            int solicitacaoId = 6; // ID de solicitação válida
+            int solicitacaoId = 6;
             decimal valorTotal = 1200.00m;
             DateTime prazoEntrega = DateTime.Now.AddDays(15);
             bool autorizado = false;

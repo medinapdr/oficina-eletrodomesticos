@@ -45,7 +45,24 @@
                                 <GridViewColumn Header="Data Orçamento" DisplayMemberBinding="{Binding DataOrcamento}" Width="Auto"/>
                                 <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding ValorTotal}" Width="Auto"/>
                                 <GridViewColumn Header="Prazo Entrega" DisplayMemberBinding="{Binding PrazoEntrega}" Width="Auto"/>
-                                <GridViewColumn Header="Autorizado" DisplayMemberBinding="{Binding Autorizado}" Width="Auto"/>
+                                <GridViewColumn Header="Autorizado">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="✔"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Autorizado}" Value="False">
+                                                                <Setter Property="Text" Value=""/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>

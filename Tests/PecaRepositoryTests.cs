@@ -27,14 +27,14 @@ namespace Testes.Repository
 
             // Assert
             Assert.True(resultado);
-            Assert.True(peca.Id > 0); // Verificar se o ID foi definido corretamente.
+            Assert.True(peca.Id > 0);
         }
 
         [Fact]
         public void RemoverPeca_DeveRetornarTrueQuandoRemovidoComSucesso()
         {
             // Arrange
-            var peca = new Peca { Id = 12 }; // Exemplo de um ID que exisa no banco
+            var peca = new Peca { Id = 99999 };
 
             // Act
             bool resultado = EstoqueRepository.RemoverPeca(peca);
@@ -68,7 +68,7 @@ namespace Testes.Repository
             // Arrange
             var peca = new Peca
             {
-                Id = 1, // Suponha que essa peça existe no banco.
+                Id = 1,
                 Nome = "Motor Atualizado",
                 Preco = 160.00m,
                 Largura = 11.0m,
