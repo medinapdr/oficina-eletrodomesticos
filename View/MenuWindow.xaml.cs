@@ -1,6 +1,5 @@
 using System.Windows;
 using System.Windows.Controls;
-using OficinaEletrodomesticos.Data;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.View
@@ -9,6 +8,7 @@ namespace OficinaEletrodomesticos.View
     {
         private Pessoa _pessoa;
         private string _cargo;
+
         public MenuWindow(Pessoa pessoa, string cargo)
         {
             InitializeComponent();
@@ -21,6 +21,7 @@ namespace OficinaEletrodomesticos.View
         {
             ModifyButtons(false, btnEstoque, btnPedidos, btnConsultas, btnServicos, btnOrcamento);
 
+            // Habilita os botões específicos com base no tipo de usuário (cargo)
             switch (tipoUsuario)
             {
                 case "Cliente":
@@ -58,7 +59,6 @@ namespace OficinaEletrodomesticos.View
         {
             new PedidoWindow().Show();
         }
-
         private void btnConsultas_Click(object sender, RoutedEventArgs e)
         {
             new ConsultaWindow(_pessoa).Show();

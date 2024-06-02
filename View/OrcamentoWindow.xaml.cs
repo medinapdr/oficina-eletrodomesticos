@@ -1,8 +1,6 @@
 using OficinaEletrodomesticos.Models;
 using OficinaEletrodomesticos.Data;
 using System.Windows;
-using System.Linq;
-using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -58,20 +56,16 @@ namespace OficinaEletrodomesticos.View
             OrcamentosListView.ItemsSource = OrcamentoRepository.ObterOrcamentos();
         }
 
-        private void AtualizarValorTotalEPrazo()
-        {
-            ValorTotalTextBox.Text = orcamentoAtual.ValorTotal.ToString();
-            PrazoTextBox.Text = orcamentoAtual.PrazoEntrega.ToString();
-        }
-
         private void PecasListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
+                // Adiciona ou remove a peça selecionada do dicionário de peças selecionadas
                 foreach (var item in e.AddedItems)
                 {
                     if (item is Peca peca)
                     {
+                        // Habilita o campo de quantidade para a peça adicionada
                         var container = (ListBoxItem)PecasListBox.ItemContainerGenerator.ContainerFromItem(item);
                         if (container != null)
                         {
@@ -88,6 +82,7 @@ namespace OficinaEletrodomesticos.View
                     }
                 }
 
+                // Desabilita o campo de quantidade e remove a peça do dicionário quando desmarcada
                 foreach (var item in e.RemovedItems)
                 {
                     if (item is Peca peca)
@@ -147,6 +142,7 @@ namespace OficinaEletrodomesticos.View
                 var textBox = sender as TextBox;
                 if (textBox != null)
                 {
+                    // Obtém a peça correspondente ao campo de quantidade alterado
                     var stackPanel = textBox.Parent as StackPanel;
                     if (stackPanel != null)
                     {
@@ -157,6 +153,7 @@ namespace OficinaEletrodomesticos.View
                             var peca = ((List<Peca>)PecasListBox.ItemsSource).FirstOrDefault(p => p.Nome == pecaNome);
                             if (peca != null && int.TryParse(textBox.Text, out int quantidade))
                             {
+                                // Atualiza o dicionário de peças selecionadas com a quantidade
                                 if (quantidade > 0)
                                 {
                                     pecasSelecionadas[peca.Id] = (peca, quantidade);
@@ -201,7 +198,6 @@ namespace OficinaEletrodomesticos.View
             {
                 int solicitacaoId = (SolicitacaoComboBox.SelectedItem as SolicitacaoOrcamento).Id;
                 decimal valorTotal = decimal.Parse(ValorTotalTextBox.Text);
-
                 if (int.TryParse(PrazoTextBox.Text, out int prazoDias))
                 {
                     DateTime prazoEntrega = DateTime.Now.AddDays(prazoDias);
@@ -216,13 +212,12 @@ namespace OficinaEletrodomesticos.View
                         MessageBox.Show("Orçamento criado com sucesso!");
                         AtualizarListaOrcamentos();
 
-                        // Nova funcionalidade: Perguntar se deseja direcionar para um técnico
                         var result = MessageBox.Show("Deseja direcionar este orçamento para um técnico?", "Direcionar para técnico", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (result == MessageBoxResult.Yes)
                         {
                             var orcamento = OrcamentoRepository.ObterUltimoOrcamento();
                             AdicionarServicoDialog adicionarServicoDialog = new AdicionarServicoDialog(_pessoa as Funcionario, orcamento);
-                            if(adicionarServicoDialog.ShowDialog() == true)
+                            if (adicionarServicoDialog.ShowDialog() == true)
                             {
                                 var novoServico = adicionarServicoDialog.NovoServico;
                                 ServicoRepository.AdicionarServico(novoServico);
@@ -299,6 +294,5 @@ namespace OficinaEletrodomesticos.View
                 MessageBox.Show("Selecione um orçamento para autorizar.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
     }
 }

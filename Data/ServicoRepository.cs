@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
@@ -12,11 +9,12 @@ namespace OficinaEletrodomesticos.Data
         {
 
             var servicos = new List<Servico>();
-            const string query = @"SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
-                            FROM Servico s
-                            LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
-                            JOIN StatusServico sts ON s.StatusId = sts.Id
-                            JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id";
+            const string query = @"
+                SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
+                FROM Servico s
+                LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
+                JOIN StatusServico sts ON s.StatusId = sts.Id
+                JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -42,10 +40,11 @@ namespace OficinaEletrodomesticos.Data
         public static List<Funcionario> ObterTecnicos()
         {
             var tecnicos = new List<Funcionario>();
-            const string query = @"SELECT p.Id, p.Nome 
-                           FROM Funcionario f
-                           JOIN Pessoa p ON f.PessoaId = p.Id
-                           WHERE f.Cargo = @CargoTecnico";
+            const string query = @"
+                SELECT p.Id, p.Nome 
+                FROM Funcionario f
+                JOIN Pessoa p ON f.PessoaId = p.Id
+                WHERE f.Cargo = @CargoTecnico";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -68,12 +67,13 @@ namespace OficinaEletrodomesticos.Data
         public static List<Servico> ObterServicosPorTecnico(int tecnicoId)
         {
             var servicos = new List<Servico>();
-            const string query = @"SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
-                                    FROM Servico s
-                                    LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
-                                    JOIN StatusServico sts ON s.StatusId = sts.Id
-                                    JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id
-                                    WHERE TecnicoResponsavelId = @TecnicoId";
+            const string query = @"
+                SELECT s.Id, s.Descricao, s.ValorPagamento, s.DataPagamento, sts.Nome AS Status, p.Nome AS NomeTecnico 
+                FROM Servico s
+                LEFT JOIN Funcionario f ON s.TecnicoResponsavelId = f.PessoaId
+                JOIN StatusServico sts ON s.StatusId = sts.Id
+                JOIN Pessoa p ON s.TecnicoResponsavelId = p.Id
+                WHERE TecnicoResponsavelId = @TecnicoId";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();

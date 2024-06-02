@@ -14,10 +14,12 @@ namespace OficinaEletrodomesticos.View
             lvPedidos.ItemsSource = PedidoRepository.ConsultarPedidos();
             cmbPeca.ItemsSource = EstoqueRepository.ConsultarEstoque();
 
+            // Vincular eventos de alteração de texto para atualizar o valor total quando os campos de valor unitário ou quantidade forem modificados
             txtQuantidade.TextChanged += (s, e) => AtualizarValorTotal();
             txtValorUnitario.TextChanged += (s, e) => AtualizarValorTotal();
         }
 
+        // Método para calcular e atualizar o valor total com base na quantidade e no valor unitário
         private void AtualizarValorTotal()
         {
             if (decimal.TryParse(txtValorUnitario.Text, out decimal valorUnitario) && int.TryParse(txtQuantidade.Text, out int quantidade))

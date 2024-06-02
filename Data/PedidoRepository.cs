@@ -3,7 +3,7 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class PedidoRepository()
+    public class PedidoRepository
     {
         public static List<Pedido> ConsultarPedidos()
         {
@@ -36,9 +36,10 @@ namespace OficinaEletrodomesticos.Data
 
         public static bool AdicionarPedido(Pedido pedido)
         {
-            const string query = @"INSERT INTO Pedido (PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, ValorUnitario) 
-                                   VALUES (@PecaId, @NomePeca, @Quantidade, @ValorTotal, @Fornecedor, @DataCriacao, @ValorUnitario);
-                                   SELECT SCOPE_IDENTITY();";
+            const string query = @"
+            INSERT INTO Pedido (PecaId, NomePeca, Quantidade, ValorTotal, Fornecedor, DataCriacao, ValorUnitario) 
+            VALUES (@PecaId, @NomePeca, @Quantidade, @ValorTotal, @Fornecedor, @DataCriacao, @ValorUnitario);
+            SELECT SCOPE_IDENTITY();";
 
             using var conexao = ConexaoBanco.ConectaBanco();
 
@@ -57,6 +58,7 @@ namespace OficinaEletrodomesticos.Data
                 var result = cmd.ExecuteScalar();
                 if (result != null)
                 {
+                    // Define o ID do pedido adicionado.
                     pedido.Id = Convert.ToInt32(result);
                     return true;
                 }
@@ -81,7 +83,7 @@ namespace OficinaEletrodomesticos.Data
             cmdPedido.Parameters.AddWithValue("@PedidoId", pedidoId);
 
             using var reader = cmdPedido.ExecuteReader();
-            if (!reader.Read()) return false;
+            if (!reader.Read()) return false; // Verifica se o pedido existe.
             int pecaId = reader.GetInt32(0);
             int quantidade = reader.GetInt32(1);
             reader.Close();

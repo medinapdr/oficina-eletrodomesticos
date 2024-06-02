@@ -3,19 +3,21 @@ using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class UsuarioRepository()
+    public class UsuarioRepository
     {
         public static bool CriarPessoa(string nome, string cpf, string telefone, string endereco, string tipoPessoa, string? cargo = null, decimal salario = 0, string? departamento = null)
         {
-            const string queryPessoa = @"INSERT INTO Oficina.dbo.Pessoa (Nome, CPF, Telefone, Endereco, TipoPessoa) 
-                                         VALUES (@Nome, @CPF, @Telefone, @Endereco, @TipoPessoa);
-                                         SELECT SCOPE_IDENTITY();";
+            const string queryPessoa = @"
+                INSERT INTO Oficina.dbo.Pessoa (Nome, CPF, Telefone, Endereco, TipoPessoa) 
+                VALUES (@Nome, @CPF, @Telefone, @Endereco, @TipoPessoa);
+                SELECT SCOPE_IDENTITY();"; // Insere os dados da pessoa e obtém o novo ID.
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
 
             using var transaction = conexao.BeginTransaction();
             using var cmdPessoa = new SqlCommand(queryPessoa, conexao, transaction);
+            // Adiciona parâmetros à consulta para prevenir SQL injection.
             cmdPessoa.Parameters.AddWithValue("@Nome", nome);
             cmdPessoa.Parameters.AddWithValue("@CPF", cpf);
             cmdPessoa.Parameters.AddWithValue("@Telefone", string.IsNullOrEmpty(telefone) ? (object)DBNull.Value : telefone);
@@ -26,15 +28,17 @@ namespace OficinaEletrodomesticos.Data
 
             if (pessoaId > 0)
             {
+                // Determina a consulta correta com base no tipo de pessoa.
                 string query = tipoPessoa == "Cliente"
-                    ? @"INSERT INTO Oficina.dbo.Cliente (PessoaId) VALUES (@Id)"
+                    ? @"INSERT INTO Oficina.dbo.Cliente (PessoaId) VALUES (@Id)" // Insere como Cliente
                     : @"INSERT INTO Oficina.dbo.Funcionario (PessoaId, Cargo, Salario, Departamento) 
-                               VALUES (@Id, @Cargo, @Salario, @Departamento)";
+                        VALUES (@Id, @Cargo, @Salario, @Departamento)"; // Insere como Funcionário
 
                 using var cmd = new SqlCommand(query, conexao, transaction);
                 cmd.Parameters.AddWithValue("@Id", pessoaId);
                 if (tipoPessoa == "Funcionário")
                 {
+                    // Adiciona parâmetros para os campos específicos do funcionário.
                     cmd.Parameters.AddWithValue("@Cargo", cargo);
                     cmd.Parameters.AddWithValue("@Salario", salario);
                     cmd.Parameters.AddWithValue("@Departamento", departamento);
@@ -58,6 +62,7 @@ namespace OficinaEletrodomesticos.Data
                 return false;
             }
         }
+
         public static List<Pessoa> ObterPessoas()
         {
             var pessoas = new List<Pessoa>();
@@ -84,9 +89,11 @@ namespace OficinaEletrodomesticos.Data
 
         public static bool CriarUsuario(string nomeUsuario, string senha, int pessoaId)
         {
-            const string query = @"INSERT INTO Oficina.dbo.Usuario (NomeUsuario, Senha, PessoaId) 
-                                   VALUES (@NomeUsuario, @Senha, @PessoaId)";
-            string hashedSenha = BCrypt.Net.BCrypt.HashPassword(senha);
+            const string query = @"
+                INSERT INTO Oficina.dbo.Usuario (NomeUsuario, Senha, PessoaId) 
+                VALUES (@NomeUsuario, @Senha, @PessoaId)";
+
+            string hashedSenha = BCrypt.Net.BCrypt.HashPassword(senha); // Hasheia a senha para segurança.
 
             using var conexao = ConexaoBanco.ConectaBanco();
 
@@ -109,12 +116,13 @@ namespace OficinaEletrodomesticos.Data
 
         public static Usuario? AutenticarUsuario(string username, string password)
         {
-            const string query = @"SELECT u.NomeUsuario, p.Id, p.Nome, p.CPF, p.Telefone, p.Endereco, p.TipoPessoa, u.Senha,
-                                        f.Cargo, f.Salario, f.Departamento
-                                  FROM OFICINA.dbo.Usuario u
-                                  INNER JOIN OFICINA.dbo.Pessoa p ON u.PessoaId = p.Id
-                                  LEFT JOIN OFICINA.dbo.Funcionario f ON p.Id = f.PessoaId
-                                  WHERE u.NomeUsuario = @Username";
+            const string query = @"
+                SELECT u.NomeUsuario, p.Id, p.Nome, p.CPF, p.Telefone, p.Endereco, p.TipoPessoa, u.Senha,
+                f.Cargo, f.Salario, f.Departamento
+                FROM OFICINA.dbo.Usuario u
+                INNER JOIN OFICINA.dbo.Pessoa p ON u.PessoaId = p.Id
+                LEFT JOIN OFICINA.dbo.Funcionario f ON p.Id = f.PessoaId
+                WHERE u.NomeUsuario = @Username";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -153,6 +161,7 @@ namespace OficinaEletrodomesticos.Data
                             Departamento = Enum.Parse<Departamento>(reader.GetString(10))
                         };
 
+                    // Retorna o usuário autenticado com os dados da pessoa associada.
                     return new Usuario
                     {
                         NomeUsuario = reader.GetString(0),

@@ -55,11 +55,11 @@ namespace OficinaEletrodomesticos.View
                 !string.IsNullOrWhiteSpace(txtDescricao.Text) &&
                 cmbTecnico.SelectedItem != null)
             {
-                // Extrair o ID do orçamento da string selecionada na combobox
+                // Extrai o ID do orçamento da string selecionada na combobox
                 string orcamentoSelecionado = cmbOrcamento.SelectedItem.ToString();
                 int orcamentoId = int.Parse(orcamentoSelecionado.Split('-')[0].Trim());
 
-                // Obter os IDs do técnico e do orçamento selecionados
+                // Obtém os IDs do técnico e do orçamento selecionados
                 var tecnicoId = (cmbTecnico.SelectedItem as Funcionario)?.Id ?? 0;
 
                 NovoServico = new Servico

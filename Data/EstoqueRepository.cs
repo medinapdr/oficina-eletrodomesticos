@@ -1,16 +1,19 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using OficinaEletrodomesticos.Models;
 
 namespace OficinaEletrodomesticos.Data
 {
-    public class EstoqueRepository()
+    public class EstoqueRepository
     {
         public static bool AdicionarPeca(Peca peca)
         {
-            const string query = @"INSERT INTO Oficina.dbo.Peca (Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade)
-                                   OUTPUT INSERTED.Id
-                                   VALUES (@NomePeca, @Preco, @Largura, @Altura, @Comprimento, @Peso, @Fabricante, @Quantidade)";
+            const string query = @"
+                INSERT INTO Oficina.dbo.Peca (Nome, Preco, Largura, Altura, Comprimento, Peso, Fabricante, Quantidade)
+                OUTPUT INSERTED.Id
+                VALUES (@NomePeca, @Preco, @Largura, @Altura, @Comprimento, @Peso, @Fabricante, @Quantidade)";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -22,7 +25,6 @@ namespace OficinaEletrodomesticos.Data
             cmd.Parameters.AddWithValue("@Fabricante", peca.Fabricante);
             cmd.Parameters.AddWithValue("@Quantidade", peca.Quantidade);
 
-            // Tratamento de nulidade dos campos opcionais
             cmd.Parameters.Add(new SqlParameter("@Largura", SqlDbType.Decimal)
             {
                 Value = peca.Largura.HasValue ? (object)peca.Largura.Value : DBNull.Value
@@ -95,7 +97,6 @@ namespace OficinaEletrodomesticos.Data
                     Id = reader.GetInt32(0),
                     Nome = reader.GetString(1),
                     Preco = reader.GetDecimal(2),
-                    // Verificação de nulidade dos campos opcionais
                     Largura = reader.IsDBNull(3) ? (decimal?)null : reader.GetDecimal(3),
                     Altura = reader.IsDBNull(4) ? (decimal?)null : reader.GetDecimal(4),
                     Comprimento = reader.IsDBNull(5) ? (decimal?)null : reader.GetDecimal(5),
@@ -109,11 +110,11 @@ namespace OficinaEletrodomesticos.Data
 
         public static bool AtualizarPeca(Peca peca)
         {
-            const string query = @"UPDATE Oficina.dbo.Peca 
-                                   SET Nome = @Nome, Preco = @Preco, Largura = @Largura, Altura = @Altura, 
-                                       Comprimento = @Comprimento, Peso = @Peso, Fabricante = @Fabricante, 
-                                       Quantidade = @Quantidade
-                                   WHERE Id = @Id";
+            const string query = @"
+                UPDATE Oficina.dbo.Peca 
+                SET Nome = @Nome, Preco = @Preco, Largura = @Largura, Altura = @Altura, 
+                Comprimento = @Comprimento, Peso = @Peso, Fabricante = @Fabricante, Quantidade = @Quantidade
+                WHERE Id = @Id";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();

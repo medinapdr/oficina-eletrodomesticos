@@ -57,10 +57,6 @@
 	  <Page Update="View\ConsultaWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </Page>
-  </ItemGroup>
-	
-  <ItemGroup>
-	<Folder Include="Models\" />
   </ItemGroup>	
 	  
   <ItemGroup>

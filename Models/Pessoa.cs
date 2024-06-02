@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace OficinaEletrodomesticos.Models
+﻿namespace OficinaEletrodomesticos.Models
 {
     public class Pessoa
     {
@@ -14,6 +12,7 @@ namespace OficinaEletrodomesticos.Models
 
     public class Cliente : Pessoa
     {
+        // Sem atributos ou métodos exclusivos, mas herança implementada para facilitação de escalabilidade
     }
 
     public class Funcionario : Pessoa
@@ -25,13 +24,16 @@ namespace OficinaEletrodomesticos.Models
 
     public class Tecnico : Funcionario
     {
+        // Sem atributos ou métodos exclusivos, mas herança implementada para facilitação de escalabilidade
     }
 
     public class Vendedor : Funcionario
     {
+        // Sem atributos ou métodos exclusivos, mas herança implementada para facilitação de escalabilidade
     }
 
     public class Gerente : Funcionario
     {
+        // Sem atributos ou métodos exclusivos, mas herança implementada para facilitação de escalabilidade
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using OficinaEletrodomesticos.Data;
@@ -14,6 +13,7 @@ namespace OficinaEletrodomesticos.View
             CarregarPessoas();
         }
 
+        // Método para carregar pessoas disponíveis no ComboBox
         private void CarregarPessoas()
         {
             List<Pessoa> pessoas = UsuarioRepository.ObterPessoas();
@@ -39,6 +39,7 @@ namespace OficinaEletrodomesticos.View
             string endereco = txtEndereco.Text;
             string tipoPessoa = ((ComboBoxItem)cmbTipoPessoa.SelectedItem).Content.ToString();
 
+            // Cria a pessoa com os valores inseridos, diferenciando entre funcionário e cliente
             bool sucesso;
             if (tipoPessoa == "Funcionário")
             {
@@ -56,6 +57,7 @@ namespace OficinaEletrodomesticos.View
             MessageBox.Show(sucesso ? $"Pessoa {tipoPessoa.ToLower()} criada com sucesso!" : $"Erro ao criar {tipoPessoa.ToLower()}. Por favor, tente novamente.");
         }
 
+        // Obtém o departamento associado ao cargo selecionado
         private string GetDepartamentoFromCargo(string cargo)
         {
             return cargo switch
@@ -67,6 +69,7 @@ namespace OficinaEletrodomesticos.View
             };
         }
 
+        // Evento de seleção de tipo de pessoa (Funcionário ou Cliente)
         private void cmbTipoPessoa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem selectedItem = (ComboBoxItem)cmbTipoPessoa.SelectedItem;
@@ -75,6 +78,7 @@ namespace OficinaEletrodomesticos.View
                 string tipoPessoa = selectedItem.Content.ToString();
                 bool isFuncionario = tipoPessoa == "Funcionário";
 
+                // Ajusta a visibilidade dos campos dependendo do tipo de pessoa selecionado
                 cmbCargo.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
                 txtSalario.Visibility = isFuncionario ? Visibility.Visible : Visibility.Collapsed;
 
@@ -88,6 +92,7 @@ namespace OficinaEletrodomesticos.View
 
         private void cmbCargo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Obtém o cargo selecionado e atualiza o departamento associado
             ComboBoxItem selectedItem = (ComboBoxItem)cmbCargo.SelectedItem;
             if (selectedItem != null)
             {

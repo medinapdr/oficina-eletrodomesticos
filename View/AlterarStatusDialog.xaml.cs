@@ -1,5 +1,4 @@
 ﻿using OficinaEletrodomesticos.Models;
-using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 

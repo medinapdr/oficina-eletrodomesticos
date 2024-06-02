@@ -29,14 +29,16 @@ namespace OficinaEletrodomesticos.Data
             return clientes;
         }
 
+        // Método para obter as solicitações de orçamento, opcionalmente filtradas por pelo Id do Cliente
         public static List<SolicitacaoOrcamento> ObterSolicitacoes(int? clienteId = null)
         {
             var solicitacoes = new List<SolicitacaoOrcamento>();
-            string query = @"SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, p.CPF, so.DataSolicitacao
-                     FROM SolicitacaoOrcamento so
-                     INNER JOIN Aparelho a ON so.AparelhoId = a.Id
-                     INNER JOIN Cliente c ON so.ClienteId = c.PessoaId
-                     INNER JOIN Pessoa p ON c.PessoaId = p.Id";
+            string query = @"
+                SELECT so.Id, so.Descricao, a.Tipo, a.Marca, p.Nome, p.CPF, so.DataSolicitacao
+                FROM SolicitacaoOrcamento so
+                INNER JOIN Aparelho a ON so.AparelhoId = a.Id
+                INNER JOIN Cliente c ON so.ClienteId = c.PessoaId
+                INNER JOIN Pessoa p ON c.PessoaId = p.Id";
 
             if (clienteId.HasValue)
             {
@@ -93,6 +95,7 @@ namespace OficinaEletrodomesticos.Data
                     Id = reader.GetInt32(0),
                     Nome = reader.GetString(1),
                     Preco = reader.GetDecimal(2),
+                    // Verificação de nulidade dos campos opcionais
                     Largura = reader.IsDBNull(3) ? (decimal?)null : reader.GetDecimal(3),
                     Altura = reader.IsDBNull(4) ? (decimal?)null : reader.GetDecimal(4),
                     Comprimento = reader.IsDBNull(5) ? (decimal?)null : reader.GetDecimal(5),
@@ -107,14 +110,14 @@ namespace OficinaEletrodomesticos.Data
         public static List<Orcamento> ObterOrcamentos()
         {
             var orcamentos = new List<Orcamento>();
-            const string query = @"SELECT o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
-                   a.Tipo AS TipoAparelho, a.Marca AS MarcaAparelho,
-                   s.Descricao AS DescricaoSolicitacao, p.Nome AS NomeCliente, p.CPF AS CPFCliente
-                   FROM Orcamento o
-                   JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
-                   JOIN Aparelho a ON s.AparelhoId = a.Id
-                   JOIN Cliente c ON a.ClienteId = c.PessoaId
-                   JOIN Pessoa p ON c.PessoaId = p.Id";
+            const string query = @"
+                SELECT o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado, a.Tipo AS TipoAparelho,
+                a.Marca AS MarcaAparelho,s.Descricao AS DescricaoSolicitacao, p.Nome AS NomeCliente, p.CPF AS CPFCliente
+                FROM Orcamento o
+                JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
+                JOIN Aparelho a ON s.AparelhoId = a.Id
+                JOIN Cliente c ON a.ClienteId = c.PessoaId
+                JOIN Pessoa p ON c.PessoaId = p.Id";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -124,7 +127,6 @@ namespace OficinaEletrodomesticos.Data
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                // Crie os objetos de Cliente, Aparelho e SolicitacaoOrcamento
                 Cliente cliente = new Cliente
                 {
                     Nome = reader.GetString("NomeCliente"),
@@ -159,16 +161,16 @@ namespace OficinaEletrodomesticos.Data
 
         public static Orcamento ObterUltimoOrcamento()
         {
-            const string query = @"SELECT TOP 1 o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
-                           s.Id AS SolicitacaoId, s.Descricao AS DescricaoSolicitacao,
-                           a.Tipo AS TipoAparelho, a.Marca AS MarcaAparelho,
-                           p.Nome AS NomeCliente, p.CPF AS CPFCliente
-                           FROM Orcamento o
-                           JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
-                           JOIN Aparelho a ON s.AparelhoId = a.Id
-                           JOIN Cliente c ON a.ClienteId = c.PessoaId
-                           JOIN Pessoa p ON c.PessoaId = p.Id
-                           ORDER BY o.Id DESC";
+            const string query = @"
+                SELECT TOP 1 o.Id, o.DataOrcamento, o.ValorTotal, o.PrazoEntrega, o.Autorizado,
+                s.Id AS SolicitacaoId, s.Descricao AS DescricaoSolicitacao, a.Tipo AS TipoAparelho,
+                a.Marca AS MarcaAparelho, p.Nome AS NomeCliente, p.CPF AS CPFCliente
+                FROM Orcamento o
+                JOIN SolicitacaoOrcamento s ON o.SolicitacaoId = s.Id
+                JOIN Aparelho a ON s.AparelhoId = a.Id
+                JOIN Cliente c ON a.ClienteId = c.PessoaId
+                JOIN Pessoa p ON c.PessoaId = p.Id
+                ORDER BY o.Id DESC";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -216,10 +218,13 @@ namespace OficinaEletrodomesticos.Data
 
         public static bool CriarSolicitacao(string tipo, string marca, string descricao, int clienteId)
         {
-            const string aparelhoQuery = @"INSERT INTO Aparelho (ClienteId, Tipo, Marca) VALUES (@ClienteId, @Tipo, @Marca);
-                                   SELECT SCOPE_IDENTITY();";
+            const string aparelhoQuery = @"
+                INSERT INTO Aparelho (ClienteId, Tipo, Marca) VALUES (@ClienteId, @Tipo, @Marca);
+                SELECT SCOPE_IDENTITY();";
 
-            const string solicitacaoQuery = @"INSERT INTO SolicitacaoOrcamento (AparelhoId, ClienteId, Descricao, DataSolicitacao) VALUES (@AparelhoId, @ClienteId, @Descricao, GETDATE())";
+            const string solicitacaoQuery = @"
+                INSERT INTO SolicitacaoOrcamento (AparelhoId, ClienteId, Descricao, DataSolicitacao)
+                VALUES (@AparelhoId, @ClienteId, @Descricao, GETDATE())";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();
@@ -278,12 +283,14 @@ namespace OficinaEletrodomesticos.Data
         }
         public static bool CriarOrcamento(int solicitacaoId, decimal valorTotal, DateTime prazoEntrega, bool autorizado, List<(Peca, int)> pecasQuantidade)
         {
-            const string orcamentoQuery = @"INSERT INTO Orcamento (SolicitacaoId, DataOrcamento, ValorTotal, PrazoEntrega, Autorizado) 
-                            VALUES (@SolicitacaoId, GETDATE(), @ValorTotal, @PrazoEntrega, @Autorizado);
-                            SELECT SCOPE_IDENTITY();";
+            const string orcamentoQuery = @"
+                INSERT INTO Orcamento (SolicitacaoId, DataOrcamento, ValorTotal, PrazoEntrega, Autorizado) 
+                VALUES (@SolicitacaoId, GETDATE(), @ValorTotal, @PrazoEntrega, @Autorizado);
+                SELECT SCOPE_IDENTITY();";
 
-            const string orcamentoPecaQuery = @"INSERT INTO OrcamentoPeca (OrcamentoId, PecaId, NomePeca, Quantidade) 
-                                    VALUES (@OrcamentoId, @PecaId, @NomePeca, @Quantidade)";
+            const string orcamentoPecaQuery = @"
+                INSERT INTO OrcamentoPeca (OrcamentoId, PecaId, NomePeca, Quantidade) 
+                VALUES (@OrcamentoId, @PecaId, @NomePeca, @Quantidade)";
 
             using var conexao = ConexaoBanco.ConectaBanco();
             conexao.Open();

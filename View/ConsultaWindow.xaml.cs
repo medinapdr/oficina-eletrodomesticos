@@ -15,6 +15,7 @@ namespace OficinaEletrodomesticos.View
 
             if (_pessoa is Cliente cliente)
             {
+                // Oculta o combobox de clientes, carrega os dados do cliente atual e mostra os botões relacionados aos orçamentos
                 ClientesComboBox.Visibility = Visibility.Collapsed;
                 LoadClienteData(cliente);
                 NomeClienteLabel.Content = cliente.Nome;
@@ -22,6 +23,7 @@ namespace OficinaEletrodomesticos.View
             }
             else if (_pessoa is Funcionario)
             {
+                // Carrega a lista de clientes para seleção e oculta os botões relacionados aos orçamentos
                 LoadFuncionariosClientes();
                 OrcamentosButtonPanel.Visibility = Visibility.Collapsed;
             }
@@ -51,7 +53,7 @@ namespace OficinaEletrodomesticos.View
         {
             if (OrcamentosListView.SelectedItem is Orcamento selectedOrcamento)
             {
-                if(selectedOrcamento.Autorizado != false)
+                if (selectedOrcamento.Autorizado != false)
                 {
                     MessageBox.Show("Orçamento já autorizado.", "Erro", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;

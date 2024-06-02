@@ -7,19 +7,22 @@ namespace OficinaEletrodomesticos.View
 {
     public partial class EstoqueWindow : Window
     {
-        private string _cargo;
-        private Peca _pecaSelecionada;
+        private string _cargo; // Armazena o cargo do usuário logado
+        private Peca _pecaSelecionada; // Armazena a peça selecionada na lista
 
         public EstoqueWindow(string cargo)
         {
             InitializeComponent();
             _cargo = cargo;
 
+            // Desabilita os botões de inserir e remover se o usuário não for Gerente ou Administrador
             if (cargo != "Gerente" && cargo != "Administrador")
             {
                 btnInserir.IsEnabled = false;
                 btnRemover.IsEnabled = false;
             }
+
+            // Atualiza a lista de estoque ao abrir a janela
             AtualizarListaEstoque();
         }
 
@@ -48,9 +51,9 @@ namespace OficinaEletrodomesticos.View
             }
 
             MessageBoxResult resultado = MessageBox.Show(
-                $"Tem certeza que deseja remover a peça '{_pecaSelecionada.Nome}'?", 
-                "Remover Peça", 
-                MessageBoxButton.YesNo, 
+                $"Tem certeza que deseja remover a peça '{_pecaSelecionada.Nome}'?",
+                "Remover Peça",
+                MessageBoxButton.YesNo,
                 MessageBoxImage.Question
             );
 

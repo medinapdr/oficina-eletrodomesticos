@@ -18,14 +18,18 @@ namespace OficinaEletrodomesticos.View
 
             Usuario usuario = UsuarioRepository.AutenticarUsuario(username, password);
 
+            // Se o usuário for autenticado com sucesso
             if (usuario != null)
             {
                 string tipoPessoa = usuario.PessoaAssociada.TipoPessoa;
+
+                // Se for um funcionário, obtém o cargo do funcionário
                 string cargo = tipoPessoa == "Funcionário"
                     ? ((Funcionario)usuario.PessoaAssociada).Cargo.ToString()
                     : tipoPessoa;
 
                 new MenuWindow(usuario.PessoaAssociada, cargo).Show();
+                // Fecha a janela de login
                 Close();
             }
             else

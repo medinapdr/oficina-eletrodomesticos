@@ -82,6 +82,7 @@ namespace OficinaEletrodomesticos.View
 
         private Peca CriarPeca()
         {
+            // Verifica se os campos opcionais foram preenchidos e converte os valores para os tipos corretos
             decimal? largura = string.IsNullOrWhiteSpace(txtLargura.Text) ? (decimal?)null : decimal.Parse(txtLargura.Text);
             decimal? altura = string.IsNullOrWhiteSpace(txtAltura.Text) ? (decimal?)null : decimal.Parse(txtAltura.Text);
             decimal? comprimento = string.IsNullOrWhiteSpace(txtComprimento.Text) ? (decimal?)null : decimal.Parse(txtComprimento.Text);
